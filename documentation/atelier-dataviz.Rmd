@@ -1,0 +1,382 @@
+---
+title: "Introduction à la visualisation des données avec R"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, prompt = TRUE, tidy = FALSE, out.width = '60%', fig.align="center", warning = FALSE)
+```
+
+# Quelques principes généraux sur la visualisation des données
+
+# Comment choisir le bon type de graphique?
+
+# Visualisation dans R
+
+## Préparation
+
+Avant d'aller plus loin: Tout au long de l'atelier, j'exécuterai les lignes de codes inscrites ici. Pour maximiser votre apprentissage, je vous recommande de suivre en écrivant vous aussi les lignes de codes dans un script R vide, puis d'exécuter les lignes une à une. 
+
+Dans ces notes, vous apprendrez les rudiments de `ggplot()`, une fonction très flexible de visualisation de données. `ggplot()` se trouve dans la bibliothèque `ggplot2`, qui ne vient pas par défaut dans `R`. Il faut donc l'installer. Nous utiliserons également la bibliothèque `tidyverse`.
+
+```{r, eval=T,message=F}
+# install.packages("ggplot2") # pas besoin de l'installer à nouveau si c'est déjà fait 
+# install.packages("tidyverse")  # pas besoin de l'installer à nouveau si c'est déjà fait 
+library(ggplot2) 
+library(tidyverse)
+```
+
+_Les bibliothèques ont besoin d'être installées une seule fois_. Il est par contre nécessaire de "lire" les bibliothèques à chaque nouvelle ouverture du projet. On lit une bibliothèque à l'aide de `library()`.
+
+Avant d'aller plus loin, il faut importer les banques de données dans notre environnement. Pour les démonstrations qui suivront, nous utiliserons la banque de données `airquality`, qui contient des mesures de la qualité de l'air à NY.
+
+```{r}
+data()
+air <- airquality
+```
+
+Les variables suivantes sont contenues dans cette banque de données:
+
+`Ozone`: Mean ozone in parts per billion from 1300 to 1500 hours at Roosevelt Island
+
+`Solar.R`: Solar radiation in Langleys in the frequency band 4000–7700 Angstroms from 0800 to 1200 hours at Central Park
+
+`Wind`: Average wind speed in miles per hour at 0700 and 1000 hours at LaGuardia Airport
+
+`Temp`: Maximum daily temperature in degrees Fahrenheit at La Guardia Airport
+
+`Day`: Day, 1-31
+
+`Month`: Month, 1-12
+
+## La fonction `ggplot()`
+
+```{r, tidy=FALSE}
+?ggplot
+```
+
+La fonction `ggplot()` permet de transformer des données à une représentation graphique. Elle comprend deux élements, `data =` et `mapping = aes()`. 
+
+`ggplot(data = ..., mapping = aes(...))`
+
+1) Dans l'argument `data =`, on spécifie la banque de données d'où proviennent les variables à visualiser.
+
+`ggplot(data = air, mapping = aes(...))`
+
+2) À l'intérieur de la parenthèse de l'argument `mapping = aes()`, on spécifie les variables qui prendront place sur l'axe des X et des Y. On peut aussi y spécifier la manière dont seront regroupées les données, dans le cas de données groupées.
+
+`ggplot(data = air, mapping = aes(x = Wind, y = Temp))`
+
+Ici, la variable `Wind` se trouvera sur l'axe des X et la variable `Temp` se trouvera sur l'axe des Y. Ces variables sont dans la banque de données `air`, que nous avons enregistrée dans notre ennvironnement R plus tôt.
+
+### Étape 1: lier des données à une représentation graphique
+
+La première étape est donc de spécifier ces éléments dans la fonction `ggplot()`. On enregistre le tout dans un objet appelé `graph`. 
+
+```{r}
+graph <- ggplot(data = air, mapping = aes(x = Wind, y = Temp))
+```
+
+Si nous affichons l'objet `graph`, `R` fera apparaître un graphique complètement vide sous l'onglet "Plots". 
+
+```{r}
+graph
+```
+
+Cela s'explique par le fait que nous avons spécifié les données et les variables, mais nous n'avons toujours pas spécifié quel type de graphique (un nugae de points, un diagramme à bâtons, à ligne, etc.) nous voulions à l'intérieur. 
+
+### Étape 2: manipuler le `geom` d'un graphique
+
+C'est pourquoi la deuxième étape est absolument essentielle. Nous ajouterons un type de graphique à notre objet original, à l'aide du symbole `+`. De multiples types de graphiques existent. La plupart commencent par `geom_`, par exemple `geom_point()`, `geom_line()`, `geom_bar()`, `geom_histogram()`, `geom_boxplot()`, etc.
+
+```{r}
+graph2 <- graph + 
+  geom_point()
+
+graph2 # affichons cet objet
+```
+
+Nous avons donc un graphique avec la vitesse du vent sur l'axe des X, et la température sur l'axe des Y.
+
+color, fill, group (other mappings)
+
+mappings per geoms
+
+### Étape 3: modifier l'apparence du graphique
+
+labels
+
+themes
+
+save
+
+L'avantage de `ggplot`, contrairement aux fonctions de base comme `plot`, c'est qu'il est possible de rajouter des étages à nos graphiques. Chaque étage a sa propre utilité. Par exemple, nous pourrions ajouter un étage qui ajoute un titre et modifie les titres des axes.
+
+```{r, tidy = FALSE}
+#graphique <- graphique + labs(title = "L'âge en fonction de l'année de naissance",
+#                 subtitle = "Répondants du CSES, module 5",
+#                 x = "Âge",
+#                 y = "Année de naissance")
+#
+#graphique
+```
+
+On peut aussi changer le thème. Par exemple, le thème `theme_minimal()` rend blanc le fond du graphique.
+
+```{r}
+#graphique <- graphique + theme_minimal()
+#
+#graphique
+```
+
+En résumé, le code complet de notre graphique tient à quelques lignes de codes seulement. On pourrait le faire tout d'un coup, comme cela:
+
+```{r, tidy = FALSE}
+#graphique <- ggplot(data = cses, mapping = aes(x = age, y = date_naissance))
+#graphique <- graphique + geom_point() +
+#  labs(title = "L'âge en fonction de l'année de naissance",
+#       subtitle = "Répondants du CSES, module 5",
+#       x = "Âge",
+#       y = "Année de naissance") + 
+#  theme_minimal()
+#
+#graphique
+```
+
+# Comment visualiser des résultats de régression
+
+
+
+
+
+## Autres fonctions et types de graphiques
+
+### Nuages de points
+
+Le graphique donné en exemple vous a appris la mécanique de la fonction `ggplot`, mais n'était pas très informatif. Essayons-en un autre, qui met en relation le PIB d'un pays et le pourcentage de sa population qui oeuvre dans le secteur des services. 
+
+```{r, tidy = FALSE}
+#graphique <- ggplot(data = quality, mapping = aes(x = emploi_serv, y = pib_habitant))
+#graphique <- graphique + geom_point() +
+#  labs(title = "PIB en fonction du % de la population qui travaille dans les services",
+#       subtitle = "Données de Quality of Governance",
+#       x = "% de la pop. qui travaille dans les services",
+#       y = "PIB/hab.")
+#
+#graphique
+```
+
+Les nuages de points peuvent être accompagnés de lignes (par ex. une ligne de régression). Je recommande de commencer par visualiser les points, puis d'ajouter une ligne de régression pour avoir une idée de la dispersion des données avant que la visualisation ne puisse être influencée par une ligne de régression. Ici, j'ai ajouté une ligne de régression linéaire en ajoutant `geom_smooth(method = "lm")` au graphique original. L'intervalle grise autour de la ligne correspond à l'intervalle de confiance de 95%. Si on faisant cette analyse à nouveau avec un autre échantillon, la ligne de régression de trouverait dans cette intervalle 95 fois sur 100. D'autres types de lignes de régression (autre que la régression linéaire) peuvent être ajoutées. Voir la documentation de la fonction (`?geom_smooth`) pour plus de détails.  
+
+```{r}
+#graphique <- graphique + 
+#  geom_smooth(method = "lm")
+#
+#graphique
+```
+
+### Points regroupés selon différentes valeurs
+
+Nous pouvons mettre l'emphase sur une troisième variable à l'intérieur même d'un nuage de point (qui met déjà en relation 2 variables). Pour ce faire, il existe l'option `color =`, que l'on peut ajouter après avoir défini x et y. Ici, nous visualiserons encore le PIB en fonction du pourcentage de la population qui travaille dans les services, mais nous teinterons les points en fonction du pourcentage de la population qui a accès à l'électricité dans chaque pays. 
+
+```{r, tidy = FALSE}
+#graphique <- ggplot(data = quality, mapping = aes(x = emploi_serv, y = pib_habitant, 
+#                                                  color = acces_elec))
+#graphique <- graphique + geom_point() +
+#  labs(title = "PIB en fonction du % de la population qui travaille dans les services",
+#       subtitle = "Et de l'accès à l'électricité",
+#       x = "% de la pop. qui travaille dans les services",
+#       y = "PIB/hab.")
+#
+#graphique
+```
+
+On observe que les pays qui ont un plus petit PIB et un plus petit pourcentage de la population qui travaille dans les services ont aussi, généralement, un accès plus restreint à l'électricité. Il faut faire attention de ne pas interpréter notre graphique comme des résultats d'analyse causale. Or, si ces trois variables sont centrales à notre analyse, il peut être utile de les visualiser de cette manière dans la partie descriptive de notre recherche. 
+
+Pour modifier le titre de la légende, on ajoute `scale_color_continuous(name = ...)` au graphique original. J'ai aussi ajouté `theme_minimal()` puisque je préfère cette apparence.
+
+```{r}
+#graphique <- graphique + 
+#  scale_color_continuous(name = "% d'accès à l'électricité") +
+#  theme_minimal()
+#
+#graphique
+```
+
+### Graphiques à bâtons
+
+À l'aide du diagramme à bâtons, nous pourrions visualiser le nombre d'observations dans différentes catégories d'une variable nominale ou ordinale. Ce type de graphique peut être créé grâce à `geom_bar()`. Par exemple, je visualise ici le nombre de répondant.e.s dans chaque catégorie de la variable `education` des données du `cses`. Pour ce type de graphique, il est seulement nécessaire de définir x, puisque l'axe des y correspond au nombre de répondants et non à une deuxième variable, comme c'était le cas avec le nuage de points.
+
+J'ai renommé les axes et modifié les chiffres sur l'axe des X à l'aide de la fonction `scale_x_continuous()`, qui permet de changer la gradation d'un axe des x dans que cas d'une variable continue.
+
+```{r}
+# Graph de base
+#graphique <- ggplot(data = cses, mapping = aes(x = education))
+#graphique <- graphique + geom_bar() 
+#
+## Renommer les axes
+#graphique <- graphique +
+#  labs(title = "Nombre de répondants selon le niveau d'éducation",
+#       subtitle = "Données du CSES, module 5",
+#       x = "Niveau d'éducation",
+#       y = "Nombre de répondants")
+#
+## Changer les chiffres sur l'axe des x et changer l'apparence
+#graphique <- graphique + 
+#  scale_x_continuous(breaks = c(0,1,2,3,4,5,6,7,8,9)) +
+#  theme_minimal()
+#
+## Afficher le graphique
+#graphique
+```
+
+### Bâtons regroupés selon différentes catégories
+
+Tout comme nous avons fait pour le nuage de points, il est possible d'ajouter une autre variable à un diagramme à bâtons. Imaginez que nous aimerions visualiser le niveau d'éducation des répondants, mais cette fois-ci en fonction de leur genre (féminin ou masculin dans le sondage). 
+
+Pour ce faire, nous pourrions spécifier le regroupement dans l'argument `fill =`, qui suit `x =`. Étant donné que la variable `genre` est codée 0 ou 1, `R` considère qu'il s'agit d'une variable numérique qui peut prendre n'importe quelles valeurs. Or, on sait que notre variable _ne prend que les valeurs 0 et 1_. Pour forcer `R` à considérer cette variable comme une variable qui comporte seulement deux valeurs (comme s'ils s'agissaient des mots "femmes" et "hommes"), nous utilisons la fonction `as.factor()` autour de `genre`. Finalement, nous ajoutons `position = "dodge"` à l'intérieur de `geom_bar()` pour que les barres des femmes et des hommes soient positionnées côté-à-côte, et non l'une par-dessus l'autre. 
+
+```{r}
+# Graph de base
+#graphique <- ggplot(data = cses, mapping = aes(x = education, 
+#                                               fill = as.factor(genre)))
+#graphique <- graphique + geom_bar(position = "dodge") 
+#
+## Renommer les axes et l'apparence du graphique
+#graphique <- graphique +
+#  labs(title = "Nombre de répondants selon le niveau d'éducation et le genre",
+#       subtitle = "Données du CSES, module 5",
+#       x = "Niveau d'éducation",
+#       y = "Nombre de répondants") +
+#    theme_minimal() 
+#
+## Changer les chiffres sur l'axe des x
+#graphique <- graphique + 
+#  scale_x_continuous(breaks = c(0,1,2,3,4,5,6,7,8,9))
+#
+## Afficher le graphique
+#graphique
+```
+
+La légende n'est pas très informative. Étant donné que nous connaissons nos données, nous savons que la variable `genre` est codée 1 pour les hommes et 0 pour les femmes. Or, une personne qui lit notre analyse ne pourrait pas le savoir au seul coup d'oeil de notre graphique. Nous allons donc modifier la légende à l'intérieur de la fonction `scale_fill_discrete()`, qui permet de modifier les éléments qui ont été précisés sous `fill =`. Nous pouvons supprimer le titre de la légende, qui n'est pas essentiel, en ajoutant `theme(legend.title = element_blank())` au graphique. 
+
+```{r}
+#graphique <- graphique +
+#  scale_fill_discrete(breaks = c("0", "1"),
+#                      labels = c("Femmes","Hommes")) +
+#  theme(legend.title = element_blank()) 
+#
+#graphique
+```
+
+<!--### Séries temporelles
+
+Les données auxquelles nous avons accès ne sont pas organisées de manière temporelle. Les données de Quality of Governance ont été récoltées à différents moments selon les pays, mais la période est tout de même très restreinte. De plus, je n'ai pas conservé la variable de l'année de sondage dans la banque de données nettoyée.-->
+
+### Les boîtes à moustache
+
+Un des graphiques populaires en science politique est le "boxplot", ou graphiques de quantiles normaux (ou encore: boîtes à moustaches!) Ce type de graphique est bien utile, puisqu'il permet de visualiser plusieurs statistiques descriptives d'une même variable en un seul coup. En voici un exemple:
+
+```{r, echo=FALSE, warning=FALSE}
+#box <- ggplot(data = quality, mapping = aes(x = region, y = co2))
+#box <- box + geom_boxplot() +
+#  theme_minimal() +
+#  labs(title = "Emissions de CO2 par région",
+#       subtitle = "Données de Quality of Governance",
+#       x = "",
+#       y = "Nb de tonnes métriques de CO2/hab.") +
+#  coord_flip() +
+#  scale_x_discrete(labels = c("Afrique du Nord et Moyen-Orient", 
+#                              "Afrique sub-saharienne",
+#                              "Amérique latine",
+#                              "Asie de l'Est",
+#                              "Asie du Sud",
+#                              "Asie du Sud-Est",
+#                              "Caraïbes",
+#                              "Europe de l'Est et centrale",
+#                              "Europe de l'Ouest et Am. du Nord",
+#                              "Région du Pacifique")) 
+#    
+#box
+```
+
+La ligne qui se situe au centre de chaque boîte correspond à la médiane de la variable 'CO2' (donc la valeur qui sépare la distribution en deux parties égales). Les deux extrémités de chaque boîte correspondent au 1er et 3e quartiles (donc les valeurs situées à 25% et et 75% de la distribution). Les 'moustaches', ou les lignes qui sortent de chaque boîte, s'arrêtent aux valeurs les plus extrêmes de la distribution, en excluant les observations aberrantes ("outliers"). Les observations aberrantes représentent les points. Ce sont les valeurs situées à une distance d'au moins 1,5*l'écart inter-quartile de la distribution.
+
+En une seule image, nous avons une idée de la distribution d'une variable (ici, la variable CO2) selon différentes catégories de notre banque de données (ici, les régions). Les boîtes à moustache remplacent en quelque sorte les tableaux de statistiques descriptives!
+
+Pour obtenir ce graphique, on définit d'abord un graphique de base à l'aide de la fonction `ggplot()`. X représente la région, tandis que Y est la variable CO2. Puis, on ajoute `geom_boxplot()`. 
+
+```{r}
+#box <- ggplot(data = quality, mapping = aes(x = region, y = co2))
+#box <- box + geom_boxplot() 
+#    
+#box
+```
+
+Il y a plusieurs problèmes avec ce graphique. Le problème le plus important concerne les étiquettes de l'axe des x: le nom des régions est très long, et n'est pas recodé. Nous allons d'abord recoder chaque catégorie à l'aide de la fonction `scale_x_discrete(labels = ...)`. Cette étape prend un peu de temps. Puis, pour que les noms des catégories aparaissent dans leur ensemble, nous allons échanger les axes des x et y. Nous pourrons maintenant lire les étiquettes à l'horizontal, sans qu'elles ne s'entre-croisent. Cela est accompli grâce à `coord_flip()`.
+
+```{r}
+#box <- box +
+#  scale_x_discrete(labels = c("Afrique du Nord et Moyen-Orient", 
+#                              "Afrique sub-saharienne",
+#                              "Amérique latine",
+#                              "Asie de l'Est",
+#                              "Asie du Sud",
+#                              "Asie du Sud-Est",
+#                              "Caraïbes",
+#                              "Europe de l'Est et centrale",
+#                              "Europe de l'Ouest et Am. du Nord",
+#                              "Région du Pacifique")) +
+#  coord_flip()
+#    
+#box
+```
+
+Nous y sommes presque. Il reste à modifier l'apparence générale du graphique, à renommer les axes et à donner un titre au graphique. J'ai pris la décision d'enlever le nom de l'axe vertical puisque les étiquettes des régions sont assez explicites à mon avis. 
+
+```{r}
+#box <- box + geom_boxplot() +
+#  labs(title = "Emissions de CO2 par région",
+#       subtitle = "Données de Quality of Governance",
+#       x = "",
+#       y = "Nb de tonnes métriques de CO2/hab.") +
+#  theme_minimal()
+#
+#box
+```
+
+En bref:
+
+```{r}
+#box <- ggplot(data = quality, mapping = aes(x = region, y = co2))
+#box <- box + geom_boxplot() +
+#  scale_x_discrete(labels = c("Afrique du Nord et Moyen-Orient", 
+#                              "Afrique sub-saharienne",
+#                              "Amérique latine",
+#                              "Asie de l'Est",
+#                              "Asie du Sud",
+#                              "Asie du Sud-Est",
+#                              "Caraïbes",
+#                              "Europe de l'Est et centrale",
+#                              "Europe de l'Ouest et Am. du Nord",
+#                              "Région du Pacifique")) +
+#  coord_flip() +
+#  labs(title = "Emissions de CO2 par région",
+#       subtitle = "Données de Quality of Governance",
+#       x = "",
+#       y = "Nb de tonnes métriques de CO2/hab.") +
+#  theme_minimal()
+#
+#box
+```
+
+## Recommandations
+
+Ces notes sont un survol _très_ sommaire de ce qu'il est possible de faire avec la fonction `ggplot()`. Le temps nous manque pour que je vous explique toutes les possibilités. Si vous voulez jouer avec cette fonction, internet sera votre meilleur ami. Si vous avez des questions sur un type de graphique ou une modification particulière, il faudra chercher par vous-même à partir de maintenant. On peut passer des heures à modifier un simple élément d'un graphique, mais avec `ggplot()`, le résultat vaut amplement le temps investi!
+
+Sur son site, [Kieran Healy](https://socviz.co/) vous prend par la main pour vous apprendre `ggplot()`, de ses fonctions les plus simples aux plus avancées (en anglais). Cette ressource pourrait être utile/intéressante pour celles et ceux qui souhaitent approfondir leurs compétences en visualisation de données, ou qui aimeraient consulter des bons (et moins bons) exemples de visualisation. Amusez-vous!
+
+```{r, echo=FALSE, eval=FALSE}
+#purl("cours-13.Rmd", output = "intro-visualisation.R")
+```
+
