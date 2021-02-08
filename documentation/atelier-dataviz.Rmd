@@ -7,23 +7,62 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, prompt = TRUE, tidy = FALSE, out.width = '60%', fig.align="center", warning = FALSE)
 ```
 
-# Quelques principes généraux sur la visualisation des données
+La visualisation des données sert de multiples objectifs, comme rendre cohérente une masse importante de données, découvrir des tendances, vulgariser des résultats scientifiques complexes, diagnostiquer des problèmes dans un ensemble de données (des valeurs aberrantes ou influentes, des relations non-linéaires) ou découvrir des erreurs de codage. Dans cet atelier, nous survolerons quelques principes généraux de la visualisation des données, puis apprendrons les rudiments de la fonction `ggplot()` du langage R, qui permet de créer différents types de graphiques. Nous terminerons avec un survol de techniques pour visualiser les résultats de régression avec `ggplot()`.
+
+<center>
+
+![_Figure tirée de Arel-Bundock (2020), Analyse causale et méthodes quantitatives_](arel-bundock-viz.png){width=500px}
+
+</center>
+
+# Quelques principes généraux de la visualisation des données
+
+Dans son [ouvrage](https://socviz.co/index.html#preface) (2018) sur la visualisation des données, Kieran Healy souligne que notre cerveau peut nous jouer des tours quand on regarde des graphiques. L’oeil humain ne voit pas toutes les formes, couleurs et contrastes aussi efficacement les uns que les autres. Les recherches ont démontré que l’humain distingue mieux les différences de tailles quand elles sont organisées sous forme de lignes, plutôt que sous forme d’aires, d’angles ou de cercles. 
+
+Cela ne veut pas dire qu'il faut à tout prix éviter les aires ou les angles quand on dessine un graphique. Or, il faut réfléchir aux éléments qu'on décide d'intégrer dans nos graphiques. Healy (voir aussi [Arel-Bundock, 2020](http://arelbundock.com/acmq.html)) soulève certaines tendances de la cognition dont il faut être particulièrement conscients:
+
+- l’oeil relie les éléments visuels qui se ressemblent; ("similarity")
+- l'oeil relie les éléments qui sont proche les uns des autres; ("proximity")
+- les éléments incomplets sont complétés par notre cerveau; ("closure", "continuity")
+- le cerveau conclut qu'il existe une relation entre les éléments qui sont liés ensemble par l'image; ("connection", voir aussi "common fate")
+- certains motifs peuvent créer des illusions d’optique;
+- l’oeil détecte mieux les contrastes dans les images monochromes (en noir et blanc) que colorées; 
+- quand le nombre de couleurs augmente, il devient plus difficile de distinguer les informations, surtout si c’est combiné avec des formes variées.
+
+<center>
+
+![_Figure tirée de Healy (2018), Data visualization: A practical introduction_](healy-gestalt.png){width=800px}
+
+</center>
+
+Un des plus grands du domaine de la visualisation des données, Edward Tufte, souligne quatre principes fondamentaux de la visualisation:
+
+1) __Intégrité__: Ne pas être malhonnête avec les données, montrer les données telles qu'elles le sont, avant toute transformation.
+2) __Simplicité__: Réduire la quantité d’encre pour la quantité d’information transmise -- éliminer les décorations, diminuer le nombre de dimensions.
+3) __Contexte__: Ajouter un titre, identifier les axes, identifier les variables et les garder sur des échelles standardisées, ajouter une légende qui décrit bien les élements du graphique.
+4) __Esthétique__: Ultimement, il faut que ce soit beau. Et la beauté est subjective.
 
 # Comment choisir le bon type de graphique?
+
+Il n'y a pas de règles strictes pour choisir le bon type de graphique. Or, il est utile d'entamer sa démarche en se posant les questions suivantes: Qui est l’audience de notre graphique/de notre article scientifique? Quelle histoire voulons-nous raconter? Quelle est la nature de nos données? Sur quoi avons-nous l'intention de mettre l'emphase? Quel message voulons-nous transmettre à l'aide de notre graphique? Un tableau serait-il plus approprié pour transmettre l'information?
+
+Ensuite, il est possible de suivre certains guides, comme celui de [Data-to-Viz](https://www.data-to-viz.com/), pour nous aider à choisir un bon graphique pour le type et la quantité de variables à visualiser. Mais au final, nos goûts sont aussi importants. Le plus important, comme le dit Tufte, est de ne pas faire mentir les données et de ne pas tenter de transmettre trop d'informations à la fois. Un graphique devrait être intuitif et explicite.
 
 # Visualisation dans R
 
 ## Préparation
 
-Avant d'aller plus loin: Tout au long de l'atelier, j'exécuterai les lignes de codes inscrites ici. Pour maximiser votre apprentissage, je vous recommande de suivre en écrivant vous aussi les lignes de codes dans un script R vide, puis d'exécuter les lignes une à une. 
+__Avant d'aller plus loin: Tout au long de l'atelier, j'exécuterai les lignes de codes inscrites ici. Pour maximiser votre apprentissage, je vous recommande de suivre en écrivant vous aussi les lignes de codes dans un script R vide, puis d'exécuter les lignes une à une.__
 
-Dans ces notes, vous apprendrez les rudiments de `ggplot()`, une fonction très flexible de visualisation de données. `ggplot()` se trouve dans la bibliothèque `ggplot2`, qui ne vient pas par défaut dans `R`. Il faut donc l'installer. Nous utiliserons également la bibliothèque `tidyverse`.
+Dans ces notes, vous apprendrez les rudiments de `ggplot()`, une fonction très flexible de visualisation de données. `ggplot()` se trouve dans la bibliothèque `ggplot2`, qui ne vient pas par défaut dans `R`. Il faut donc l'installer. Nous utiliserons également les bibliothèques `tidyverse` et `broom`.
 
 ```{r, eval=T,message=F}
 # install.packages("ggplot2") # pas besoin de l'installer à nouveau si c'est déjà fait 
 # install.packages("tidyverse")  # pas besoin de l'installer à nouveau si c'est déjà fait 
+# install.packages("broom") # pas besoin de l'installer à nouveau si c'est déjà fait 
 library(ggplot2) 
 library(tidyverse)
+library(broom)
 ```
 
 _Les bibliothèques ont besoin d'être installées une seule fois_. Il est par contre nécessaire de "lire" les bibliothèques à chaque nouvelle ouverture du projet. On lit une bibliothèque à l'aide de `library()`.
@@ -55,7 +94,7 @@ Les variables suivantes sont contenues dans cette banque de données:
 ?ggplot
 ```
 
-La fonction `ggplot()` permet de transformer des données à une représentation graphique. Elle comprend deux élements, `data =` et `mapping = aes()`. 
+La fonction `ggplot()` permet de transformer des données à une représentation graphique. Elle comprend deux élements obligatoires, `data =` et `mapping = aes()`. 
 
 `ggplot(data = ..., mapping = aes(...))`
 
@@ -63,7 +102,7 @@ La fonction `ggplot()` permet de transformer des données à une représentation
 
 `ggplot(data = air, mapping = aes(...))`
 
-2) À l'intérieur de la parenthèse de l'argument `mapping = aes()`, on spécifie les variables qui prendront place sur l'axe des X et des Y. On peut aussi y spécifier la manière dont seront regroupées les données, dans le cas de données groupées.
+2) À l'intérieur de la parenthèse de l'argument `mapping = aes()` (pour "aesthetic"), on spécifie les variables qui prendront place sur l'axe des X et des Y. On peut aussi y spécifier la manière dont seront regroupées les données, dans le cas de données groupées.
 
 `ggplot(data = air, mapping = aes(x = Wind, y = Temp))`
 
@@ -83,14 +122,14 @@ Si nous affichons l'objet `graph`, `R` fera apparaître un graphique complèteme
 graph
 ```
 
-Cela s'explique par le fait que nous avons spécifié les données et les variables, mais nous n'avons toujours pas spécifié quel type de graphique (un nugae de points, un diagramme à bâtons, à ligne, etc.) nous voulions à l'intérieur. 
+Cela s'explique par le fait que nous avons spécifié les données et les variables, mais nous n'avons toujours pas spécifié quel type de graphique nous voulions à l'intérieur (un nugae de points, un diagramme à bâtons, à ligne, etc.). 
 
 ### Étape 2: manipuler le `geom` d'un graphique
 
 C'est pourquoi la deuxième étape est absolument essentielle. Nous ajouterons un type de graphique à notre objet original, à l'aide du symbole `+`. De multiples types de graphiques existent. La plupart commencent par `geom_`, par exemple `geom_point()`, `geom_line()`, `geom_bar()`, `geom_histogram()`, `geom_boxplot()`, etc.
 
 ```{r}
-graph2 <- graph + 
+graph2 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
   geom_point()
 
 graph2 # affichons cet objet
@@ -98,283 +137,285 @@ graph2 # affichons cet objet
 
 Nous avons donc un graphique avec la vitesse du vent sur l'axe des X, et la température sur l'axe des Y.
 
-color, fill, group (other mappings)
+### Étape 3.1: Manipuler l'`aes`
 
-mappings per geoms
-
-### Étape 3: modifier l'apparence du graphique
-
-labels
-
-themes
-
-save
-
-L'avantage de `ggplot`, contrairement aux fonctions de base comme `plot`, c'est qu'il est possible de rajouter des étages à nos graphiques. Chaque étage a sa propre utilité. Par exemple, nous pourrions ajouter un étage qui ajoute un titre et modifie les titres des axes.
-
-```{r, tidy = FALSE}
-#graphique <- graphique + labs(title = "L'âge en fonction de l'année de naissance",
-#                 subtitle = "Répondants du CSES, module 5",
-#                 x = "Âge",
-#                 y = "Année de naissance")
-#
-#graphique
-```
-
-On peut aussi changer le thème. Par exemple, le thème `theme_minimal()` rend blanc le fond du graphique.
+En plus de spécifier les variables qui se trouvent sur l'axe des X et des Y, l'argument `aes()` sert à préciser d'autres aspects de la représentation visuelle, comme la couleur, la forme, la taille et l'opacité des éléments qui se trouvent dans le graphique. Pour ce faire, on indique quelle autre variable sera responsable de modifier ces aspects. Ici, je veux colorer les points en fonction du mois (variable `Month`) auquel ils correspondent.
 
 ```{r}
-#graphique <- graphique + theme_minimal()
-#
-#graphique
+graph3 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp, color = Month)) +
+  geom_point()
+  
+graph3
+
+# modifier le mois pour que ce soit une variable catégorielle, et non continue
+graph3 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp, color = as.factor(Month))) + 
+  geom_point()
+  
+graph3
 ```
 
-En résumé, le code complet de notre graphique tient à quelques lignes de codes seulement. On pourrait le faire tout d'un coup, comme cela:
+Je pourrais faire de même pour modifier la forme des points.
+```{r}
+graph4 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp, shape = as.factor(Month))) + 
+  geom_point()
+  
+graph4
+```
 
-```{r, tidy = FALSE}
-#graphique <- ggplot(data = cses, mapping = aes(x = age, y = date_naissance))
-#graphique <- graphique + geom_point() +
-#  labs(title = "L'âge en fonction de l'année de naissance",
-#       subtitle = "Répondants du CSES, module 5",
-#       x = "Âge",
-#       y = "Année de naissance") + 
-#  theme_minimal()
-#
-#graphique
+On peut modifier d'autres aspects, comme le type de lignes (`linetype`), la couleur de remplissage (`fill`), l'opacité (`alpha`), la taille (`size`), etc.
+
+Parenthèse: Ne faites pas comme moi, évitez de nommer vos graphiques _graph1_, _graph2_, _graph3_, etc.
+
+### Étape 3.2: Manipuler l'`aes` dans chaque `geom`
+
+Il est possible d'ajouter plus d'un `geom` à notre graphique. Par exemple, je pourrais ajouter une ligne de régression linéaire à l'aide de `geom_smooth()`. 
+
+```{r}
+graph5 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
+  geom_point() +
+  geom_smooth(method = "lm") # je précise la méthode "régression linéaire"
+  
+graph5
+```
+
+Cette flexibilité est une des forces de `ggplot`, puisque nous pouvons ensuite modifier chaque `geom` individuellement. En fait, les éléments visuels qui se trouvent dans l'`aes` peuvent être déterminés pour le graphique en entier. Dans ce cas, ils se trouvent dans la fonction `ggplot()`, comme nous l'avons fait depuis le début. Mais ils peuvent aussi être associés à un `geom` en particulier. 
+
+Par exemple, je pourrais vouloir garder les couleurs pour les différents mois, mais avoir une seule ligne de régression. Pour ce faire, je spécifierais des `aes` différents pour mon `geom_point` et mon `geom_smooth`.
+
+```{r}
+graph6 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
+  geom_point(aes(color = as.factor(Month))) +
+  geom_smooth(method = "lm")
+  
+graph6
+```
+
+À l'inverse, si je veux garder tous les points noirs mais avoir plusieurs lignes de régression (une pour chaque mois), je peux intégrer l'argument `color` à `geom_smooth`.
+
+```{r}
+graph7 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
+  geom_point() +
+  geom_smooth(aes(color = as.factor(Month)), method = "lm")
+  
+graph7
+```
+
+### Étape 4: Modifier l'apparence du graphique
+
+Comme vous avez pu le constater, quand on travaille avec `ggplot`, on travaille par étage. On ajoute des éléments les uns après les autres à nos graphiques, en prenant soin de séparer chaque étage avec le symbole `+`. Après avoir déterminé nos `geom`, on peut ensuite modifier l'apparence du graphique. Trois des fonctions les plus utiles sont `scale_...`, `labs` et `theme_...`.
+
+`scale_`permet de modifier les éléments qui se trouvent dans l'`aes`. Cela inclut l'axe des X et des Y, mais aussi tout ce qui se rapporte aux couleurs, formes, etc. 
+
+```{r}
+graph8 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
+  geom_point(aes(color = as.factor(Month))) +
+  geom_smooth(method = "lm") +
+  scale_color_discrete(name = "Mois",
+                       labels = c("Mai", "Juin", "Juillet", "Août", "Septembre")) + # scale_color_continuous si la variable est continue
+  scale_x_continuous(breaks = seq(0, 20, by = 2))
+  
+graph8
+```
+
+`labs` permet d'ajouter et de modifier les titres, sous-titres, titres des axes et notes de bas de graphique.
+
+```{r}
+graph9 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
+  geom_point(aes(color = as.factor(Month))) +
+  geom_smooth(method = "lm") +
+  scale_color_discrete(name = "Mois",
+                       labels = c("Mai", "Juin", "Juillet", "Août", "Septembre")) +
+  scale_x_continuous(breaks = seq(0, 20, by = 2)) +
+  labs(title = "Température en fonction de la vitesse du vent à NY",
+       subtitle = "Données Airquality",
+       x = "Vitesse du vent",
+       y = "Température",
+       caption = "Graphique par F. Vallée-Dubois")
+  
+graph9
+```
+
+`theme_...` permet de choisir un thème prédéfini pour le graphique. On peut aussi modifier manuellement des éléments du graphique dans la fonction `theme()`. (Personnellement, j'aime aussi jouer avec l'opacité des éléments (`alpha`), surtout les points et les intervalles de confiance. J'aimerais aussi que la ligne de régression soit noire, plutôt que bleue.)
+
+```{r}
+graph10 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
+  geom_point(aes(color = as.factor(Month)), alpha = .7) +
+  geom_smooth(method = "lm", alpha = .3, color = "black") +
+  scale_color_discrete(name = "Mois",
+                       labels = c("Mai", "Juin", "Juillet", "Août", "Septembre")) +
+  scale_x_continuous(breaks = seq(0, 20, by = 2)) +
+  labs(title = "Température en fonction de la vitesse du vent à NY",
+       subtitle = "Données Airquality",
+       x = "Vitesse du vent",
+       y = "Température",
+       caption = "Graphique par F. Vallée-Dubois") +
+  theme_minimal()
+  
+graph10
+```
+
+Finalement, on enregistre notre graphique à l'aide de la fonction `ggsave()`, à partir de laquelle on peut spécifier le format (.png, .pdf, etc.) et la taille. Le graphique s'enregistre alors dans notre espace de travail (_working directory_). 
+
+```{r, eval = FALSE}
+ggsave(filename = "graphique_atelier.png", plot = graph10, width = 9, height = 6)
+```
+
+En résumé, le code complet de notre graphique tient à quelques lignes de codes seulement. Avec `ggplot()`, les possibilité sont presqu'infinies. Vous constaterez à quel point cette fonction est flexible à force de l'utiliser. 
+
+```{r, eval = FALSE}
+# lier les variables à la représentation graphique
+graphique <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
+# spécifier des types de graphique (2)
+  geom_point() + 
+  geom_smooth(aes(color = as.factor(Month)), method = "lm") +
+# modifier les éléments "color" et "x" à l'aide de scale_
+  scale_color_discrete(name = "Mois", 
+                       labels = c("Mai", "Juin", "Juillet", "Août", "Septembre")) +
+# ajouter des titres et étiquettes à l'aide de labs
+  scale_x_continuous(breaks = seq(0, 20, by = 2)) + 
+  labs(title = "Température en fonction de la vitesse du vent à NY", 
+       subtitle = "Données Airquality",
+       x = "Vitesse du vent",
+       y = "Température",
+       caption = "Graphique par F. Vallée-Dubois") +
+# spécifier un thème
+  theme_minimal() 
 ```
 
 # Comment visualiser des résultats de régression
 
-
-
-
-
-## Autres fonctions et types de graphiques
-
-### Nuages de points
-
-Le graphique donné en exemple vous a appris la mécanique de la fonction `ggplot`, mais n'était pas très informatif. Essayons-en un autre, qui met en relation le PIB d'un pays et le pourcentage de sa population qui oeuvre dans le secteur des services. 
-
-```{r, tidy = FALSE}
-#graphique <- ggplot(data = quality, mapping = aes(x = emploi_serv, y = pib_habitant))
-#graphique <- graphique + geom_point() +
-#  labs(title = "PIB en fonction du % de la population qui travaille dans les services",
-#       subtitle = "Données de Quality of Governance",
-#       x = "% de la pop. qui travaille dans les services",
-#       y = "PIB/hab.")
-#
-#graphique
-```
-
-Les nuages de points peuvent être accompagnés de lignes (par ex. une ligne de régression). Je recommande de commencer par visualiser les points, puis d'ajouter une ligne de régression pour avoir une idée de la dispersion des données avant que la visualisation ne puisse être influencée par une ligne de régression. Ici, j'ai ajouté une ligne de régression linéaire en ajoutant `geom_smooth(method = "lm")` au graphique original. L'intervalle grise autour de la ligne correspond à l'intervalle de confiance de 95%. Si on faisant cette analyse à nouveau avec un autre échantillon, la ligne de régression de trouverait dans cette intervalle 95 fois sur 100. D'autres types de lignes de régression (autre que la régression linéaire) peuvent être ajoutées. Voir la documentation de la fonction (`?geom_smooth`) pour plus de détails.  
+Supposons que nous sommes intéressés par le modèle suivant:
 
 ```{r}
-#graphique <- graphique + 
-#  geom_smooth(method = "lm")
-#
-#graphique
+modele <- lm(Temp ~ Wind + Solar.R + as.factor(Month), data = air)
+summary(modele)
 ```
 
-### Points regroupés selon différentes valeurs
-
-Nous pouvons mettre l'emphase sur une troisième variable à l'intérieur même d'un nuage de point (qui met déjà en relation 2 variables). Pour ce faire, il existe l'option `color =`, que l'on peut ajouter après avoir défini x et y. Ici, nous visualiserons encore le PIB en fonction du pourcentage de la population qui travaille dans les services, mais nous teinterons les points en fonction du pourcentage de la population qui a accès à l'électricité dans chaque pays. 
-
-```{r, tidy = FALSE}
-#graphique <- ggplot(data = quality, mapping = aes(x = emploi_serv, y = pib_habitant, 
-#                                                  color = acces_elec))
-#graphique <- graphique + geom_point() +
-#  labs(title = "PIB en fonction du % de la population qui travaille dans les services",
-#       subtitle = "Et de l'accès à l'électricité",
-#       x = "% de la pop. qui travaille dans les services",
-#       y = "PIB/hab.")
-#
-#graphique
-```
-
-On observe que les pays qui ont un plus petit PIB et un plus petit pourcentage de la population qui travaille dans les services ont aussi, généralement, un accès plus restreint à l'électricité. Il faut faire attention de ne pas interpréter notre graphique comme des résultats d'analyse causale. Or, si ces trois variables sont centrales à notre analyse, il peut être utile de les visualiser de cette manière dans la partie descriptive de notre recherche. 
-
-Pour modifier le titre de la légende, on ajoute `scale_color_continuous(name = ...)` au graphique original. J'ai aussi ajouté `theme_minimal()` puisque je préfère cette apparence.
+La fonction `summary()` nous montre les résultats de régression sous forme de tableau, avec des colonnes pour les coefficients, les erreurs type, les valeurs t et les statistiques p. Ceci dit, l'objet `modele` n'est pas organisé de cette façon. Si on clique sur l'objet pour le faire apparaître dans un onglet de R Studio, on remarque qu'il ne prend pas la forme d'un tableau. Pour l'organiser sous forme de tableau (comme avec `summary`), nous aurons recours à la fonction `tidy()`. Nous voulons non seulement avoir accès aux erreurs type et statistiques p, mais aussi aux intervalles de confiance. C'est pourquoi on ajoute l'argument `conf.int = TRUE` dans la parenthèse. Par défaut, la fonction calcule des intervalles à 95%.
 
 ```{r}
-#graphique <- graphique + 
-#  scale_color_continuous(name = "% d'accès à l'électricité") +
-#  theme_minimal()
-#
-#graphique
+modele_tab <- tidy(modele, conf.int = TRUE)
+modele_tab
 ```
 
-### Graphiques à bâtons
+## Visualiser les coefficients et leurs intervalles de confiance
 
-À l'aide du diagramme à bâtons, nous pourrions visualiser le nombre d'observations dans différentes catégories d'une variable nominale ou ordinale. Ce type de graphique peut être créé grâce à `geom_bar()`. Par exemple, je visualise ici le nombre de répondant.e.s dans chaque catégorie de la variable `education` des données du `cses`. Pour ce type de graphique, il est seulement nécessaire de définir x, puisque l'axe des y correspond au nombre de répondants et non à une deuxième variable, comme c'était le cas avec le nuage de points.
-
-J'ai renommé les axes et modifié les chiffres sur l'axe des X à l'aide de la fonction `scale_x_continuous()`, qui permet de changer la gradation d'un axe des x dans que cas d'une variable continue.
+Une fois les informations de notre modèle "nettoyées", nous pouvons nous en servir pour présenter les résultats de régression sous forme de graphique. Ce type de visualisation peut être extrêment utile pour les présentations lors de conférences. Lors d'une présentation orale, les tableaux de régression peuvent rapidement devenir difficile à interpréter.
 
 ```{r}
-# Graph de base
-#graphique <- ggplot(data = cses, mapping = aes(x = education))
-#graphique <- graphique + geom_bar() 
-#
-## Renommer les axes
-#graphique <- graphique +
-#  labs(title = "Nombre de répondants selon le niveau d'éducation",
-#       subtitle = "Données du CSES, module 5",
-#       x = "Niveau d'éducation",
-#       y = "Nombre de répondants")
-#
-## Changer les chiffres sur l'axe des x et changer l'apparence
-#graphique <- graphique + 
-#  scale_x_continuous(breaks = c(0,1,2,3,4,5,6,7,8,9)) +
-#  theme_minimal()
-#
-## Afficher le graphique
-#graphique
+graph_mod <- ggplot(mapping = aes(y = term, x = estimate), data = modele_tab) +
+  geom_point()
+
+graph_mod
 ```
 
-### Bâtons regroupés selon différentes catégories
-
-Tout comme nous avons fait pour le nuage de points, il est possible d'ajouter une autre variable à un diagramme à bâtons. Imaginez que nous aimerions visualiser le niveau d'éducation des répondants, mais cette fois-ci en fonction de leur genre (féminin ou masculin dans le sondage). 
-
-Pour ce faire, nous pourrions spécifier le regroupement dans l'argument `fill =`, qui suit `x =`. Étant donné que la variable `genre` est codée 0 ou 1, `R` considère qu'il s'agit d'une variable numérique qui peut prendre n'importe quelles valeurs. Or, on sait que notre variable _ne prend que les valeurs 0 et 1_. Pour forcer `R` à considérer cette variable comme une variable qui comporte seulement deux valeurs (comme s'ils s'agissaient des mots "femmes" et "hommes"), nous utilisons la fonction `as.factor()` autour de `genre`. Finalement, nous ajoutons `position = "dodge"` à l'intérieur de `geom_bar()` pour que les barres des femmes et des hommes soient positionnées côté-à-côte, et non l'une par-dessus l'autre. 
+La constante (intercept) et les coefficients de la variable catégorielle "Month" ne m'intéressent pas. Vu que nos résultats de régression sont organisés sous forme de tableau, il est plutôt simple de retirer les rangées dont nous n'avons pas besoin. 
 
 ```{r}
-# Graph de base
-#graphique <- ggplot(data = cses, mapping = aes(x = education, 
-#                                               fill = as.factor(genre)))
-#graphique <- graphique + geom_bar(position = "dodge") 
-#
-## Renommer les axes et l'apparence du graphique
-#graphique <- graphique +
-#  labs(title = "Nombre de répondants selon le niveau d'éducation et le genre",
-#       subtitle = "Données du CSES, module 5",
-#       x = "Niveau d'éducation",
-#       y = "Nombre de répondants") +
-#    theme_minimal() 
-#
-## Changer les chiffres sur l'axe des x
-#graphique <- graphique + 
-#  scale_x_continuous(breaks = c(0,1,2,3,4,5,6,7,8,9))
-#
-## Afficher le graphique
-#graphique
+# Je retire (!) les rangées où on retrouve (str_detect) les mots "Intercept" ou (|) "Month" dans la colonne "term"
+# Vous pouvez utiliser la méthode que vous préférez pour retirer des rangées
+modele_tab <- modele_tab  %>% filter(!str_detect(term, "Intercept|Month"))
 ```
 
-La légende n'est pas très informative. Étant donné que nous connaissons nos données, nous savons que la variable `genre` est codée 1 pour les hommes et 0 pour les femmes. Or, une personne qui lit notre analyse ne pourrait pas le savoir au seul coup d'oeil de notre graphique. Nous allons donc modifier la légende à l'intérieur de la fonction `scale_fill_discrete()`, qui permet de modifier les éléments qui ont été précisés sous `fill =`. Nous pouvons supprimer le titre de la légende, qui n'est pas essentiel, en ajoutant `theme(legend.title = element_blank())` au graphique. 
+On peut ensuite re-créer notre graphique. Je vais d'abord énumérer les aspects que je souhaiterais retrouver sur la visualisation finale:
+
+- J'aimerais que les noms de variables soient à l'horizontal (sur l'axe des y);
+- J'aimerais avoir un point pour le coefficient estimé par le modèle, et une ligne qui traverse le point pour montrer l'intervalle de confiance;
+- J'aimerais avoir une ligne verticale à 0, pour montrer quels estimés ne sont pas statistiquement significatifs.
 
 ```{r}
-#graphique <- graphique +
-#  scale_fill_discrete(breaks = c("0", "1"),
-#                      labels = c("Femmes","Hommes")) +
-#  theme(legend.title = element_blank()) 
-#
-#graphique
+graph_mod <- ggplot(mapping = aes(y = term, x = estimate, xmin = conf.low, xmax = conf.high),
+                    data = modele_tab) +
+  geom_pointrange() +
+  geom_vline(xintercept = 0) +
+  scale_y_discrete(labels = c("Radiation solaire", "Vitesse du vent"))  +
+  labs(title = "Effet du vent sur la température, Ville de New York",
+       subtitle = "Le modèle contrôle pour la radiation solaire",
+       y = "",
+       x = "Coefficient et intervalles de confiance (95%)") +
+  theme_minimal()
+
+graph_mod
 ```
 
-<!--### Séries temporelles
+## Visualiser des prédictions issues du modèle
 
-Les données auxquelles nous avons accès ne sont pas organisées de manière temporelle. Les données de Quality of Governance ont été récoltées à différents moments selon les pays, mais la période est tout de même très restreinte. De plus, je n'ai pas conservé la variable de l'année de sondage dans la banque de données nettoyée.-->
+Il est possible de créer des prédictions pour des observations fictives à partir de notre modèle de régression (voir [cette page web](http://www.sthda.com/english/articles/40-regression-analysis/166-predict-in-r-model-predictions-and-confidence-intervals/) ou [le chappitre 6 de Healy](https://socviz.co/modeling.html#modeling) pour plus de détails). Nous allons créer une fausse banque de données avec 2500 observations (vs 153 pour la banque de données `air`). Nous générons 500 valeurs situées entre le minimum (1.7) et le maximum (20.7) de la variable `Wind`. Ces 500 valeurs sont associées à chacun des 5 mois du modèle (5 à 9, ou mai, juin, juillet, août, septembre), ce qui crée les 2500 observations. Toutes les observations ont la même valeur pour la variable `Solar.R` (fixée à la moyenne).
 
-### Les boîtes à moustache
-
-Un des graphiques populaires en science politique est le "boxplot", ou graphiques de quantiles normaux (ou encore: boîtes à moustaches!) Ce type de graphique est bien utile, puisqu'il permet de visualiser plusieurs statistiques descriptives d'une même variable en un seul coup. En voici un exemple:
-
-```{r, echo=FALSE, warning=FALSE}
-#box <- ggplot(data = quality, mapping = aes(x = region, y = co2))
-#box <- box + geom_boxplot() +
-#  theme_minimal() +
-#  labs(title = "Emissions de CO2 par région",
-#       subtitle = "Données de Quality of Governance",
-#       x = "",
-#       y = "Nb de tonnes métriques de CO2/hab.") +
-#  coord_flip() +
-#  scale_x_discrete(labels = c("Afrique du Nord et Moyen-Orient", 
-#                              "Afrique sub-saharienne",
-#                              "Amérique latine",
-#                              "Asie de l'Est",
-#                              "Asie du Sud",
-#                              "Asie du Sud-Est",
-#                              "Caraïbes",
-#                              "Europe de l'Est et centrale",
-#                              "Europe de l'Ouest et Am. du Nord",
-#                              "Région du Pacifique")) 
-#    
-#box
-```
-
-La ligne qui se situe au centre de chaque boîte correspond à la médiane de la variable 'CO2' (donc la valeur qui sépare la distribution en deux parties égales). Les deux extrémités de chaque boîte correspondent au 1er et 3e quartiles (donc les valeurs situées à 25% et et 75% de la distribution). Les 'moustaches', ou les lignes qui sortent de chaque boîte, s'arrêtent aux valeurs les plus extrêmes de la distribution, en excluant les observations aberrantes ("outliers"). Les observations aberrantes représentent les points. Ce sont les valeurs situées à une distance d'au moins 1,5*l'écart inter-quartile de la distribution.
-
-En une seule image, nous avons une idée de la distribution d'une variable (ici, la variable CO2) selon différentes catégories de notre banque de données (ici, les régions). Les boîtes à moustache remplacent en quelque sorte les tableaux de statistiques descriptives!
-
-Pour obtenir ce graphique, on définit d'abord un graphique de base à l'aide de la fonction `ggplot()`. X représente la région, tandis que Y est la variable CO2. Puis, on ajoute `geom_boxplot()`. 
+Il serait possible, bien sûr, de créer des fausses observations plus grandes ou plus petites que la vraie étendue de la variable `Wind` (1.7 à 20.7). Or, nos prédictions ne seraient alors pas réalistes. Il est donc préférable de s'en tenir aux valeurs "possibles". 
 
 ```{r}
-#box <- ggplot(data = quality, mapping = aes(x = region, y = co2))
-#box <- box + geom_boxplot() 
-#    
-#box
+air_pred <- expand.grid(Wind = (seq(from = min(air$Wind),
+                                   to = max(air$Wind),
+                                   length.out = 500)),
+                        Solar.R = mean(air$Solar.R, na.rm = T),
+                        Month = c(5:9))
 ```
 
-Il y a plusieurs problèmes avec ce graphique. Le problème le plus important concerne les étiquettes de l'axe des x: le nom des régions est très long, et n'est pas recodé. Nous allons d'abord recoder chaque catégorie à l'aide de la fonction `scale_x_discrete(labels = ...)`. Cette étape prend un peu de temps. Puis, pour que les noms des catégories aparaissent dans leur ensemble, nous allons échanger les axes des x et y. Nous pourrons maintenant lire les étiquettes à l'horizontal, sans qu'elles ne s'entre-croisent. Cela est accompli grâce à `coord_flip()`.
+On utilise ensuite la fonction `predict()` pour trouver quelle valeur de Y (`Temp`) est prédite par notre modèle pour chaque valeur de la variabe X. J'en profite pour convertir le résultat en tableau de données avec `as.data.frame`.
 
 ```{r}
-#box <- box +
-#  scale_x_discrete(labels = c("Afrique du Nord et Moyen-Orient", 
-#                              "Afrique sub-saharienne",
-#                              "Amérique latine",
-#                              "Asie de l'Est",
-#                              "Asie du Sud",
-#                              "Asie du Sud-Est",
-#                              "Caraïbes",
-#                              "Europe de l'Est et centrale",
-#                              "Europe de l'Ouest et Am. du Nord",
-#                              "Région du Pacifique")) +
-#  coord_flip()
-#    
-#box
+predictions <- predict(object = modele, newdata = air_pred, interval = "predict") %>% 
+  as.data.frame()
 ```
 
-Nous y sommes presque. Il reste à modifier l'apparence générale du graphique, à renommer les axes et à donner un titre au graphique. J'ai pris la décision d'enlever le nom de l'axe vertical puisque les étiquettes des régions sont assez explicites à mon avis. 
+La fonction calcule aussi l'intervalle de confiance autour de chaque prédiction. Nous allons joindre ces prédictions au tableau de données fictives créé plus tôt. Nous pourrons ensuite nous servir de ce tableau de données pour tracer un graphique.
 
 ```{r}
-#box <- box + geom_boxplot() +
-#  labs(title = "Emissions de CO2 par région",
-#       subtitle = "Données de Quality of Governance",
-#       x = "",
-#       y = "Nb de tonnes métriques de CO2/hab.") +
-#  theme_minimal()
-#
-#box
+prediction_viz <- cbind(air_pred, predictions)
+
+head(prediction_viz)
 ```
 
-En bref:
+Dans le prochain graphique, nous visualiserons les températures prédites par notre modèle de régression pour différentes valeurs de la vitesse du vent. Les prédictions ont été calculées en gardant le niveau de radiation solaire constant (à sa moyenne). Les préictions sont calculées pour chaque mois puisque le modèle comprend des effets fixes pour les mois (donc l'intercept est différent pour chaque mois). 
 
 ```{r}
-#box <- ggplot(data = quality, mapping = aes(x = region, y = co2))
-#box <- box + geom_boxplot() +
-#  scale_x_discrete(labels = c("Afrique du Nord et Moyen-Orient", 
-#                              "Afrique sub-saharienne",
-#                              "Amérique latine",
-#                              "Asie de l'Est",
-#                              "Asie du Sud",
-#                              "Asie du Sud-Est",
-#                              "Caraïbes",
-#                              "Europe de l'Est et centrale",
-#                              "Europe de l'Ouest et Am. du Nord",
-#                              "Région du Pacifique")) +
-#  coord_flip() +
-#  labs(title = "Emissions de CO2 par région",
-#       subtitle = "Données de Quality of Governance",
-#       x = "",
-#       y = "Nb de tonnes métriques de CO2/hab.") +
-#  theme_minimal()
-#
-#box
+# Nous précisons les variables à visualiser
+graph_pred <- ggplot(aes(x = Wind, y = fit, ymin = lwr, ymax = upr), data = prediction_viz) +
+# Nous utilisons geom_line pour tracer les lignes de prédiction (5 couleurs)
+  geom_line(aes(color = as.factor(Month))) +
+# geom_ribbon ajoute l'intervalle de confiance (une par mois, c'est pourquoi on précise "group")
+  geom_ribbon(aes(group = as.factor(Month)), alpha = .1) +
+# Modification des valeurs de "color"
+  scale_color_discrete(name = "Mois", 
+                      labels = c("Mai", "Juin", "Juillet", "Août", "Septembre")) +
+# étiquettes et titres
+  labs(title = "Température prédite à NY, en fonction de la vitesse du vent",
+       y = "Température prédite par le modèle\n(avec intervalle de 95%)",
+       x = "Vitesse du vent") +
+# thème
+  theme_minimal()
+
+graph_pred
 ```
 
-## Recommandations
+Nous pourrions aussi vouloir faire apparaître les vraies observations derrière les lignes de prédiction. Pour ce faire, j'ajoute un étage `geom_point` qui utilise les données (`data =`) de la banque de données originales, et non la banque de données fictives. 
 
-Ces notes sont un survol _très_ sommaire de ce qu'il est possible de faire avec la fonction `ggplot()`. Le temps nous manque pour que je vous explique toutes les possibilités. Si vous voulez jouer avec cette fonction, internet sera votre meilleur ami. Si vous avez des questions sur un type de graphique ou une modification particulière, il faudra chercher par vous-même à partir de maintenant. On peut passer des heures à modifier un simple élément d'un graphique, mais avec `ggplot()`, le résultat vaut amplement le temps investi!
+1) Je spécifie une fonction `ggplot` vide;
+2) Je trace les points originaux, par couleur de mois (`geom_point`);
+3) Je trace les lignes de valeurs prédites, par couleur de mois (`geom_line`);
+4) Je trace les intervalles de confiance (`geom_ribbon`).
 
-Sur son site, [Kieran Healy](https://socviz.co/) vous prend par la main pour vous apprendre `ggplot()`, de ses fonctions les plus simples aux plus avancées (en anglais). Cette ressource pourrait être utile/intéressante pour celles et ceux qui souhaitent approfondir leurs compétences en visualisation de données, ou qui aimeraient consulter des bons (et moins bons) exemples de visualisation. Amusez-vous!
+```{r}
+graph_pred2 <- ggplot() +
+  geom_point(data = air, aes(x = Wind, y = Temp, color =  as.factor(Month)), alpha = .6) +
+  geom_line(data = prediction_viz, aes(x = Wind, y = fit, color = as.factor(Month))) +
+  geom_ribbon(data = prediction_viz, aes(x = Wind, y = fit, ymin = lwr, ymax = upr, group = as.factor(Month)), alpha = .1) +
+  scale_color_discrete(name = "Mois", 
+                      labels = c("Mai", "Juin", "Juillet", "Août", "Septembre")) +
+  labs(title = "Température prédite à NY, en fonction de la vitesse du vent",
+       y = "Température prédite par le modèle\n(avec intervalle de 95%)",
+       x = "Vitesse du vent") +
+  theme_minimal()
+
+graph_pred2
+```
+
+# Pour aller plus loin
+
+Ces notes sont un survol _très_ sommaire de ce qu'il est possible de faire avec la fonction `ggplot()`. Le temps nous manque pour que je vous explique toutes les possibilités. Si vous voulez jouer avec cette fonction, internet sera votre meilleur ami. On peut passer des heures à modifier un simple élément d'un graphique, mais avec `ggplot()`, le résultat vaut amplement le temps investi!
+
+Sur son site, [Kieran Healy](https://socviz.co/) vous prend par la main pour vous apprendre `ggplot()`, de ses fonctions les plus simples aux plus avancées (en anglais). [Andrew Heiss]((https://datavizm20.classes.andrewheiss.com/content/03-content/)) a rendu ses notes de cours sur la visualisation des données avec R disponibles sur son site web. Ces ressources pourraient être utiles/intéressantes pour celles et ceux qui souhaitent approfondir leurs compétences en visualisation de données, ou qui aimeraient consulter des bons (et moins bons) exemples de visualisation. Si vous souhaitez vous entraîner, je vous recommande de participer aux [TidyTuesday](https://github.com/rfordatascience/tidytuesday), une initiative de R4DS, un groupe d'apprentissage de R. À chaque semaine, ils partagent une banque de données à partir de laquelle n'importe qui peut créer des graphiques. Amusez-vous!
 
 ```{r, echo=FALSE, eval=FALSE}
 #purl("cours-13.Rmd", output = "intro-visualisation.R")

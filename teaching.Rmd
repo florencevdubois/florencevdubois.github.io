@@ -8,6 +8,10 @@ Je suis disponible pour enseigner des ateliers d'introduction au langage R. Si v
 
 I am available to teach Intro to R workshops. If you would rather learn by yourself, my workshop notes are available here (in French only): [PDF](documentation/ateliers-r.pdf); [HTML](documentation/ateliers-r.html).
 
+## Viualisation des données avec R
+
+Vous trouverez [ici](atelier-dataviz.html) mes notes de cours pour l'Introduction à la visualisation des données avec R. Le cours introduit les rudiments de ggplot et comprend une partie sur la visualisation des résultats de régression.
+
 ## Méthodes quantitatives - Quantitative Methods 
 
 À l'automne 2019, j'ai enseigné les Méthodes quantitatives d'analyse (POL 2809), un cours offert aux étudiant.e.s des départements de science politique et d'économie à l'Université de Montréal. Enseigner est pour moi un véritable plaisir, et j'espère pouvoir être utile en rendant disponible publiquement mon [plan de cours](documentation/pol2809/syllabus.pdf), les présentations visuelles que j'ai utilisées en classe et certaines idées d'activités pédagogiques (à venir). N'hésitez pas à me contacter pour toute question!
