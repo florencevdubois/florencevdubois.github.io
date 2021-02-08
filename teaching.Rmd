@@ -10,7 +10,7 @@ I am available to teach Intro to R workshops. If you would rather learn by yours
 
 ## Viualisation des données avec R
 
-Vous trouverez [ici](atelier-dataviz.html) mes notes de cours pour l'Introduction à la visualisation des données avec R. Le cours introduit les rudiments de ggplot et comprend une partie sur la visualisation des résultats de régression.
+Vous trouverez [ici](documentation/atelier-dataviz.html) mes notes de cours pour l'Introduction à la visualisation des données avec R. Le cours introduit les rudiments de ggplot et comprend une partie sur la visualisation des résultats de régression.
 
 ## Méthodes quantitatives - Quantitative Methods 
 
