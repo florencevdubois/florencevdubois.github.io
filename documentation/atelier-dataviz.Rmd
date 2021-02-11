@@ -4,7 +4,9 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, prompt = TRUE, tidy = FALSE, out.width = '60%', fig.align="center", warning = FALSE)
+options(knitr.duplicate.label = "allow")
+
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, prompt = TRUE, tidy = FALSE, out.width = '60%', fig.align = "center", warning = FALSE)
 ```
 
 La visualisation des données sert de multiples objectifs, comme rendre cohérente une masse importante de données, découvrir des tendances, vulgariser des résultats scientifiques complexes, diagnostiquer des problèmes dans un ensemble de données (des valeurs aberrantes ou influentes, des relations non-linéaires) ou découvrir des erreurs de codage. Dans cet atelier, nous survolerons quelques principes généraux de la visualisation des données, puis apprendrons les rudiments de la fonction `ggplot()` du langage R, qui permet de créer différents types de graphiques. Nous terminerons avec un survol de techniques pour visualiser les résultats de régression avec `ggplot()`.
@@ -170,7 +172,7 @@ Parenthèse: Ne faites pas comme moi, évitez de nommer vos graphiques _graph1_,
 
 Il est possible d'ajouter plus d'un `geom` à notre graphique. Par exemple, je pourrais ajouter une ligne de régression linéaire à l'aide de `geom_smooth()`. 
 
-```{r}
+```{r, message = FALSE}
 graph5 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
   geom_point() +
   geom_smooth(method = "lm") # je précise la méthode "régression linéaire"
@@ -182,7 +184,7 @@ Cette flexibilité est une des forces de `ggplot`, puisque nous pouvons ensuite 
 
 Par exemple, je pourrais vouloir garder les couleurs pour les différents mois, mais avoir une seule ligne de régression. Pour ce faire, je spécifierais des `aes` différents pour mon `geom_point` et mon `geom_smooth`.
 
-```{r}
+```{r, message = FALSE}
 graph6 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
   geom_point(aes(color = as.factor(Month))) +
   geom_smooth(method = "lm")
@@ -192,7 +194,7 @@ graph6
 
 À l'inverse, si je veux garder tous les points noirs mais avoir plusieurs lignes de régression (une pour chaque mois), je peux intégrer l'argument `color` à `geom_smooth`.
 
-```{r}
+```{r, message = FALSE}
 graph7 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
   geom_point() +
   geom_smooth(aes(color = as.factor(Month)), method = "lm")
@@ -206,7 +208,7 @@ Comme vous avez pu le constater, quand on travaille avec `ggplot`, on travaille 
 
 `scale_`permet de modifier les éléments qui se trouvent dans l'`aes`. Cela inclut l'axe des X et des Y, mais aussi tout ce qui se rapporte aux couleurs, formes, etc. 
 
-```{r}
+```{r, message = FALSE}
 graph8 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
   geom_point(aes(color = as.factor(Month))) +
   geom_smooth(method = "lm") +
@@ -219,7 +221,7 @@ graph8
 
 `labs` permet d'ajouter et de modifier les titres, sous-titres, titres des axes et notes de bas de graphique.
 
-```{r}
+```{r, message = FALSE}
 graph9 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
   geom_point(aes(color = as.factor(Month))) +
   geom_smooth(method = "lm") +
@@ -237,7 +239,7 @@ graph9
 
 `theme_...` permet de choisir un thème prédéfini pour le graphique. On peut aussi modifier manuellement des éléments du graphique dans la fonction `theme()`. (Personnellement, j'aime aussi jouer avec l'opacité des éléments (`alpha`), surtout les points et les intervalles de confiance. J'aimerais aussi que la ligne de régression soit noire, plutôt que bleue.)
 
-```{r}
+```{r, message = FALSE}
 graph10 <- ggplot(data = air, mapping = aes(x = Wind, y = Temp)) + 
   geom_point(aes(color = as.factor(Month)), alpha = .7) +
   geom_smooth(method = "lm", alpha = .3, color = "black") +
@@ -417,7 +419,7 @@ Ces notes sont un survol _très_ sommaire de ce qu'il est possible de faire avec
 
 Sur son site, [Kieran Healy](https://socviz.co/) vous prend par la main pour vous apprendre `ggplot()`, de ses fonctions les plus simples aux plus avancées (en anglais). [Andrew Heiss]((https://datavizm20.classes.andrewheiss.com/content/03-content/)) a rendu ses notes de cours sur la visualisation des données avec R disponibles sur son site web. Ces ressources pourraient être utiles/intéressantes pour celles et ceux qui souhaitent approfondir leurs compétences en visualisation de données, ou qui aimeraient consulter des bons (et moins bons) exemples de visualisation. Si vous souhaitez vous entraîner, je vous recommande de participer aux [TidyTuesday](https://github.com/rfordatascience/tidytuesday), une initiative de R4DS, un groupe d'apprentissage de R. À chaque semaine, ils partagent une banque de données à partir de laquelle n'importe qui peut créer des graphiques. Amusez-vous!
 
-```{r, echo=FALSE, eval=FALSE}
-#purl("cours-13.Rmd", output = "intro-visualisation.R")
+```{r export, include = FALSE}
+#knitr::purl("atelier-dataviz.Rmd", output = "dataviz-R-script.R")
 ```
 
