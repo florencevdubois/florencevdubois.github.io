@@ -1,0 +1,468 @@
+---
+title: "FAS1003: Visualisation des données"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, tidy = F, error = F, warning = F, message = F, fig.width = 5, fig.height = 3)
+library(tidyverse)
+library(flipbookr)
+library(broom)
+library(extrafont)
+```
+
+# Cours 7: Manipulation des données et nouveaux graphiques
+
+## Plan de match
+
+1. Manipulation des banques de données: un peu plus loin
+2. Manipulation des données textuelles
+3. Nouveaux types de graphiques
+
+# Manipulation des banques de données: un peu plus loin
+
+## Les données du jour
+
+```{r}
+library(tidytuesdayR)
+d <- tt_load('2021-10-19')
+citrouilles <- d$pumpkins
+
+# ou
+citrouilles <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-10-19/pumpkins.csv')
+```
+
+## distinct()
+
+La fonction `distinct()` permet de sélectionner les lignes qui ont des valeurs uniques aux colonnes spécifiées.
+
+```{r}
+demo = citrouilles %>% 
+  distinct(state_prov, country)
+```
+
+## drop_na()
+
+`drop_na()` supprime les lignes qui ont des valeurs manquantes à la colonne spécifiée.
+
+```{r}
+demo2 = citrouilles %>% 
+  drop_na(pollinator_father)
+```
+
+## reorder()
+
+`reorder()` permet de placer les éléments en ordre croissant (ou décroissant).
+
+```{r}
+dat = citrouilles %>% 
+  filter(country == "United States" |
+         country == "Canada" | 
+         country == "France") %>% 
+  mutate(est_weight = as.numeric(est_weight)) %>% 
+  group_by(country) %>% 
+  summarise(poids_total = sum(est_weight, na.rm = T))
+```
+
+## reorder()
+
+```{r}
+ggplot(data = dat, aes(x = country, 
+                       y = poids_total))  +
+  geom_col()
+```
+
+## reorder()
+
+```{r}
+ggplot(data = dat, aes(x = reorder(country, poids_total), 
+                       y = poids_total))  +
+  geom_col()
+```
+
+## reorder()
+
+```{r}
+ggplot(data = dat, aes(x = reorder(country, -poids_total), 
+                       y = poids_total))  +
+  geom_col()
+```
+
+# Exercice 1
+
+## Exercice 1: consignes
+
+1. Combien de valeurs uniques y a-t-il de la variable `city` dans la banque de données `citrouilles`?
+2. Combien de valeurs manquantes y a-t-il dans la variable `seed_mother`?
+
+## Exercice 1: corrigé
+
+1. Combien de valeurs uniques y a-t-il de la variable `city`?
+
+```{r}
+d = citrouilles %>% 
+  distinct(city)
+
+nrow(d)
+```
+
+2. Combien de valeurs manquantes y a-t-il dans la variable `seed_mother`?
+
+```{r}
+d = citrouilles %>% 
+  drop_na(seed_mother)
+
+28065-19528
+```
+
+# Manipulation de données textuelles
+
+## Le package `stringr`
+
+- Données de type "caractère" (character string): une valeur inscrite entre parenthèses. 
+- Peut être des lettres, des chiffres, ou une combinaison des 2. 
+- Un chiffre inscrit entre parenthèses n'est pas traité comme une valeur numérique, mais comme un caractère.
+
+## str_length
+
+Pour calculer le nombre de caractères dans un string.
+
+```{r}
+d = "allo"
+str_length(d)
+```
+
+## str_length
+
+```{r}
+citrouilles2 = citrouilles %>% 
+  mutate(long = str_length(grower_name))
+```
+
+## str_detect
+
+Détecter certaines lettres, mots, expressions, patterns.
+
+```{r}
+str_detect(d, "a")
+str_detect(d, "f")
+```
+
+## str_detect
+
+```{r}
+citrouille3 = citrouilles %>% 
+  mutate(festival_b = ifelse(str_detect(gpc_site, "Fest|Festival"), 
+                             1, 0))
+
+table(citrouille3$festival_b)
+```
+
+## str_remove et str_remove_all
+
+Retirer des éléments d'un string.
+
+```{r}
+str_remove(d, "l")
+str_remove_all(d, "l")
+```
+
+## str_remove et str_remove_all
+
+```{r}
+citrouilles4 = citrouilles %>%
+  mutate(pays_n = str_remove_all(country, "United"))
+```
+
+## str_replace et str_replace_all
+
+Remplacer un élément d'un string par un autre.
+
+```{r}
+str_replace(d, "a", "4")
+str_replace_all(d, "l", "y")
+```
+
+## str_replace et str_replace_all
+
+```{r}
+citrouilles5 = citrouilles %>% 
+  mutate(site = str_replace_all(gpc_site, "Fest", "Festival"))
+```
+
+## str_extract et str_extract_all
+
+Extraire un élément d'un string.
+
+```{r}
+str_extract(d, "a")
+str_extract(d, "x")
+```
+
+## str_to_upper, str_to_lower
+
+Mettre tout en majuscules ou en minuscules.
+
+```{r}
+str_to_upper(d)
+```
+
+## et bien plus!
+
+Voir la documentation du package.
+
+https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html
+
+# Exercice 2
+## Exercice 2: consignes
+
+1. Remplacez tout les tirets (-) de la variable `id` par des barres de soulignement (_). Enregistrez le résultat dans une nouvelle variable.
+2. Retirez toutes les observations qui proviennent du Canada ou des États-Unis.
+3. Retirez les suffixes ".0" de la variable `ott`. Enregistrez le résultat dans une nouvelle variable.
+
+## Exercice 2: corrigé
+
+1. Remplacez tout les tirets (-) de la variable `id` par des barres de soulignement (_). Enregistrez le résultat dans une nouvelle variable.
+
+```{r}
+q1 = citrouilles %>% 
+  mutate(id_n = str_replace_all(id, "-", "_"))
+```
+
+## Exercice 2: corrigé
+
+2. Retirez toutes les observations dont le producteur (`grower_name`) se nomme "Jack".
+
+```{r}
+q2 = citrouilles %>% 
+  filter(str_detect(grower_name, "Jack"))
+```
+
+## Exercice 2: corrigé
+
+3. Retirez les suffixes ".0" de la variable `ott`. Enregistrez le résultat dans une nouvelle variable.
+
+```{r}
+q3 = citrouilles %>% 
+  mutate(ott_n = str_remove_all(ott, ".0"))
+```
+
+# Expressions régulières (Regular expressions ou Regex)
+
+## Expressions régulières
+
+- Cibler les lettres/mots en fonction de leur position.
+- Cibler les chiffres seulement.
+- Cibler un caractère spécial en particulier.
+- Cibler les éléments qui viennent avant la virgule.
+- Etc. 
+
+## Expressions régulières: quelques trucs de base
+
+- Les regex sont presqu'infinis! Il ne sert à rien de les apprendre par coeur.
+- Pour devenir maître dans l'art du regex, il est préférable de s'entraîner à partir de problèmes concrets.
+- Voici tout de même certaines commandes qu'il peut être utile d'avoir au bout des doigts.
+
+## Expressions régulières: quelques trucs de base
+
+Les chiffres et les lettres
+
+```{r}
+# chiffres (digits)
+regex = citrouilles %>%
+  mutate(seed_mother_n = str_remove_all(seed_mother, "\\d"),
+         seed_mother_n2 = str_remove_all(seed_mother, "[0-9]")) 
+
+# lettres
+regex2 = citrouilles %>%
+  mutate(seed_mother_n = str_remove_all(seed_mother, "[aA-zZ]"),
+         seed_mother_n2 = str_remove_all(seed_mother, "[:alpha:]")) 
+```
+
+## Expressions régulières: quelques trucs de base
+
+"Avant" ou "après" un certain caractère
+
+```{r}
+regex3 = citrouilles %>%
+  mutate(grower_name_av = str_remove_all(grower_name, ",.*"),
+         grower_name_ap = str_remove_all(grower_name, ".*,")) 
+
+# .* signifie "tout le reste"
+```
+
+## Expressions régulières: quelques trucs de base
+
+Pluriels
+
+```{r}
+exemple = c("citrouilles", "citrouille", "halloween")
+
+str_detect(exemple, "\\bcitrouilles?\\b")
+
+# \\b sont les limites du mot
+# s? signifie 1 ou 0 s
+```
+
+## Expressions régulières: quelques trucs de base
+
+"Échapper" un caractère
+
+```{r}
+# Le point veut dire quelque chose en regex
+# On le cible en ajoutant une \ devant (2 fois avec stringr)
+regex5 = citrouilles %>%
+  mutate(seed_mother_n = str_remove_all(seed_mother, "\\.")) 
+```
+
+## Expressions régulières: ressources
+
+- https://www.lucaswillems.com/fr/articles/25/tutoriel-pour-maitriser-les-expressions-regulieres
+- https://cran.r-project.org/web/packages/stringr/vignettes/regular-expressions.html 
+- https://docs.pexip.com/admin/regex_reference.htm 
+
+# Nouveaux types de graphiques
+
+## À date
+
+- `geom_bar()`
+- `geom_col()`
+- `geom_histogram()`
+- `geom_point()`
+- `geom_density()`
+
+## Boîtes à  moustaches
+
+- Un de mes préférés!
+- `geom_boxplot()`
+- Excellent pour montrer la distribution d'une variable continue, selon différentes catégories.
+- Montre la médiane, les 1er et  3e quartiles (50% des valeurs), les valeurs "minimales" et "maximales" et les valeurs abherrantes 
+- Valeurs  abherrantes: plus petites que (Q1 + 1.5xEI) et plus grandes que (Q3 + 1.5xEI)
+
+## Boîtes à  moustaches
+
+```{r}
+dat_can_united = citrouilles %>% 
+  filter(str_detect(country, "Canada|United")) %>% 
+  mutate(weight_lbs = as.numeric(weight_lbs))
+
+ggplot(data = dat_can_united, aes(x = country, y = weight_lbs)) +
+  geom_boxplot() 
+```
+
+## Alternative: Graphiques "violons"
+
+- `geom_violin()`
+- Comme le graphique à moustache, mais une courbe de densité est ajoutée.
+
+## Alternative: Graphiques "violons"
+
+```{r}
+ggplot(data = dat_can_united, aes(x = country, y = weight_lbs)) +
+  geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) 
+```
+
+## Graphiques à barres, mais multivariés
+
+Barres empilées
+
+```{r}
+dat_can_united_self_open = citrouilles %>% 
+  mutate(pollinator_father = str_to_lower(pollinator_father)) %>% 
+  filter(str_detect(country, "Canada|United States"),
+         str_detect(pollinator_father, "open|self")) %>% 
+  mutate(pollinator_father = ifelse(str_detect(pollinator_father, "self"), "self", "open"),
+         weight_lbs = as.numeric(weight_lbs))
+```
+
+## Graphiques à barres, mais multivariés
+
+Barres empilées
+
+```{r}
+ggplot(data = dat_can_united_self_open, aes(x = country, fill = pollinator_father)) +
+  geom_bar()
+```
+
+## Graphiques à barres, mais multivariés
+
+Barres groupées
+
+```{r}
+ggplot(data = dat_can_united_self_open, aes(x = country, fill = pollinator_father)) +
+  geom_bar(position = "dodge")
+```
+
+## Alternative: graphiques d'aire
+
+- `geom_area()`
+- Variable x continue (un peu comme les histogrammes!)
+
+```{r}
+ggplot(data = dat_can_united, aes(x = weight_lbs, fill = country)) +
+  geom_area(stat = "bin")
+```
+
+## Parenthèse
+
+- Un mot sur "bin", "count" et "identity"
+
+## Graphiques de densité, mais multivariés
+
+- `geom_density_ridges`
+- Plusieurs courbes de densité, une pour chaque catégorie de la variable y.
+- La variable y doit être catégorielle (__character__ ou __factor__).
+
+```{r}
+table(dat_can_united$id)
+```
+
+## Graphiques de densité, mais multivariés
+
+```{r}
+dat_can_united = dat_can_united %>% 
+  mutate(annee = str_remove_all(id, "[aA-zZ]|-"),
+         ott = as.numeric(ott)) 
+
+table(dat_can_united$annee)
+```
+
+## Graphiques de densité, mais multivariés
+
+```{r}
+# install.packages("ggridges")
+library(ggridges)
+
+class(dat_can_united$annee)
+
+ggplot(data = dat_can_united, aes(x = ott, y = annee)) +
+  geom_density_ridges()
+```
+
+# Exercice 3
+## Exercice 3: consignes
+
+- Créez un graphique qui permet de montrer combien de citrouilles provenait des états de Washington, de la Pennsylvanie, de New York et de l'Oregon par année. 
+- Soyez créatif, il n'y a pas de limites!
+
+## Exercice 3: corrigé
+
+```{r}
+dat = citrouilles %>% 
+  filter(str_detect(state_prov, "Washington|New York|Oregon|Pennsylvania")) %>% 
+  mutate(annee = str_remove_all(id, "[aA-zZ]|-"),
+         annee = as.numeric(annee))
+
+ggplot(data = dat, aes(x = annee, y = state_prov))+
+  geom_density_ridges(fill = "darkorange") +
+  scale_x_continuous(breaks = c(2011, 2013, 2015, 2017, 2019, 2021)) +
+  theme_minimal() +
+  labs(y = "",
+       x = "", 
+       title = "Nombre de citrouilles participantes par année")
+```
+
+# Travail pratique 4
+# À la semaine prochaine!
+
+

@@ -1,0 +1,396 @@
+---
+title: "FAS1003: Visualisation des données"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, tidy = F, error = F, warning = F, message = F, fig.width = 5, fig.height = 3)
+library(tidyverse)
+library(flipbookr)
+library(broom)
+library(extrafont)
+```
+
+# Cours 8: Modèles statistiques
+
+## Plan de match
+
+1. Modèles statistiques
+2. Un truc pour ajouter les points derrière des graphs
+3. Annotations
+5. Faire pivoter les données
+6. Explications du travail final
+
+# Visualiser les modèles statistiques
+
+## Les données du jour
+
+```{r}
+library(tidyverse)
+air <- airquality
+```
+
+
+## Modèle de régression linéaire: Rappels
+
+Démo au tableau.
+
+## Modèle de régression linéaire
+
+Supposons que nous sommes intéressés par le modèle suivant:
+
+```{r}
+modele <- lm(Temp ~ Wind + Solar.R + as.factor(Month), data = air)
+```
+
+## Explorer les résultats
+
+```{r}
+summary(modele)
+```
+
+La fonction `summary()` nous montre les résultats de régression sous forme de tableau, avec des colonnes pour les coefficients, les erreurs type, les valeurs t et les statistiques p. 
+
+## L'objet `modele`
+
+L'objet `modele` n'est pas organisé sous forme de tableau. 
+
+```{r eval = F}
+View(modele)
+```
+
+## Organiser l'information dans un format `tidy`
+
+- chaque ligne est une observation
+- chaque colonne est une variable 
+- chaque cellule contient une seule valeur
+
+## La fonction `tidy()`
+
+- transforme les résultats de régression sous forme de tableau
+- ligne pour les paramètres (variables), colonnes pour les statistiques
+- ajout des intervalles de confiance (`conf.int = TRUE`)
+- intervalles à 95%.
+
+```{r}
+modele_tab <- tidy(modele, conf.int = TRUE)
+modele_tab
+```
+
+## Visualiser 
+
+- Une fois les informations de notre modèle "nettoyées", nous pouvons nous en servir pour présenter les résultats de régression sous forme de graphique. 
+
+```{r}
+graph_mod <- ggplot(aes(y = term,
+                        x = estimate), 
+                    data = modele_tab) +
+  geom_point() +
+  theme_minimal()
+
+graph_mod
+```
+
+## Enlever des coefficients 
+
+- La constante (intercept) ne m'intéresse pas. 
+- Vu que nos résultats de régression sont organisés sous forme de tableau, il est plutôt simple de faire des modifications. 
+
+```{r}
+modele_tab2 <- modele_tab  %>% 
+  filter(!str_detect(term, "Intercept")) %>% 
+  mutate(term = case_when(str_detect(term, "Solar")~"Solaire (rad.)",
+                          str_detect(term, "Wind")~"Vent (vitesse)",
+                          str_detect(term, "9")~"Sept.",
+                          str_detect(term, "8")~"Août",
+                          str_detect(term, "7")~"Juil.",
+                          str_detect(term, "6")~"Juin",
+                          TRUE~term))
+```
+
+## Modifier notre graphique
+
+- J'aimerais que les noms de variables soient à l'horizontal (sur l'axe des y);
+- J'aimerais avoir un point pour le coefficient estimé par le modèle, et une ligne qui traverse le point pour montrer l'intervalle de confiance;
+- J'aimerais avoir une ligne verticale à 0, pour montrer quels estimés ne sont pas statistiquement significatifs.
+
+## Modifier notre graphique
+
+```{r}
+graph_mod <- ggplot(aes(y = term, x = estimate,
+                        xmin = conf.low, xmax = conf.high),
+                    data = modele_tab2) +
+  geom_pointrange() +
+  geom_vline(xintercept = 0) +
+  labs(title = "Effet du vent sur la température",
+       y = "",
+       x = "Coefficient et intervalles de confiance (95%)") +
+  theme_minimal()
+
+graph_mod
+```
+
+## Visualiser des prédictions
+
+- Il est possible de créer des prédictions pour des observations fictives à partir de notre modèle de régression.
+- Voir: http://www.sthda.com/english/articles/40-regression-analysis/166-predict-in-r-model-predictions-and-confidence-intervals/
+- Voir le chapitre 6 de Healy: https://socviz.co/modeling.html#modeling
+
+## Visualiser des prédictions: créer des observations fictives
+
+- Nous allons créer une fausse banque de données avec 2500 observations (vs 153 pour la banque de données `air`). 
+- Nous générons 500 valeurs situées entre le minimum (1.7) et le maximum (20.7) de la variable `Wind`. 
+- Ces 500 valeurs sont associées à chacun des 5 mois du modèle (5 à 9, ou mai, juin, juillet, août, septembre), ce qui crée les 2500 observations. 
+- Toutes les observations ont la même valeur pour la variable `Solar.R` (fixée à la moyenne).
+
+## Visualiser des prédictions: créer des observations fictives
+
+- Il serait possible, bien sûr, de créer des fausses observations plus grandes ou plus petites que la vraie étendue de la variable `Wind` (1.7 à 20.7). 
+- Or, nos prédictions ne seraient alors pas réalistes. 
+- Il est donc préférable de s'en tenir aux valeurs "possibles". 
+
+## Visualiser des prédictions: créer des observations fictives
+
+```{r}
+air_pred <- expand.grid(Wind = (seq(from = min(air$Wind),
+                                   to = max(air$Wind),
+                                   length.out = 500)),
+                        Solar.R = mean(air$Solar.R, na.rm = T),
+                        Month = c(5:9))
+
+head(air_pred)
+```
+
+## Visualiser des prédictions: Prédire des résultats pour nos observations fictives
+
+- On utilise ensuite la fonction `predict()` pour trouver quelle valeur de Y (`Temp`) est prédite (`fit`) par notre modèle pour chaque valeur de la variabe X (`Wind`). 
+- J'en profite pour convertir le résultat en tableau de données avec `as.data.frame`.
+
+```{r}
+predictions <- predict(object = modele, 
+                       newdata = air_pred, 
+                       interval = "predict") %>% 
+  as.data.frame()
+```
+
+## Visualiser des prédictions: Prédire des résultats pour nos observations fictives
+
+- `predict()` calcule aussi l'intervalle de confiance autour de chaque prédiction (`lwr` et `upr`)
+- Nous allons joindre ces prédictions au tableau de données fictives créé plus tôt. 
+
+## Visualiser des prédictions: Prédire des résultats pour nos observations fictives
+
+```{r}
+prediction_viz <- cbind(air_pred, predictions)
+
+head(prediction_viz)
+```
+
+## Visualiser des prédictions: Faire le graph
+
+- Nous visualisons les températures prédites par notre modèle pour différentes valeurs de la vitesse du vent. 
+- Les prédictions ont été calculées en gardant le niveau de radiation solaire constant (à sa moyenne). 
+- Les prédictions sont calculées pour chaque mois. 
+
+## Visualiser des prédictions: Faire le graph
+
+```{r}
+graph_pred <- ggplot(aes(x = Wind, y = fit, 
+                         ymin = lwr, ymax = upr), 
+                     data = prediction_viz) +
+# lignes de prédiction (5 couleurs)
+  geom_line(aes(color = as.factor(Month))) +
+# geom_ribbon ajoute l'intervalle de confiance 
+# (une par mois, c'est pourquoi on précise "group")
+  geom_ribbon(aes(group = as.factor(Month)), alpha = .1) +
+  scale_color_discrete(name = "Mois", 
+                      labels = c("Mai", "Juin", "Juillet", 
+                                 "Août", "Septembre")) +
+  labs(title = "Température prédite en fonction du vent",
+       y = "Température prédite\n(avec intervalle de 95%)",
+       x = "Vitesse du vent") +
+  theme_minimal()
+```
+
+## Visualiser des prédictions: Faire le graph
+
+```{r}
+graph_pred
+```
+ 
+
+## Visualiser des prédictions: Montrer les vraies observations
+
+- Nous pourrions aussi faire apparaître les vraies observations derrière les lignes de prédiction. 
+- Pour ce faire, j'ajoute un étage `geom_point` qui utilise les données de la banque de données originales, et non la banque de données fictives. 
+
+## Visualiser des prédictions: Montrer les vraies observations
+
+```{r}
+graph_pred2 <- ggplot() +
+  geom_point(data = air, 
+             aes(x = Wind, y = Temp, 
+                 color =  as.factor(Month)), 
+             alpha = .6) +
+  geom_line(data = prediction_viz, 
+            aes(x = Wind, y = fit, 
+                color = as.factor(Month))) +
+  geom_ribbon(data = prediction_viz, 
+              aes(x = Wind, y = fit, 
+                  ymin = lwr, ymax = upr, 
+                  group = as.factor(Month)), 
+              alpha = .1) +
+  scale_color_discrete(name = "Mois", 
+                      labels = c("Mai", "Juin", "Juillet", 
+                                 "Août", "Septembre")) +
+  labs(title = "Température en fonction du vent",
+       y = "Température prédite\n(avec intervalle de 95%)",
+       x = "Vitesse du vent") +
+  theme_minimal()
+```
+
+## Visualiser des prédictions: Montrer les vraies observations
+
+```{r}
+graph_pred2
+```
+
+## Visualiser des prédictions: Montrer les vraies observations 
+
+1) J'ai sécifié une fonction `ggplot` vide;
+2) J'ai tracé les points originaux, par couleur de mois (`geom_point`);
+3) J'ai tracé les lignes de valeurs prédites, par couleur de mois (`geom_line`);
+4) J'ai tracé les intervalles de confiance (`geom_ribbon`).
+
+# Pause
+
+# Quelques manipulations de plus
+
+## Faire la gigue: jitter 
+
+```{r}
+p = ggplot(data = air, aes(x = as.factor(Month), y = Temp)) +
+  geom_boxplot() 
+
+p + geom_point(alpha = .4)
+```
+
+## Faire la gigue: jitter
+
+Déplacer un peu des points, à l'horizontale et à la verticale.
+
+```{r}
+p + geom_jitter(alpha = .4) # width = 0.2
+```
+
+## Inclure des annotations: annotate
+
+- Spécifier le type d'élément à inclure: du texte sur le graph, des lignes, des rectangles, des flèches, etc.
+- Spécifier sa locatisation
+
+```{r}
+p = ggplot(data = air, aes(x = Wind, y = Temp)) +
+  geom_point() +
+  theme_minimal()
+
+p
+```
+
+## Inclure des annotations: annotate
+
+Des encadrés (`rect`)
+
+```{r}
+p + annotate("rect", 
+             xmin = 13, xmax = 16, 
+             ymin = 87, ymax = 94,
+             alpha = .2)
+```
+
+## Inclure des annotations: annotate
+
+Des traits (`segment`)
+
+```{r}
+p + annotate("segment", 
+             x = 19, xend = 15.5, 
+             y = 95, yend = 91.5,
+             color = "red",
+             arrow = arrow(length = unit(.2,"cm")))
+```
+
+## Inclure des annotations: annotate
+
+Du texte (`text`)
+
+```{r}
+p + annotate("text", 
+             x = 17.5,
+             y = 95,
+             label = "blah blah blah", 
+             size = 3)
+```
+
+## Faire pivoter la banque de données
+
+- Une banque de données peut être organisée dans un format "long" ou dans un format "large"
+- Exemple au tableau
+
+```{r}
+dat = data.frame(personne = c("A", "B", "C", "D"),
+                 avant  = c(150, 115, 160, 133),
+                 apres = c(152, 111, 161, 140)) 
+```
+
+## Faire pivoter la banque de données: pivot_longer
+
+Transformer au format "long"
+
+```{r}
+# de la variable "avant" à la variable "apres"
+dat_long = dat %>% 
+  pivot_longer(avant:apres,
+               names_to = "timing", 
+               values_to = "mesure")
+```
+
+## Faire pivoter la banque de données: pivot_longer
+
+Transformer au format "long"
+
+```{r}
+# toutes les variables sauf "personne"
+dat_long = dat %>% 
+  pivot_longer(!personne,
+               names_to = "timing", 
+               values_to = "mesure")
+```
+
+## Faire pivoter la banque de données: pivot_wider
+
+Transformer au format "large"
+
+```{r}
+dat_large = dat_long %>% 
+  pivot_wider(names_from = timing,
+              values_from = mesure)
+```
+
+# Pause
+
+# Exercice de visualisation 2
+# À la semaine prochaine!
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,557 @@
+---
+title: "FAS1003: Visualisation des données"
+output: revealjs::revealjs_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, tidy = F, error = F, warning = F, message = F, fig.width = 5, fig.height = 3)
+library(tidyverse)
+library(flipbookr)
+library(broom)
+library(extrafont)
+```
+
+# Cours 6: Aspects visuels
+
+# Plan de match
+
+## Les étages de ggplot()
+
+1. les données (`data = ...`)
+2. les éléments visuels (`mapping = aes(...)`)
+3. les géométries (`geom_`)
+4. l'apparence des éléments visuels (`scale_`)
+5. les étiquettes (`labs(...)`)
+6. __les facettes (`facet_`)__
+7. __la manipulation des axes (`coord_`)__
+8. __les thèmes (`theme_` et `theme()`)__
+
+## Renommer automatiquement les valeurs sur nos axes (dollars, entre autres)
+
+```{r}
+library(gapminder)
+dat <- gapminder
+
+ggplot(aes(x = gdpPercap, y = lifeExp), data = dat) +
+  geom_point() +
+  scale_x_continuous(labels = scales::dollar_format())
+```
+
+# Facettes
+
+## Les données du jour
+
+```{r}
+# install.packages("tidytuesdayR")
+
+library(tidytuesdayR)
+#data <- tt_load('2021-03-09')
+#dat <- data$movies
+dat <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-03-09/movies.csv')
+```
+
+## Graphique de départ
+
+```{r}
+p = ggplot(data = dat, aes(x = metascore)) +
+  geom_density()
+
+p
+```
+
+## Facettes
+
+Parfois, nous voulons présenter le même graphique, mais pour plusieurs valeurs d'une variable catégorielle.
+
+- Par exemple, avoir 2 nuages de points __dans deux graphiques différents__: un pour le pays X, l'autre pour le pays Y
+
+## Visualiser deux groupes dans un même graphique: jouer avec l'aes()
+
+```{r}
+p1 = ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density()
+
+p1
+```
+
+## Visualiser deux groupes dans un même graphique: jouer avec l'aes()
+
+```{r}
+p1 = ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4)
+
+p1
+```
+
+## Visualiser deux groupes dans plusieurs graphiques: facet_wrap()
+
+```{r}
+p2 = ggplot(data = dat, aes(x = metascore)) +
+  geom_density() +
+  facet_wrap(~binary)
+
+p2
+```
+ 
+## Visualiser deux groupes dans plusieurs graphiques: facet_wrap()
+
+Possible de garder les couleurs aussi. (Nous allons voir comment retirer la légende dans un instant.)
+
+```{r}
+p2 = ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density() +
+  facet_wrap(~binary)
+
+p2
+```
+
+## facet_wrap(): jouer avec le nombre de colonnes/lignes
+
+```{r}
+p3 = ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density() +
+  facet_wrap(~binary, ncol = 1)
+
+p3
+```
+
+## facet_wrap(): jouer avec le nombre de colonnes/lignes
+
+```{r}
+p3 = ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density() +
+  facet_wrap(~binary, nrow = 2)
+
+p3
+```
+
+## facet_wrap(): ajuster tout le reste
+
+Rappelez-vous: ggplot() fonctionne par étage. Il est donc tout à fait possible d'ajouter les autres étages que nous avons vus précédemment!
+
+```{r}
+p3 = ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density() +
+  labs(title = "Distributions des notes Metascore en fonction du test Bechdel",
+       x = "Note Metascore",
+       y = "Densité") +
+  facet_wrap(~binary)
+
+p3
+```
+
+## facet_wrap(): changer les noms des facettes?
+
+- Façon 1: Recoder la variable en question (avec `mutate()` et `recode()`, par exemple)
+- Façon 2: Utiliser l'argument `labeller()` à l'intérieur de `facet_wrap()`
+- Sûrement d'autres façons ;)
+
+## Utiliser l'argument `labeller()` à l'intérieur de `facet_wrap()`
+
+Utiliser l'argument `labeller()` à l'intérieur de `facet_wrap()`
+
+```{r}
+binary_noms <- c("FAIL" = "Échec", 
+                 "PASS" = "Réussite")
+
+p4 = ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density() +
+  labs(title = "Distributions des notes Metascore en fonction du test Bechdel",
+       x = "Note Metascore",
+       y = "Densité") +
+  facet_wrap(~binary, labeller = as_labeller(binary_noms))
+
+p4
+```
+
+# Coordonnées cartésiennes
+
+## coord_cartesian()
+
+La fonction `coord_cartesian()` permet de faire un zoom sur le graphique.
+
+```{r}
+class(dat$domgross_2013)
+
+dat$domgross_2013 <- as.numeric(dat$domgross_2013)
+class(dat$domgross_2013)
+```
+
+## coord_cartesian()
+
+```{r}
+p = ggplot(data = dat, aes(x = budget_2013, y = domgross_2013))+
+  geom_point()
+
+p
+```
+
+## coord_cartesian()
+
+```{r}
+# Entre 0 et 40 000 000$ de budget.
+p1 = p +
+  coord_cartesian(xlim = c(0,40000000))
+
+p1
+```
+
+## Pourquoi pas `limits`?
+
+Quelle est la différence entre `coord_cartesian()` et `limits`?
+
+- `limits` supprime les observations qui se trouvent à l'extérieur de l'étendue choisie.
+- `coord_cartesian()` fait un "zoom". Les observations sont toujours là, mais on ne les voit plus (elles se trouvent à l'extérieur du cadre).
+
+## `coord_cartesian()` vs. `limits`: ce que ça change
+
+```{r}
+p2 = ggplot(data = dat, aes(x = budget_2013, y = domgross_2013))+
+  geom_point() +
+  geom_smooth()
+
+p2
+```
+
+## `coord_cartesian()` vs. `limits`: ce que ça change
+
+```{r}
+# Entre 200 000 000 et 400 000 000$.
+p3 = ggplot(data = dat, aes(x = budget_2013, y = domgross_2013))+
+  geom_point() +
+  geom_smooth() +
+  scale_x_continuous(limits = c(200000000,400000000))
+
+p3
+```
+
+## `coord_cartesian()` vs. `limits`: ce que ça change
+
+```{r}
+# Entre 200 000 000 et 400 000 000$.
+p4 = ggplot(data = dat, aes(x = budget_2013, y = domgross_2013))+
+  geom_point() +
+  geom_smooth() +
+  coord_cartesian(xlim = c(200000000,400000000))
+
+p4
+```
+
+## coord_flip()
+
+`coord_flip()` permet d'inverser l'axe des x et l'axe des y.
+
+```{r}
+p = ggplot(data = dat, aes(x = binary))  +
+  geom_bar() +
+  coord_flip()
+
+p
+```
+
+# Exercice 1
+
+## Exercice 1
+
+1. Créez un nuage de points avec la variable `budget` sur l'axe des x et `intgross` sur l'axe des y. Créez une facette pour chaque catégorie de la variable `clean_test`.
+2. Spécifiez l'opacité des points à 0.4. Ajoutez une ligne de régression pour chauque facette. Limitez les coordonnées cartésiennes à un maximum de 200 000 000$ de budget.
+
+## Exercice 1 (corrigé)
+
+1. Créez un nuage de points avec la variable `budget` sur l'axe des x et `intgross` sur l'axe des y. Créez une facette pour chaque catégorie de la variable `clean_test`.
+
+```{r}
+ggplot(data = dat, aes(x = budget, y = as.numeric(intgross))) +
+  geom_point() +
+  facet_wrap(~clean_test)
+```
+
+## Exercice 1 (corrigé)
+
+2. Spécifiez l'opacité des points à 0.4. Ajoutez une ligne de régression pour chauque facette. Limitez les coordonnées cartésiennes à un maximum de 200 000 000$ de budget.
+
+```{r}
+ggplot(data = dat, aes(x = budget, y = as.numeric(intgross))) +
+  geom_point(alpha = .4) +
+  geom_smooth() +
+  facet_wrap(~clean_test) +
+  coord_cartesian(xlim = c(0,200000000))
+```
+
+# Les thèmes
+
+## Les thèmes pré-existants
+
+- Les thèmes permettent de modifier presque tous les aspects visuels restants (couleur de l'arrière-plan, du quadrillage, emplacement des mots, etc.)
+- Comme pour les palettes de couleurs, des thèmes pré-existants existent déjà. 
+- Quelques exemples...
+
+## Les thèmes pré-existants
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  theme_light()
+```
+
+## Les thèmes pré-existants
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  theme_classic()
+```
+
+## Les thèmes pré-existants
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  theme_minimal()
+```
+
+## Les thèmes pré-existants
+
+```{r}
+#install.packages("ggthemes")
+library(ggthemes)
+
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  theme_tufte() # Edward Tufte
+```
+
+## Les thèmes pré-existants
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  theme_economist() # The Economist
+```
+
+## Les thèmes pré-existants
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  theme_wsj() # Wall Street Journal
+```
+
+## Modifier le thème manuellement
+
+```{r}
+?theme
+```
+
+Références pour les éléments qui se retrouvent dans `theme()`:
+
+- https://isabella-b.com/blog/ggplot2-theme-elements-reference/
+- https://ggplot2.tidyverse.org/reference/theme.html
+
+## Position de la légende
+
+- Cibler un élément: `axis.title.x()`, `legend.position()`, `plot.subtitle()`, etc.
+- Puis, modifier un aspect spécifique de cet élément: `element_text()`, `element_rect()`,  `element_line()`, `element_blank()`
+
+## Exemple: Position des titres d'axes
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+    facet_wrap(~binary) +
+  theme(axis.title = element_text(hjust = 1))
+```
+
+## Exemple: Enlever la légende
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  facet_wrap(~binary) +
+  theme(axis.title = element_text(hjust = 1), 
+        legend.position = "")
+```
+
+## Exemple: Agrandir la taille du titre
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  facet_wrap(~binary)+
+  labs(title = "Distributions des notes Metascore",
+       subtitle = "En fonction du résultat au test Bechdel",
+       x = "Note Metascore",
+       y = "Densité") +
+  theme(axis.title = element_text(hjust = 1), 
+        legend.position = "",
+        plot.title = element_text(size = 18))
+```
+
+## Exemple: Changer la couleur du fond
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  facet_wrap(~binary)+
+  labs(title = "Distributions des notes Metascore",
+       subtitle = "En fonction du résultat au test Bechdel",
+       x = "Note Metascore",
+       y = "Densité") +
+  theme(axis.title = element_text(hjust = 1), 
+        legend.position = "",
+        plot.title = element_text(size = 18),
+        panel.background = element_rect(fill = "white"))
+```
+
+## Modifier le thème manuellement
+
+Et des centaines d'autres combinaisons !
+
+# Exercice 2 
+
+## Exercice 2 
+
+1. Sélectionnez seulement les films produits par Steven Spielberg (`director`).
+2. Créez un nuage de points avec la variable `year` sur l'axe des x et `budget_2013` sur l'axe des y. Ajoutez aussi une ligne qui traverse tous les points.
+3. Spécifiez la taille des points à 2. Faites varier la couleur des points en fonction de la variable `clean_test`.
+4. Ajoutez un titre, modifiez le nom des axes et traduisez la légende en français. Faites en sorte que les étiquettes de l'axe des y soient en dollars. Changez le thème pour un thème pré-existant de votre choix.
+
+## Exercice 2 (corrigé)
+
+1. Sélectionnez seulement les films produits par Steven Spielberg (`director`).
+
+```{r}
+dat_court = dat %>% filter(director == "Steven Spielberg")
+```
+
+## Exercice 2 (corrigé)
+
+2. Créez un nuage de points avec la variable `year` sur l'axe des x et `budget_2013` sur l'axe des y. Ajoutez aussi une ligne qui traverse tous les points.
+
+```{r}
+ggplot(data = dat_court, aes(x =  year, y = budget_2013)) +
+  geom_point() +
+  geom_line()
+```
+
+## Exercice 2 (corrigé)
+
+3. Spécifiez la taille des points à 2. Faites varier la couleur des points en fonction de la variable `clean_test`.
+
+```{r}
+ggplot(data = dat_court, aes(x =  year, y = budget_2013)) +
+  geom_point(size = 2, aes(color = clean_test)) +
+  geom_line()
+```
+
+## Exercice 2 (corrigé)
+
+4. Ajoutez un titre, modifiez le nom des axes et traduisez la légende en français. Faites en sorte que les étiquettes de l'axe des y soient en dollars. Changez le thème pour un thème pré-existant de votre choix.
+
+```{r}
+ggplot(data = dat_court, aes(x =  year, y = budget_2013)) +
+  geom_point(size = 2, aes(color = clean_test)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  scale_color_discrete(name = "Test Bechdel",
+                       labels = c("Résultat incertain", "Parlent à des hommes",
+                                  "Ne parlent pas", "Pas de femmes", 
+                                  "Réussite")) +
+  labs(title = "Budget des films de S. Spielberg et résultat du test Bechdel",
+       x = "Année",
+       y = "Budget (dollars de 2013)") +
+  theme_minimal()
+```
+
+# Polices de caractère
+
+## Choisir une police
+
+- On change la police de caractère à travers `theme()`.
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  facet_wrap(~binary)+
+  labs(title = "Distributions des notes Metascore",
+       subtitle = "En fonction du résultat au test Bechdel",
+       x = "Note Metascore",
+       y = "Densité") +
+  theme(plot.title = element_text(family = "Times New Roman"))
+```
+
+## Utiliser les polices sur votre ordinateur
+
+- Ce ne sont pas toutes les polices qui sont accessibles de facto.
+- Le package `extrafont` permet de voir quelles polices de caractère sont disponibles sur votre ordinateur et de les importer dans R.
+
+```{r eval = F}
+# install.packages("extrafont")
+
+library(extrafont)
+fonts()  # pour voir les polices disponibles
+```
+
+## Utiliser les polices sur votre ordinateur
+
+```{r}
+ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  facet_wrap(~binary)+
+  labs(title = "Distributions des notes Metascore",
+       subtitle = "En fonction du résultat au test Bechdel",
+       x = "Note Metascore",
+       y = "Densité") +
+  theme(plot.title = element_text(family = "Futura-Bold", size = 18))
+```
+
+## Importer de nouvelles polices
+
+- Téléchargez une police à partir d'internet.
+- Utilisez la fonction `font_import()` pour importer toutes les policies qui se trouvent sur votre ordinateur dans R.
+- Dans la console, R vous demandera si vous voulez continuez [y/n]. Écrivez y (yes), puis cliquez sur Enter.
+- Une fois les polices importées, vous pouvez les utiliser dans vos graphiques.
+- Pour savoir leurs noms, faites `fonts()`.
+
+```{r eval = F}
+font_import()
+```
+
+# Enregistrement des fichiers
+
+## ggsave()
+
+La fonction `ggsave()` permet d'enregistrer vos graphiques sur votre ordinateur (.png, .pdf, etc.).
+
+```{r}
+?ggsave
+
+p = ggplot(data = dat, aes(x = metascore, fill = binary)) +
+  geom_density(alpha = .4) +
+  scale_fill_discrete(name = "",
+                      labels = c("Échec","Réussite")) +
+  labs(title = "Distributions des notes Metascore",
+       subtitle = "En fonction du résultat au test Bechdel",
+       x = "Note Metascore",
+       y = "Densité") +
+  theme_minimal() +
+  theme(axis.title = element_text(hjust = 1), 
+        legend.position = "",
+        plot.title = element_text(size = 16))
+
+ggsave("demo_enregistrer.png", plot = p, width = 8, height = 5)
+```
+
+## Un mot sur les chemins 
+
+- Quand vous enregistrez un graphique à l'aide de `ggsave()`, le graphique se trouvera au même emplacement que le fichier à partir duquel vous travaillez __puisque vous vous trouvez à l'intérieur d'un R Project.__
+- Le R Project définit le répertoire de travail ("working directory") dans lequel vous travaillez.
+- Si vous n'étiez pas à l'intérieur d'un R Project, il faudrait définir le répertoire manuellement, à l'aide de la fonction `setwd()`. Exemple:
+
+```{r eval = F}
+setwd("/Users/ordi_de_florence/Documents/cours_FAS-1003")
+```
+
+<!--# Annotations
+# Manipulation de données textuelles-->
+# À la semaine prochaine!
