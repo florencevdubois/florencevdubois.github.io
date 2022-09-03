@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>teaching.knit</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="site_libs/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-5.1.3/bootstrap.bundle.min.js"></script>
+<script src="site_libs/bs3compat-0.4.0/transition.js"></script>
+<script src="site_libs/bs3compat-0.4.0/tabs.js"></script>
+<script src="site_libs/bs3compat-0.4.0/bs3compat.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-dark  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="publications.html">Recherche - Research</a>
+</li>
+<li>
+  <a href="teaching.html">Enseignement - Teaching</a>
+</li>
+<li>
+  <a href="datasets.html">Données - Data</a>
+</li>
+<li>
+  <a href="dataviz.html">Dataviz</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="mailto:florence.vallee-dubois@umontreal.ca">
+    <span class="fa fa-envelope-o"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="https://github.com/florencevdubois">
+    <span class="fa fa-github"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="https://twitter.com/florencevdubois">
+    <span class="fa fa-twitter"></span>
+     
+    
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<p><br> <br></p>
+<div id="enseignement" class="section level2 tabset">
+<h2 class="tabset">Enseignement</h2>
+<div id="cours-visualisation-des-données" class="section level3">
+<h3>Cours: Visualisation des données</h3>
+<p>À l’automne 2021, j’ai enseigné le cours Visualisation des données
+(FAS 1003), un cours offert aux étudiant.e.s du microprogramme en
+analyse des mégadonnées à l’Université de Montréal. Enseigner est pour
+moi un véritable plaisir, et j’espère pouvoir être utile en rendant
+disponible publiquement mon <a
+href="documentation/fas1003/syllabus.pdf">plan de cours</a> et les
+présentations visuelles que j’ai utilisées en classe. N’hésitez pas à me
+contacter pour toute question!</p>
+<p>Organisation des séances:</p>
+<ul>
+<li><a href="documentation/fas1003/cours_1.html">Cours 1: Plan de cours
+et introduction à R</a></li>
+<li><a href="documentation/fas1003/cours_2.html">Cours 2: Introduction à
+R et à la visualisation (suite) et outils de travail</a></li>
+<li><a href="documentation/fas1003/cours_3.html">Cours 3:
+Graphisme</a></li>
+<li><a href="documentation/fas1003/cours_4.html">Cours 4: Les rudiments
+de la visualisation des données dans <code>R</code></a></li>
+<li><a href="documentation/fas1003/cours_5.html">Cours 5: Les rudiments
+(suite) et les graphiques univariés</a></li>
+<li><a href="documentation/fas1003/cours_6.html">Cours 6: Aspects
+visuels</a></li>
+<li><a href="documentation/fas1003/cours_7.html">Cours 7: Manipulation
+des données et nouveaux graphiques</a></li>
+<li><a href="documentation/fas1003/cours_8.html">Cours 8: Modèles
+statistiques</a></li>
+<li><a href="documentation/fas1003/cours_9.html">Cours 9:
+Cartes</a></li>
+<li><a href="documentation/fas1003/cours_10.html">Cours 10:
+Méli-mélo</a></li>
+</ul>
+<p>I taught a Data Visualization class at the University of Montreal in
+the Fall of 2021. Teaching is one of the rewarding things I do for a
+living, and I hope to be useful by making publicly available my
+syllabus, the slides I used in class, and a few ideas for in-class
+activities. Contact me if you have any questions!</p>
+</div>
+<div id="cours-méthodes-quantitatives" class="section level3">
+<h3>Cours: Méthodes quantitatives</h3>
+<p>À l’automne 2019, j’ai enseigné les Méthodes quantitatives d’analyse
+(POL 2809), un cours offert aux étudiant.e.s des départements de science
+politique et d’économie à l’Université de Montréal. Vous trouvere ici le
+<a href="documentation/pol2809/syllabus.pdf">plan de cours</a> et les
+présentations visuelles plus bas.</p>
+<p>Organisation des séances:</p>
+<ul>
+<li><a href="documentation/pol2809/1descriptive.pdf">Statistiques
+descriptives</a></li>
+<li><a href="documentation/pol2809/2ols.pdf">Introduction à la
+régression linéaire</a></li>
+<li><a href="documentation/pol2809/3ols-signif.pdf">Régression: la
+signification statistique</a></li>
+<li><a href="documentation/pol2809/4ols-multiple.pdf">Régression
+multiple</a></li>
+<li><a href="documentation/pol2809/5ols-end.pdf">Régression: suite et
+fin</a></li>
+<li><a href="documentation/pol2809/notes-R.pdf">Introduction à R sur R
+Studio Cloud</a></li>
+<li><a href="documentation/pol2809/6causalinf.pdf">Problème fondamental
+de l’inférence causale</a></li>
+<li><a href="documentation/pol2809/7goa.pdf">Graphiques orientés
+acycliques</a></li>
+<li><a href="documentation/pol2809/8biais.pdf">Biais</a></li>
+<li><a href="documentation/pol2809/9exp.pdf">Méthodes
+expérimentales</a></li>
+<li><a href="documentation/pol2809/10quasi-exp.pdf">Méthodes
+quasi-expérimentales</a></li>
+<li><a href="documentation/pol2809/11viz.pdf">Visualisation de
+données</a> et <a href="documentation/pol2809/notes-viz.pdf">Application
+sur R</a></li>
+</ul>
+</div>
+<div id="ateliers" class="section level3">
+<h3>Ateliers</h3>
+<div id="r" class="section level4">
+<h4>R</h4>
+<p>Je suis disponible pour enseigner des ateliers d’introduction au
+langage R. Si vous voulez apprendre vous-même, je rends aussi
+accessibles mes notes de cours: <a
+href="documentation/ateliers-r.pdf">PDF</a>; <a
+href="documentation/ateliers-r.html">HTML</a>.</p>
+<p>I am available to teach Intro to R workshops. If you would rather
+learn by yourself, my workshop notes are available here (in French
+only): <a href="documentation/ateliers-r.pdf">PDF</a>; <a
+href="documentation/ateliers-r.html">HTML</a>.</p>
+</div>
+<div id="viualisation-des-données-avec-r" class="section level4">
+<h4>Viualisation des données avec R</h4>
+<p>Vous trouverez <a href="documentation/atelier-dataviz.html">ici</a>
+mes notes de cours pour l’Introduction à la visualisation des données
+avec R. Le cours introduit les rudiments de ggplot et comprend une
+partie sur la visualisation des résultats de régression.</p>
+<p>I am available to teach Data visualization workshops. If you would
+rather learn by yourself, my workshop notes are available <a
+href="documentation/atelier-dataviz.html">here</a> (in French only).</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

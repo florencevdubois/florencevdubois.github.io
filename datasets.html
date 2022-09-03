@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Datasets / Données</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="site_libs/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-5.1.3/bootstrap.bundle.min.js"></script>
+<script src="site_libs/bs3compat-0.4.0/transition.js"></script>
+<script src="site_libs/bs3compat-0.4.0/tabs.js"></script>
+<script src="site_libs/bs3compat-0.4.0/bs3compat.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-dark  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="publications.html">Recherche - Research</a>
+</li>
+<li>
+  <a href="teaching.html">Enseignement - Teaching</a>
+</li>
+<li>
+  <a href="datasets.html">Données - Data</a>
+</li>
+<li>
+  <a href="dataviz.html">Dataviz</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="mailto:florence.vallee-dubois@umontreal.ca">
+    <span class="fa fa-envelope-o"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="https://github.com/florencevdubois">
+    <span class="fa fa-github"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="https://twitter.com/florencevdubois">
+    <span class="fa fa-twitter"></span>
+     
+    
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Datasets / Données</h1>
+
+</div>
+
+
+<p><br> <br></p>
+<div id="canadian-parliamentarians-and-census-data-1991-2015"
+class="section level2">
+<h2>Canadian Parliamentarians and Census Data, 1991-2015</h2>
+<p>Note: I did this work as part of my doctoral dissertation and I am
+currently using the dataset in a working paper. Here’s how to cite the
+data when using it in your own work: Vallée-Dubois, Florence. (2020).
+Canadian Parliamentarians and Census Data, 1991-2015 [data file].</p>
+<p>Censuses of Canada are carried out every five years. Since 1991, the
+census data is available at the level of federal electoral districts, so
+it is possible to match these data with information on parliamentarians
+(i.e, info on who has been elected in each riding). The end product
+looks like this, with observations for every MP, with info their riding
+at the time of their election.</p>
+<p><img src="documentation/census-parliament-img.png"
+width="1000" /></p>
+<p>Here, I share with you the code I used to get there. It required
+dealing text data (the ridings’ name), and a lot of back-and-forth
+between the code and output. I welcome comments on how to improve this
+code!</p>
+<p>The end-product can be found <a
+href="https://github.com/florencevdubois/florencevdubois.github.io/tree/master/documentation/data/output">here</a>
+in .csv format. The following variables are included:</p>
+<ul>
+<li><code>name</code>: MP’s name</li>
+<li><code>birth</code>: MP’s date of birth</li>
+<li><code>gender</code>: MP’s gender</li>
+<li><code>pid</code>: MP’s party affiliation</li>
+<li><code>riding_start_date</code>: start date for the parliamentary
+term</li>
+<li><code>riding_end_date</code>: end date for the parliamentary
+term</li>
+<li><code>dist_name</code>: riding’s name</li>
+<li><code>year</code>: year used to match census info with
+parliamentarians’ info (in general, they’re the start year for the
+parliament, except in the 34th parliament, when 1991 is used instead of
+1988)</li>
+<li><code>dist_nb</code>: riding’s number</li>
+<li><code>0</code> to <code>100</code>: age categories – number of
+people in each age</li>
+</ul>
+<div id="some-context" class="section level3">
+<h3>Some context</h3>
+<p>Because most elections since 1991 happened between census years
+(1993-1997-2000-2004-2006-2008-2011-2015), I interpolated population
+data in-between census years in order to obtain values on the
+demogrpahic profile of ridings on election years. As of now, I focused
+on the population’s age, but I will extend this work to other
+demographic variables that are available at the level of federal ridings
+(e.g., the unemployment rate, the number of immigrants, etc.).</p>
+<p>But before we start matching the censuses with parliamentary data, we
+need to address one important challenge: representation orders have
+changed since the early 1990s. In other words, there has been
+redistricting.</p>
+<ul>
+<li>The 1993 election used the 1987 representation order. There were 295
+seats in the House of Commons.</li>
+<li>The 1997 and 2000 elections used the 1996 representation order.
+There were 301 seats in the House.</li>
+<li>The 2004, 2006, 2008 and 2011 elections used the 2003 representation
+order. There were 308 seats in the House.</li>
+<li>The 2015 election used the 2013 representation order. There are now
+338 seats in the House.</li>
+</ul>
+<p>Census data are available for the representation orders that come
+before and after each census. For example, the 1996 census data are
+provided for the 1987 and 1996 representation orders. This is useful,
+because we can use different pairs of censuses to interpolate
+demographics in different election years. For example, the 2000 election
+was run under the <em>1996 r.o.</em> and falls between the 1996 and 2001
+censuses. We will use the <em>1996 and 2001 censuses at the level of the
+1996 r.o.</em> to find the demographic profile in 2000. In the same way,
+we will match the 1996 election data with the <em>1996 census data</em>
+under the <em>1987 r.o.</em>, because this was the representation order
+in the 1996 election.</p>
+<p>I used the following resources to learn about federal electoral
+districts, representation orders, and census and parliamentary data in
+general:</p>
+<ul>
+<li><a
+href="https://www.elections.ca/content.aspx?section=res&amp;dir=cir/list&amp;document=index338&amp;lang=e">Federal
+electoral districts codes</a></li>
+<li><a href="http://election-modelling.ca/rawdata/bycandidate/">Election
+Modelling by Byron Weber Becker</a></li>
+<li><a
+href="https://lop.parl.ca/sites/ParlInfo/default/en_CA/legislation/legalMeasuresDistricts">Legal
+measures governing changes in federal electoral districts</a></li>
+<li><a
+href="https://open.canada.ca/data/en/dataset/ea8f2c37-90b6-4fee-857e-984d3060184e">History
+of the Federal Electoral Ridings, 1867-2010</a></li>
+<li><a href="https://guides.lib.uwo.ca/canadaelections">Canada -
+Elections</a></li>
+<li><a
+href="https://www12.statcan.gc.ca/census-recensement/2011/ref/dict/geo025-eng.cfm">Federal
+electoral district (FED)</a></li>
+<li><a
+href="https://www.elections.ca/content.aspx?section=res&amp;dir=cir/list&amp;document=index&amp;lang=e">(Archive
+2003-2013) Canada’s Federal Electoral Districts</a></li>
+<li><a
+href="https://www.elections.ca/content.aspx?section=res&amp;dir=cir/list&amp;document=index338&amp;lang=e">RO
+2013</a></li>
+<li><a
+href="https://www.elections.ca/content.aspx?section=res&amp;dir=cir/list&amp;document=index&amp;lang=e#list">RO
+2003</a></li>
+<li><a
+href="https://open.canada.ca/data/en/dataset?q=%22Federal+Electoral+Districts+of+Canada%22&amp;collection=geogratis&amp;sort=&amp;page=1">Boundaries</a></li>
+</ul>
+<p>In what follows, we will:</p>
+<ol style="list-style-type: decimal">
+<li>Recode each census dataset. In some instances, we will need to
+recode the same census twice, under two different representation orders
+(this is the case in 1996, 2001 and 2011).</li>
+<li>Merge censuses together by representation order.</li>
+<li>Interpolate demographic values for election years that fall
+in-between census years.</li>
+<li>Clean-up the parliamentary data, which contain info on MPs elected
+in the House, their riding, party, gender, etc.</li>
+<li>Finally, we will merge the (interpolated) demographics data with the
+parliamentary data.</li>
+</ol>
+<p>There is a LOT of code so I recommend hiding all code (you can use
+the button at the top of this page), then showing one chunk at a time as
+you read this post. You will need these packages to follow along:</p>
+<pre class="r"><code>library(tidyverse)
+library(lubridate)
+library(fuzzyjoin)  # i&#39;m not even sure I ended up using it, but made a few attempts with this package.</code></pre>
+</div>
+<div id="recoding-censuses-by-representation-order"
+class="section level3">
+<h3>1) Recoding Censuses by Representation Order</h3>
+<p>I found the raw census datasets on the <a
+href="https://www12.statcan.gc.ca/datasets/index-eng.cfm?Temporal=2016">Statistics
+Canada wesbsite</a>. Selecting “Federal electoral district” under the
+“Geography” tab, you will see which census data products are available
+at the level of ridings. For now, I got the “Age and sex” topic and
+downloaded every census file available. The older files are available in
+a weird format (Beyond 20/20). Beyond 20/20 is a software available on
+Windows. I am a Mac user, but I opened the files on a Windows machine,
+then saved them in .csv. If you don’t want to go through the hassle,
+I’ve made the .csv files available in the <a
+href="https://github.com/florencevdubois/florencevdubois.github.io">Github
+repo</a> for this website.</p>
+<p>I will not be walking you through each dataset recode because the
+steps are always the same. But basically, we start by reshaping the data
+from wide to long in order to get an observation for each riding/age
+combination (for e.g. Rosemont 0 yr old, Rosemont 1 yr old, Rosemont
+2yrs old, etc.) This tells us how many people of every age are in each
+riding. Then, we clean-up the names of ridings (remove special
+characters, etc.) This is where I had to do the most back-and-forth,
+because some censuses used different spellings for the same riding
+(double dashes instead of single dashes, for e.g.), so in the end I
+needed to correct some spellings manually. It’s a good thing I had some
+knowledge about Canadian federal elections ;)</p>
+<div id="census-1987-representation-order" class="section level4">
+<h4>1991 census (1987 Representation order)</h4>
+<pre class="r"><code>d91 &lt;- read.csv(&quot;documentation/data/input/1991census_1987order.csv&quot;, sep = &quot;,&quot;)
+
+d91_clean &lt;- d91 %&gt;% 
+  rename(geo = Géographie, # choosing more basic variable names
+         sex = Sexe..3.) %&gt;% 
+  filter(str_detect(geo, &quot;[:alpha:]&quot;), # keeping observations with names (without are census subdivisions)
+         str_detect(sex, &quot;Total&quot;), # keeping total values for sex -- we don&#39;t need men and women 
+         !str_detect(geo, &quot;Newfoundland | Terre-Neuve&quot;), # removing obs that are the provinces 
+         !str_detect(geo, &quot;Prince Edward Island | Île-du-Prince-Édouard&quot;),
+         !str_detect(geo, &quot;Nova Scotia | Nouvelle-Écosse&quot;),
+         !str_detect(geo, &quot;New Brunswick | Nouveau-Brunswick&quot;),
+         !str_detect(geo, &quot;Quebec | Québec&quot;),
+         !str_detect(geo, &quot;Ontario \\(35\\)&quot;),
+         !str_detect(geo, &quot;Saskatchewan&quot;),
+         !str_detect(geo, &quot;Manitoba&quot;),
+         !str_detect(geo, &quot;Alberta&quot;),
+         !str_detect(geo, &quot;British Columbia | Colombie-Britannique&quot;),
+         !str_detect(geo, &quot;Yukon Territory&quot;),
+         !str_detect(geo, &quot;Northwest Territories&quot;),
+         !str_detect(geo, &quot;Canada \\(00\\)&quot;)) %&gt;% # removing the Canada obs 
+  gather(age, value, Total...Groupes.d.âge:X90.et.plus) %&gt;% # from wide to long
+  filter(!str_detect(age, &quot;Total&quot;)) %&gt;% # removing obs that are &quot;age group totals&quot;
+  mutate(age = str_remove(age, &quot;X&quot;)) %&gt;% # removing &quot;X&quot; in front of age categories
+  dplyr::select(geo, age, value) # keeping the 3 variables of interest 
+# we now have a value (obs.) for each electoral district and age category
+
+# just looking through the age variable to check what&#39;s remaining
+table(d91_clean$age) 
+
+# people &lt;1 y.o. are identified as &quot;less than one year&quot; and people &gt;90 y.o. 
+# are categorized as &quot;more than 90&quot;
+
+d91_clean &lt;- d91_clean %&gt;% 
+  mutate(age = ifelse(age == &quot;Moins.de.1&quot;, 0, age), # recoding these two
+         age = ifelse(age == &quot;90.et.plus&quot;, 90, age)) %&gt;% # &quot;&lt; 1 year&quot; = &quot;0&quot; and &quot;&gt; 90&quot; = &quot;90&quot;
+  filter(!str_detect(age, &quot;\\.&quot;)) # age categories with periods in them correspond to age groups
+# we don&#39;t want them, we only want single ages (except for the 90+ age group)
+
+table(d91_clean$age) # seems pretty good
+class(d91_clean$age) # I have a feeling this variable is not numeric
+
+d91_clean &lt;- d91_clean %&gt;% 
+  mutate(age = as.numeric(age)) # transforming it to numeric
+
+table(d91_clean$age)
+class(d91_clean$age)
+
+d91_clean &lt;- d91_clean %&gt;% 
+  mutate(census = 1991, # adding a variable telling us which census it is
+         ro = 1987) # adding a variable for the R.O. (I removed it later, turns out I did not need it)
+
+# Here&#39;s an important step. The &quot;geo&quot; variable has the names of district _and_ their numbers 
+# (in parentheses). I want to keep these two pieces of information, but in two different 
+# variables, because I may need one of the other for merging purposes later on. I will 
+# therefore split this variable into two (dist_name and dist_nb), then clean them up 
+# (especially district names).
+
+d91_clean &lt;- d91_clean %&gt;% 
+  mutate(dist_name = str_remove_all(geo, &quot;[0-9]+&quot;), # removing digits from geo to create &quot;dist_name&quot; 
+         dist_name = str_remove_all(dist_name, &quot;\\(\\)&quot;), # removing the empty parentheses
+         # there is still information in parentheses (the district names&#39; translation), we want to 
+         # get rid of that
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;), 
+         # creating the &quot;dist_nb&quot; variable by extracting what&#39;s in parentheses from the &quot;geo&quot; variable 
+         # (I could not only extract digits because there are other digits, which have nothing to do 
+         #with the district numbers)
+         dist_nb = str_extract_all(geo, &quot;\\([^()]+\\)&quot;)) %&gt;% 
+  unnest(dist_nb) %&gt;% # separating the information we extracted from parentheses
+  filter(str_detect(dist_nb, &quot;-&quot;, negate = TRUE), 
+         # remove obs where the district nb is not only a number
+         str_detect(dist_nb, &quot;[:alpha:]&quot;, negate = TRUE)) %&gt;% 
+  # again, extract digits from their parenteses
+  mutate(dist_nb = str_extract_all(dist_nb, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;% 
+  # I don&#39;t think the next line and the next are necessary in 1991, but in other years it is
+  unnest(dist_nb) %&gt;%  
+  filter(str_detect(dist_nb, &quot; &quot;, negate = TRUE)) %&gt;% 
+  mutate(dist_name = str_replace_all(dist_name, &quot; - &quot;, &quot;-&quot;), 
+         # the next lines make sure that district names have the same spelling in every census recode
+         dist_name = str_replace_all(dist_name, &quot; -&quot;, &quot;-&quot;),
+         dist_name = str_replace_all(dist_name, &quot;- &quot;, &quot;-&quot;), # this could probably be more tidy 
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;),
+         dist_name = str_trim(dist_name, side = &quot;both&quot;),
+          # Timiskaming is called Timiskaming French River in the 1996 census (first back-and-forth!)
+         dist_name = ifelse(dist_name == &quot;Timiskaming&quot;, &quot;Timiskaming-French River&quot;, dist_name)) %&gt;% 
+  select(-geo, -ro) # we want every data frames to have the same variables
+
+length(unique(d91_clean$dist_nb)) # just making sure we have 295 seats
+length(unique(d91_clean$dist_name)) # all good</code></pre>
+<p>Most of the work is now done, but we have to pay attention to at
+least one thing when recoding other censuses: other raw datasets are not
+always organized the same way. Statistics Canada did not only change the
+data formats, they also changed the names of variables, how district
+names and number are compiled, etc. So we won’t always to able to run
+<em>exactly</em> the same code — a few changes will be necessary here
+and there.</p>
+</div>
+<div id="census-1987-representation-order-1" class="section level4">
+<h4>1996 census (1987 Representation order)</h4>
+<pre class="r"><code>d96 &lt;- read.csv(&quot;documentation/data/input/1996census_1987order.csv&quot;, sep = &quot;,&quot;)
+
+d96_clean &lt;- d96 %&gt;% rename(geo = Géographie, sex = Sexe..3.) %&gt;% filter(str_detect(geo, 
+    &quot;[:alpha:]&quot;), str_detect(sex, &quot;Total&quot;), !str_detect(geo, &quot;Newfoundland | Terre-Neuve&quot;), 
+    !str_detect(geo, &quot;Prince Edward Island | Île-du-Prince-Édouard&quot;), !str_detect(geo, 
+        &quot;Nova Scotia | Nouvelle-Écosse&quot;), !str_detect(geo, &quot;New Brunswick | Nouveau-Brunswick&quot;), 
+    !str_detect(geo, &quot;Quebec | Québec&quot;), !str_detect(geo, &quot;Ontario \\(35\\)&quot;), !str_detect(geo, 
+        &quot;Saskatchewan&quot;), !str_detect(geo, &quot;Manitoba&quot;), !str_detect(geo, &quot;Alberta&quot;), 
+    !str_detect(geo, &quot;British Columbia | Colombie-Britannique&quot;), !str_detect(geo, 
+        &quot;Yukon Territory&quot;), !str_detect(geo, &quot;Northwest Territories&quot;), !str_detect(geo, 
+        &quot;Canada \\(00\\)&quot;)) %&gt;% gather(age, value, Total...Âge:X90.) %&gt;% filter(!str_detect(age, 
+    &quot;Total&quot;)) %&gt;% mutate(age = str_remove(age, &quot;X&quot;)) %&gt;% dplyr::select(geo, age, 
+    value)
+
+table(d96_clean$age)
+
+d96_clean &lt;- d96_clean %&gt;% mutate(age = ifelse(age == &quot;moins.de.1&quot;, 0, age), age = ifelse(age == 
+    &quot;90.&quot;, 90, age)) %&gt;% filter(!str_detect(age, &quot;\\.&quot;))
+
+table(d96_clean$age)
+class(d96_clean$age)
+
+d96_clean &lt;- d96_clean %&gt;% mutate(age = as.numeric(age))
+
+table(d96_clean$age)
+class(d96_clean$age)
+
+d96_clean &lt;- d96_clean %&gt;% mutate(census = 1996, ro = 1987)
+
+d96_clean &lt;- d96_clean %&gt;% mutate(dist_name = str_remove_all(geo, &quot;[0-9]+&quot;), dist_name = str_remove_all(dist_name, 
+    &quot;\\(\\)&quot;), dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;), dist_nb = str_extract_all(geo, 
+    &quot;\\([^()]+\\)&quot;)) %&gt;% unnest(dist_nb) %&gt;% filter(str_detect(dist_nb, &quot;-&quot;, negate = TRUE), 
+    str_detect(dist_nb, &quot;[:alpha:]&quot;, negate = TRUE)) %&gt;% mutate(dist_nb = str_extract_all(dist_nb, 
+    &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;% unnest(dist_nb) %&gt;% filter(str_detect(dist_nb, &quot; &quot;, 
+    negate = TRUE)) %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; - &quot;, &quot;-&quot;), 
+    dist_name = str_replace_all(dist_name, &quot; -&quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, 
+        &quot;- &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;), dist_name = str_trim(dist_name, 
+        side = &quot;both&quot;)) %&gt;% select(-geo, -ro)
+
+length(unique(d96_clean$dist_nb))
+length(unique(d96_clean$dist_name))</code></pre>
+</div>
+<div id="census-1996-representation-order" class="section level4">
+<h4>1996 census (1996 Representation order)</h4>
+<pre class="r"><code>d96_2 &lt;- read.csv(&quot;documentation/data/input/1996census_1996order.csv&quot;, sep = &quot;,&quot;)
+
+d96_2_clean &lt;- d96_2 %&gt;% rename(geo = Géographie, sex = Sexe..3.) %&gt;% filter(str_detect(geo, 
+    &quot;[:alpha:]&quot;), str_detect(sex, &quot;Total&quot;), !str_detect(geo, &quot;Newfoundland | Terre-Neuve&quot;), 
+    !str_detect(geo, &quot;Prince Edward Island | Île-du-Prince-Édouard&quot;), !str_detect(geo, 
+        &quot;Nova Scotia | Nouvelle-Écosse&quot;), !str_detect(geo, &quot;New Brunswick | Nouveau-Brunswick&quot;), 
+    !str_detect(geo, &quot;Quebec | Québec&quot;), !str_detect(geo, &quot;Ontario \\(35\\)&quot;), !str_detect(geo, 
+        &quot;Saskatchewan&quot;), !str_detect(geo, &quot;Manitoba&quot;), !str_detect(geo, &quot;Alberta&quot;), 
+    !str_detect(geo, &quot;British Columbia | Colombie-Britannique&quot;), !str_detect(geo, 
+        &quot;Yukon Territory&quot;), !str_detect(geo, &quot;Northwest Territories&quot;), !str_detect(geo, 
+        &quot;Canada \\(00\\)&quot;)) %&gt;% gather(age, value, Total...Âge:X90.) %&gt;% filter(!str_detect(age, 
+    &quot;Total&quot;)) %&gt;% mutate(age = str_remove(age, &quot;X&quot;)) %&gt;% dplyr::select(geo, age, 
+    value)
+
+table(d96_2_clean$age)
+
+d96_2_clean &lt;- d96_2_clean %&gt;% mutate(age = ifelse(age == &quot;moins.de.1&quot;, 0, age), 
+    age = ifelse(age == &quot;90.&quot;, 90, age)) %&gt;% filter(!str_detect(age, &quot;\\.&quot;))
+
+table(d96_2_clean$age)
+class(d96_2_clean$age)
+
+d96_2_clean &lt;- d96_2_clean %&gt;% mutate(age = as.numeric(age))
+
+table(d96_2_clean$age)
+class(d96_2_clean$age)
+
+d96_2_clean &lt;- d96_2_clean %&gt;% mutate(census = 1996, ro = 1996)
+
+d96_2_clean &lt;- d96_2_clean %&gt;% mutate(dist_name = str_remove_all(geo, &quot;[0-9]+&quot;), 
+    dist_name = str_remove_all(dist_name, &quot;\\(\\)&quot;), dist_nb = str_extract_all(geo, 
+        &quot;\\([^()]+\\)&quot;), dist_nb = str_extract_all(dist_nb, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;% 
+    unnest(dist_nb) %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; - &quot;, &quot;-&quot;), 
+    dist_name = str_replace_all(dist_name, &quot; -&quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, 
+        &quot;- &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;), dist_name = str_trim(dist_name, 
+        side = &quot;both&quot;), dist_name = str_replace_all(dist_name, &quot; / &quot;, &quot;/&quot;)) %&gt;% select(-geo, 
+    -ro)
+
+length(unique(d96_2_clean$dist_nb))
+length(unique(d96_2_clean$dist_name))</code></pre>
+</div>
+<div id="census-1996-representation-order-1" class="section level4">
+<h4>2001 census (1996 Representation order)</h4>
+<pre class="r"><code>d01 &lt;- read.csv(&quot;documentation/data/input/2001census_1996order.csv&quot;, encoding = &quot;latin1&quot;)
+summary(d01)
+
+d01_clean &lt;- d01 %&gt;% rename(geo = Géographie, sex = Sexe..3.) %&gt;% filter(str_detect(geo, 
+    &quot;[:alpha:]&quot;), str_detect(sex, &quot;Total&quot;), !str_detect(geo, &quot;Newfoundland | Terre-Neuve&quot;), 
+    !str_detect(geo, &quot;Prince Edward Island | Île-du-Prince-Édouard&quot;), !str_detect(geo, 
+        &quot;Nova Scotia | Nouvelle-Écosse&quot;), !str_detect(geo, &quot;New Brunswick - Nouveau-Brunswick \\(13\\)&quot;), 
+    !str_detect(geo, &quot;Québec \\(24\\)&quot;), !str_detect(geo, &quot;Ontario \\(35\\)&quot;), !str_detect(geo, 
+        &quot;Saskatchewan&quot;), !str_detect(geo, &quot;Manitoba&quot;), !str_detect(geo, &quot;Alberta&quot;), 
+    !str_detect(geo, &quot;British Columbia | Colombie-Britannique&quot;), !str_detect(geo, 
+        &quot;Yukon Territory&quot;), !str_detect(geo, &quot;Northwest Territories&quot;), !str_detect(geo, 
+        &quot;Canada&quot;), !str_detect(geo, &quot;Nunavut \\(62\\)&quot;)) %&gt;% gather(age, value, Total...Âge:X100.) %&gt;% 
+    filter(!str_detect(age, &quot;Total&quot;)) %&gt;% dplyr::select(geo, age, value)
+
+table(d01_clean$age)
+
+d01_clean &lt;- d01_clean %&gt;% mutate(age = ifelse(age == &quot;Moins.de.1.an&quot;, 0, age), age = ifelse(age == 
+    &quot;X100.&quot;, 100, age), age = str_remove_all(age, &quot;X&quot;)) %&gt;% filter(!str_detect(age, 
+    &quot;\\.&quot;))
+
+table(d01_clean$age)
+class(d01_clean$age)
+
+d01_clean &lt;- d01_clean %&gt;% mutate(age = as.numeric(age))
+
+table(d01_clean$age)
+class(d01_clean$age)
+
+d01_clean &lt;- d01_clean %&gt;% mutate(census = 2001, ro = 1996)
+
+d01_clean &lt;- d01_clean %&gt;% mutate(dist_name = str_remove_all(geo, &quot;[0-9]+&quot;), dist_name = str_remove_all(dist_name, 
+    &quot;\\(\\)&quot;), dist_nb = str_extract_all(geo, &quot;\\([^()]+\\)&quot;), dist_nb = str_extract_all(dist_nb, 
+    &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;% unnest(dist_nb) %&gt;% mutate(dist_name = str_replace_all(dist_name, 
+    &quot; - &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot; -&quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, 
+    &quot;- &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;), dist_name = str_trim(dist_name, 
+    side = &quot;both&quot;), dist_name = str_replace_all(dist_name, &quot; / &quot;, &quot;/&quot;)) %&gt;% select(-geo, 
+    -ro)
+
+length(unique(d01_clean$dist_nb))
+length(unique(d01_clean$dist_name))</code></pre>
+</div>
+<div id="census-2003-representation-order" class="section level4">
+<h4>2001 census (2003 Representation order)</h4>
+<pre class="r"><code>d01_2 &lt;- read.csv(&quot;documentation/data/input/2001census_2003order.csv&quot;, encoding = &quot;latin1&quot;)
+summary(d01_2)
+
+d01_2_clean &lt;- d01_2 %&gt;% rename(geo = Géographie, sex = Sexe..3.) %&gt;% filter(str_detect(geo, 
+    &quot;[:alpha:]&quot;), str_detect(sex, &quot;Total&quot;), !str_detect(geo, &quot;Newfoundland | Terre-Neuve&quot;), 
+    !str_detect(geo, &quot;Prince Edward Island | Île-du-Prince-Édouard&quot;), !str_detect(geo, 
+        &quot;Nova Scotia | Nouvelle-Écosse&quot;), !str_detect(geo, &quot;New Brunswick - Nouveau-Brunswick \\(13\\)&quot;), 
+    !str_detect(geo, &quot;Québec \\(24\\)&quot;), !str_detect(geo, &quot;Ontario \\(35\\)&quot;), !str_detect(geo, 
+        &quot;Saskatchewan&quot;), !str_detect(geo, &quot;Manitoba&quot;), !str_detect(geo, &quot;Alberta&quot;), 
+    !str_detect(geo, &quot;British Columbia | Colombie-Britannique&quot;), !str_detect(geo, 
+        &quot;Yukon Territory&quot;), !str_detect(geo, &quot;Northwest Territories&quot;), !str_detect(geo, 
+        &quot;Canada&quot;), !str_detect(geo, &quot;Nunavut \\(62\\)&quot;)) %&gt;% gather(age, value, Total...Âge:X100.) %&gt;% 
+    filter(!str_detect(age, &quot;Total&quot;)) %&gt;% dplyr::select(geo, age, value)
+
+table(d01_2_clean$age)
+
+d01_2_clean &lt;- d01_2_clean %&gt;% mutate(age = ifelse(age == &quot;Moins.de.1.an&quot;, 0, age), 
+    age = ifelse(age == &quot;X100.&quot;, 100, age)) %&gt;% mutate(age = str_remove(age, &quot;ans&quot;), 
+    age = str_remove(age, &quot;an&quot;)) %&gt;% filter(!str_detect(age, &quot;\\.1&quot;), !str_detect(age, 
+    &quot;\\.2&quot;), !str_detect(age, &quot;\\.3&quot;), !str_detect(age, &quot;\\.4&quot;), !str_detect(age, 
+    &quot;\\.5&quot;), !str_detect(age, &quot;\\.6&quot;), !str_detect(age, &quot;\\.7&quot;), !str_detect(age, 
+    &quot;\\.8&quot;), !str_detect(age, &quot;\\.9&quot;)) %&gt;% mutate(age = str_remove(age, &quot;X&quot;), age = str_remove(age, 
+    &quot;\\.&quot;))
+
+table(d01_2_clean$age)
+class(d01_2_clean$age)
+
+d01_2_clean &lt;- d01_2_clean %&gt;% mutate(age = as.numeric(age))
+
+table(d01_2_clean$age)
+class(d01_2_clean$age)
+
+d01_2_clean &lt;- d01_2_clean %&gt;% mutate(census = 2001, ro = 2003)
+
+d01_2_clean &lt;- d01_2_clean %&gt;% mutate(dist_name = str_remove_all(geo, &quot;[0-9]+&quot;), 
+    dist_name = str_remove_all(dist_name, &quot;\\(\\)&quot;), dist_nb = str_extract_all(geo, 
+        &quot;\\([^()]+\\)&quot;), dist_nb = str_extract_all(dist_nb, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;% 
+    unnest(dist_nb) %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; - &quot;, &quot;/&quot;), 
+    dist_name = str_replace_all(dist_name, &quot; -&quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, 
+        &quot;- &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;), dist_name = str_trim(dist_name, 
+        side = &quot;both&quot;), dist_name = str_replace_all(dist_name, &quot; / &quot;, &quot;/&quot;)) %&gt;% select(-geo, 
+    -ro)
+
+length(unique(d01_2_clean$dist_nb))
+length(unique(d01_2_clean$dist_name))</code></pre>
+</div>
+<div id="census-2003-representation-order-1" class="section level4">
+<h4>2006 census (2003 Representation order)</h4>
+<pre class="r"><code>d06 &lt;- read.csv(&quot;documentation/data/input/2006census_2003order.csv&quot;, encoding = &quot;latin1&quot;)
+summary(d06)
+
+d06_clean &lt;- d06 %&gt;% rename(geo = Géographie, sex = Sexe..3.) %&gt;% select(-Âge.médian) %&gt;% 
+    filter(str_detect(geo, &quot;[:alpha:]&quot;), str_detect(sex, &quot;Total&quot;), !str_detect(geo, 
+        &quot;Newfoundland | Terre-Neuve&quot;), !str_detect(geo, &quot;Prince Edward Island | Île-du-Prince-Édouard&quot;), 
+        !str_detect(geo, &quot;Nova Scotia | Nouvelle-Écosse&quot;), !str_detect(geo, &quot;New Brunswick / Nouveau-Brunswick \\(13\\)&quot;), 
+        !str_detect(geo, &quot;Québec \\(24\\)&quot;), !str_detect(geo, &quot;Ontario \\(35\\)&quot;), 
+        !str_detect(geo, &quot;Saskatchewan&quot;), !str_detect(geo, &quot;Manitoba&quot;), !str_detect(geo, 
+            &quot;Alberta&quot;), !str_detect(geo, &quot;Colombie-Britannique \\(59\\)&quot;), !str_detect(geo, 
+            &quot;Yukon Territory&quot;), !str_detect(geo, &quot;Northwest Territories&quot;), !str_detect(geo, 
+            &quot;Canada&quot;), !str_detect(geo, &quot;Nunavut \\(62\\)&quot;)) %&gt;% gather(age, value, 
+    Total...Âge:X100.ans.et.plus) %&gt;% filter(!str_detect(age, &quot;Total&quot;)) %&gt;% dplyr::select(geo, 
+    age, value)
+
+table(d06_clean$age)
+
+d06_clean &lt;- d06_clean %&gt;% mutate(age = ifelse(age == &quot;Moins.de.1.an&quot;, 0, age), age = ifelse(age == 
+    &quot;X100.ans.et.plus&quot;, 100, age), age = str_remove_all(age, &quot;X&quot;)) %&gt;% filter(!str_detect(age, 
+    &quot;ans&quot;))
+
+table(d06_clean$age)
+class(d06_clean$age)
+
+d06_clean &lt;- d06_clean %&gt;% mutate(age = as.numeric(age))
+
+table(d06_clean$age)
+class(d06_clean$age)
+
+d06_clean &lt;- d06_clean %&gt;% mutate(census = 2006, ro = 2003)
+
+d06_clean &lt;- d06_clean %&gt;% mutate(dist_name = str_remove_all(geo, &quot;[0-9]+&quot;), dist_name = str_remove_all(dist_name, 
+    &quot;\\(\\)&quot;), dist_nb = str_extract_all(geo, &quot;\\([^()]+\\)&quot;), dist_nb = str_extract_all(dist_nb, 
+    &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;% unnest(dist_nb) %&gt;% mutate(dist_name = str_replace_all(dist_name, 
+    &quot; - &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot; -&quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, 
+    &quot;- &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;), dist_name = str_trim(dist_name, 
+    side = &quot;both&quot;), dist_name = str_replace_all(dist_name, &quot; / &quot;, &quot;/&quot;)) %&gt;% select(-geo, 
+    -ro)
+
+length(unique(d06_clean$dist_nb))
+length(unique(d06_clean$dist_name))</code></pre>
+</div>
+<div id="census-2003-representation-order-2" class="section level4">
+<h4>2011 census (2003 Representation order)</h4>
+<pre class="r"><code>d11 &lt;- read.csv(&quot;documentation/data/input/2011census_2003order.csv&quot;, encoding = &quot;latin1&quot;)
+summary(d11)
+
+d11_clean &lt;- d11 %&gt;% rename(geo = Géographie, sex = Sexe..3.) %&gt;% select(-Âge.médian) %&gt;% 
+    filter(str_detect(geo, &quot;[:alpha:]&quot;), str_detect(sex, &quot;Total&quot;), !str_detect(geo, 
+        &quot;Newfoundland | Terre-Neuve&quot;), !str_detect(geo, &quot;Prince Edward Island | Île-du-Prince-Édouard&quot;), 
+        !str_detect(geo, &quot;Nova Scotia | Nouvelle-Écosse&quot;), !str_detect(geo, &quot;New Brunswick / Nouveau-Brunswick \\(13\\)&quot;), 
+        !str_detect(geo, &quot;Quebec | Québec&quot;), !str_detect(geo, &quot;Ontario \\(35\\)&quot;), 
+        !str_detect(geo, &quot;Saskatchewan&quot;), !str_detect(geo, &quot;Manitoba&quot;), !str_detect(geo, 
+            &quot;Alberta&quot;), !str_detect(geo, &quot;Colombie-Britannique \\(59\\)&quot;), !str_detect(geo, 
+            &quot;Yukon \\(60\\)&quot;), !str_detect(geo, &quot;Northwest Territories&quot;), !str_detect(geo, 
+            &quot;Canada&quot;), !str_detect(geo, &quot;Nunavut \\(62\\)&quot;)) %&gt;% gather(age, value, 
+    Total...Âge:X100.ans.et.plus) %&gt;% filter(!str_detect(age, &quot;Total&quot;)) %&gt;% dplyr::select(geo, 
+    age, value)
+
+table(d11_clean$age)
+
+d11_clean &lt;- d11_clean %&gt;% mutate(age = ifelse(age == &quot;Moins.de.1.an&quot;, 0, age), age = ifelse(age == 
+    &quot;X100.ans.et.plus&quot;, 100, age), age = str_remove(age, &quot;X&quot;)) %&gt;% filter(!str_detect(age, 
+    &quot;ans&quot;))
+
+table(d11_clean$age)
+class(d11_clean$age)
+
+d11_clean &lt;- d11_clean %&gt;% mutate(age = as.numeric(age))
+
+table(d11_clean$age)
+class(d11_clean$age)
+
+d11_clean &lt;- d11_clean %&gt;% mutate(census = 2011, ro = 2003)
+
+d11_clean &lt;- d11_clean %&gt;% mutate(dist_name = str_remove_all(geo, &quot;[0-9]+&quot;), dist_name = str_remove_all(dist_name, 
+    &quot;\\(\\)&quot;), dist_nb = str_extract_all(geo, &quot;\\([^()]+\\)&quot;), dist_nb = str_extract_all(dist_nb, 
+    &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;% unnest(dist_nb) %&gt;% mutate(dist_name = str_replace_all(dist_name, 
+    &quot; - &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot; -&quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, 
+    &quot;- &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;), dist_name = str_trim(dist_name, 
+    side = &quot;both&quot;), dist_name = str_replace_all(dist_name, &quot; / &quot;, &quot;/&quot;)) %&gt;% select(-geo, 
+    -ro)
+
+length(unique(d06_clean$dist_nb))
+length(unique(d06_clean$dist_name))</code></pre>
+</div>
+<div id="census-2013-representation-order" class="section level4">
+<h4>2011 census (2013 Representation order)</h4>
+<pre class="r"><code>d11_2 &lt;- read.csv(&quot;documentation/data/input/2011census_2013order.csv&quot;, encoding = &quot;latin1&quot;)
+summary(d11_2)
+
+d11_2_clean &lt;- d11_2 %&gt;% rename(geo = Géographie, sex = Sexe..3.) %&gt;% select(-Âge.médian) %&gt;% 
+    filter(str_detect(geo, &quot;[:alpha:]&quot;), str_detect(sex, &quot;Total&quot;), !str_detect(geo, 
+        &quot;Newfoundland | Terre-Neuve&quot;), !str_detect(geo, &quot;Prince Edward Island | Île-du-Prince-Édouard&quot;), 
+        !str_detect(geo, &quot;Nova Scotia | Nouvelle-Écosse&quot;), !str_detect(geo, &quot;New Brunswick / Nouveau-Brunswick \\(13\\)&quot;), 
+        !str_detect(geo, &quot;Quebec | Québec&quot;), !str_detect(geo, &quot;Ontario \\(35\\)&quot;), 
+        !str_detect(geo, &quot;Saskatchewan \\(47\\)&quot;), !str_detect(geo, &quot;Manitoba&quot;), 
+        !str_detect(geo, &quot;Alberta&quot;), !str_detect(geo, &quot;Colombie-Britannique \\(59\\)&quot;), 
+        !str_detect(geo, &quot;Yukon \\(60\\)&quot;), !str_detect(geo, &quot;Northwest Territories / Territoires du Nord-Ouest \\(61\\)&quot;), 
+        !str_detect(geo, &quot;Canada&quot;), !str_detect(geo, &quot;Nunavut \\(62\\)&quot;)) %&gt;% gather(age, 
+    value, Total...Âge:X100.ans.et.plus) %&gt;% filter(!str_detect(age, &quot;Total&quot;)) %&gt;% 
+    dplyr::select(geo, age, value)
+
+table(d11_2_clean$age)
+
+d11_2_clean &lt;- d11_2_clean %&gt;% mutate(age = ifelse(age == &quot;Moins.de.1.an&quot;, 0, age), 
+    age = ifelse(age == &quot;X100.ans.et.plus&quot;, 100, age), age = str_remove(age, &quot;X&quot;)) %&gt;% 
+    filter(!str_detect(age, &quot;ans&quot;))
+
+table(d11_2_clean$age)
+class(d11_2_clean$age)
+
+d11_2_clean &lt;- d11_2_clean %&gt;% mutate(age = as.numeric(age))
+
+table(d11_2_clean$age)
+class(d11_2_clean$age)
+
+d11_2_clean &lt;- d11_2_clean %&gt;% mutate(census = 2011, ro = 2013)
+
+d11_2_clean &lt;- d11_2_clean %&gt;% mutate(dist_name = str_remove_all(geo, &quot;[0-9]+&quot;), 
+    dist_name = str_remove_all(dist_name, &quot;\\(\\)&quot;), dist_nb = str_extract_all(geo, 
+        &quot;\\([^()]+\\)&quot;), dist_nb = str_extract_all(dist_nb, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;% 
+    unnest(dist_nb) %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; - &quot;, &quot;-&quot;), 
+    dist_name = str_replace_all(dist_name, &quot; -&quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, 
+        &quot;- &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;), dist_name = str_trim(dist_name, 
+        side = &quot;both&quot;), dist_name = str_replace_all(dist_name, &quot; / &quot;, &quot;/&quot;)) %&gt;% select(-geo, 
+    -ro)
+
+length(unique(d11_2_clean$dist_nb))
+length(unique(d11_2_clean$dist_name))</code></pre>
+</div>
+<div id="census-2013-representation-order-1" class="section level4">
+<h4>2016 census (2013 Representation order)</h4>
+<pre class="r"><code>d16 &lt;- read.csv(&quot;documentation/data/input/2016census_2013order.csv&quot;, encoding = &quot;latin1&quot;)
+summary(d16)
+
+d16_clean &lt;- d16 %&gt;% rename(geo = Géographie, sex = Sexe..3.) %&gt;% select(-Âge.moyen) %&gt;% 
+    filter(str_detect(geo, &quot;[:alpha:]&quot;), str_detect(sex, &quot;Total&quot;), !str_detect(geo, 
+        &quot;Newfoundland | Terre-Neuve&quot;), !str_detect(geo, &quot;Prince Edward Island | Île-du-Prince-Édouard&quot;), 
+        !str_detect(geo, &quot;Nova Scotia | Nouvelle-Écosse&quot;), !str_detect(geo, &quot;New Brunswick / Nouveau-Brunswick \\(13\\)&quot;), 
+        !str_detect(geo, &quot;Quebec | Québec&quot;), !str_detect(geo, &quot;Ontario \\(35\\)&quot;), 
+        !str_detect(geo, &quot;Saskatchewan \\(47\\)&quot;), !str_detect(geo, &quot;Manitoba&quot;), 
+        !str_detect(geo, &quot;Alberta&quot;), !str_detect(geo, &quot;Colombie-Britannique \\(59\\)&quot;), 
+        !str_detect(geo, &quot;Yukon \\(60\\)&quot;), !str_detect(geo, &quot;Northwest Territories / Territoires du Nord-Ouest \\(61\\)&quot;), 
+        !str_detect(geo, &quot;Canada&quot;), !str_detect(geo, &quot;Nunavut \\(62\\)&quot;)) %&gt;% gather(age, 
+    value, Total...Âge:X100.ans.et.plus) %&gt;% filter(!str_detect(age, &quot;Total&quot;)) %&gt;% 
+    dplyr::select(geo, age, value)
+
+table(d16_clean$age)
+
+d16_clean &lt;- d16_clean %&gt;% mutate(age = ifelse(age == &quot;Moins.de.1.an&quot;, 0, age), age = ifelse(age == 
+    &quot;X100.ans.et.plus&quot;, 100, age), age = str_remove(age, &quot;X&quot;)) %&gt;% filter(!str_detect(age, 
+    &quot;ans&quot;))
+
+table(d16_clean$age)
+class(d16_clean$age)
+
+d16_clean &lt;- d16_clean %&gt;% mutate(age = as.numeric(age))
+
+table(d16_clean$age)
+class(d16_clean$age)
+
+d16_clean &lt;- d16_clean %&gt;% mutate(census = 2016, ro = 2013)
+
+d16_clean &lt;- d16_clean %&gt;% mutate(dist_name = str_remove_all(geo, &quot;[0-9]+&quot;), dist_name = str_remove_all(dist_name, 
+    &quot;\\(.*\\)&quot;), dist_nb = str_extract_all(geo, &quot;\\([^()]+\\)&quot;)) %&gt;% unnest(dist_nb) %&gt;% 
+    filter(str_detect(dist_nb, &quot;%&quot;, negate = TRUE)) %&gt;% mutate(dist_nb = str_extract_all(dist_nb, 
+    &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;% unnest(dist_nb) %&gt;% mutate(dist_name = str_replace_all(dist_name, 
+    &quot; - &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot; -&quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, 
+    &quot;- &quot;, &quot;-&quot;), dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;), dist_name = str_trim(dist_name, 
+    side = &quot;both&quot;), dist_name = str_replace_all(dist_name, &quot; / &quot;, &quot;/&quot;), dist_name = str_replace_all(dist_name, 
+    &quot; /&quot;, &quot;/&quot;)) %&gt;% select(-geo, -ro)
+
+length(unique(d16_clean$dist_name))
+length(unique(d16_clean$dist_nb))</code></pre>
+</div>
+</div>
+<div id="merging-censuses-together-by-representation-order"
+class="section level3">
+<h3>2) Merging Censuses Together by Representation Order</h3>
+<p>Here, we will merge censuses that use the same representation orders.
+For example, we need to merge the 1991 and 1996 census that use both the
+1987 r.o. in order to be able (later) to interpolate age breakdowns in
+1993, an election that was run under the 1987 r.o. At this step, there
+were (yet again) some spelling differences in district names. This made
+my head want to explode, but I managed to reach the expected result
+!</p>
+<div
+id="merge-1991-census-1987-representation-order-with-1996-census-1987-representation-order-to-map-with-1993-parliament-data."
+class="section level4">
+<h4>Merge 1991 census (1987 Representation order) with 1996 census (1987
+Representation order) to map with <em>1993 parliament data.</em></h4>
+<pre class="r"><code># we want to have one observation per electoral district, with variables for each age category
+d91_clean &lt;- d91_clean %&gt;% 
+  spread(age, value)
+d96_clean &lt;- d96_clean %&gt;% 
+  spread(age, value)
+
+# we then bind the 2 dataframes (vertically, one on top of the other)
+ro1987 &lt;- rbind(d91_clean, d96_clean) %&gt;% 
+  gather(age, value, `0`:`90`) %&gt;% # again, we gather the age variables
+  # now we have one observation for each district-census-age combination (long format)
+  spread(census, value) # finally, we come back to a wide format
+
+length(unique(ro1987$dist_nb)) # making sure we have 295 seats
+length(unique(ro1987$dist_name))
+check &lt;- ro1987 %&gt;% # making sure the 2 census years are complete
+  filter(is.na(`1991`) == TRUE |
+           is.na(`1996`) == TRUE) # all good</code></pre>
+</div>
+<div
+id="merge-1996-census-1996-representation-order-with-2001-census-1996-representation-order-to-map-with-1997-parliament-data-and-2000-parliament-data."
+class="section level4">
+<h4>Merge 1996 census (1996 Representation order) with 2001 census (1996
+Representation order) to map with <em>1997 parliament data</em> and
+<em>2000 parliament data.</em></h4>
+<pre class="r"><code>d96_2_clean &lt;- d96_2_clean %&gt;% 
+  spread(age, value)
+
+# I have to merge 90+ yo categories because previous censuses do not have 90-100 y.o.
+# it creates problems when binding
+d01_clean &lt;- d01_clean %&gt;% 
+  spread(age, value) %&gt;% 
+  unnest(dist_nb) %&gt;%  # dist_nb was a list
+  dplyr::group_by(dist_nb) %&gt;% 
+  mutate(`90+` = `90` + `91` + `92` +`93` +`94` +`95` +`96` +`97` +`98` +`99` +`100`) %&gt;% # making a sum of values in the 90-100 age categories 
+  ungroup() %&gt;% 
+  select(-`90`, -`91`, -`92`, -`93`, -`94`,
+         -`95`, -`96`, -`97`, -`98`, -`99`, -`100`) %&gt;% # removing the extra variables
+  rename(`90` = `90+`) # ok, all set
+
+ro1996 &lt;- rbind(d96_2_clean, d01_clean) %&gt;% 
+  gather(age, value, `0`:`90`) %&gt;% 
+  spread(census, value)
+
+length(unique(ro1996$dist_nb))
+check &lt;- ro1996 %&gt;% 
+  filter(is.na(`1996`) == TRUE |
+           is.na(`2001`) == TRUE)
+
+# Nunavut is 61001 in 1996 and 62001 in 2001. Merging them.
+ro1996 &lt;- ro1996 %&gt;% 
+  gather(year, value, `1996`:`2001`) %&gt;% 
+  spread(age, value) %&gt;% 
+  mutate(dist_nb = ifelse(dist_nb == &quot;62001&quot; &amp; year == &quot;2001&quot;, &quot;61001&quot;, dist_nb)) %&gt;% 
+  drop_na() %&gt;% 
+  gather(age, value, `0`:`90`) %&gt;% 
+  spread(year, value)
+
+check &lt;- ro1996 %&gt;% 
+  filter(is.na(`1996`) == TRUE |
+           is.na(`2001`) == TRUE) 
+
+list &lt;- check %&gt;% distinct(dist_name, dist_nb) # we have a problem, let&#39;s check the district names
+
+# Fix different spellings
+ro1996 &lt;- ro1996 %&gt;% 
+  gather(year, value, `1996`:`2001`) %&gt;%
+  unnest(dist_nb) %&gt;%
+  drop_na() %&gt;%
+  dplyr::group_by(dist_nb, age) %&gt;%
+  mutate(new_name = dist_name[year == 1996]) %&gt;% # making sure all districts use the 1996 names -- StatCan changed some names even though the r.o. did not change, but it does not mean that the districts changed (they have the same number). This is going to cause some trouble later, but we will fix it.
+  dplyr::ungroup() %&gt;%
+  mutate(dist_name = new_name) %&gt;% 
+  select(-new_name) %&gt;%
+  spread(year, value)
+
+check &lt;- ro1996 %&gt;% 
+  filter(is.na(`1996`) == TRUE |
+           is.na(`2001`) == TRUE)
+
+length(unique(ro1996$dist_name))
+length(unique(ro1996$dist_nb)) # all set</code></pre>
+</div>
+<div
+id="merge-2001-census-2003-representation-order-with-2006-census-2003-representation-order-to-map-with-2004-parliament-data."
+class="section level4">
+<h4>Merge 2001 census (2003 Representation order) with 2006 census (2003
+Representation order) to map with <em>2004 parliament data.</em></h4>
+<pre class="r"><code>d01_2_clean &lt;- d01_2_clean %&gt;% 
+  spread(age, value)
+d06_clean &lt;- d06_clean %&gt;% 
+  spread(age, value)
+ro2003 &lt;- rbind(d01_2_clean, d06_clean) %&gt;% 
+  gather(age, value, `0`:`100`) %&gt;% 
+  spread(census, value)
+
+ro2003 &lt;- ro2003 %&gt;% 
+  gather(year, value, `2001`:`2006`) %&gt;% 
+  drop_na() %&gt;% 
+  dplyr::group_by(dist_nb, age) %&gt;% 
+  mutate(new_name = dist_name[year == 2001]) %&gt;% # recode districts with different names in 2001 and 2006 
+  dplyr::ungroup() %&gt;% 
+  mutate(dist_name = new_name) %&gt;% 
+  select(-new_name) %&gt;%  
+  spread(year, value)
+
+length(unique(ro2003$dist_nb))
+length(unique(ro2003$dist_name))
+
+check &lt;- ro2003 %&gt;% 
+  filter(is.na(`2001`) == TRUE |
+           is.na(`2006`) == TRUE)</code></pre>
+<p>And map 2006 census (2003 Representation order) with <em>2006
+parliament data.</em></p>
+</div>
+<div
+id="merge-2006-census-2003-representation-order-with-2011-census-2003-representation-order-to-map-with-2008-parliament-data."
+class="section level4">
+<h4>Merge 2006 census (2003 Representation order) with 2011 census (2003
+Representation order) to map with <em>2008 parliament data.</em></h4>
+<pre class="r"><code>d11_clean &lt;- d11_clean %&gt;% spread(age, value)
+ro2003_2 &lt;- rbind(d06_clean, d11_clean) %&gt;% gather(age, value, `0`:`100`) %&gt;% spread(census, 
+    value)
+
+length(unique(ro2003_2$dist_nb))
+length(unique(ro2003_2$dist_name))
+
+check &lt;- ro2003_2 %&gt;% filter(is.na(`2006`) == TRUE | is.na(`2011`) == TRUE)</code></pre>
+<p>And map 2011 census (2003 Representation order) with <em>2011
+parliament data.</em></p>
+</div>
+<div
+id="merge-2011-census-2013-representation-order-2016-census-2013-representation-order-to-map-with-2015-parliament-data."
+class="section level4">
+<h4>Merge 2011 census (2013 Representation order) 2016 census (2013
+Representation order) to map with <em>2015 parliament data.</em></h4>
+<pre class="r"><code>d11_2_clean &lt;- d11_2_clean %&gt;% 
+  spread(age, value)
+d16_clean &lt;- d16_clean %&gt;% 
+  spread(age, value)
+
+ro2013 &lt;- rbind(d11_2_clean, d16_clean) %&gt;% 
+  gather(age, value, `0`:`100`) %&gt;% 
+  spread(census, value)
+
+length(unique(ro2013$dist_nb))
+check &lt;- ro2013 %&gt;% 
+  filter(is.na(`2011`) == TRUE |
+           is.na(`2016`) == TRUE) # oops
+
+ro2013 &lt;- ro2013 %&gt;% 
+  gather(year, value, `2011`:`2016`) %&gt;% 
+  drop_na() %&gt;% 
+  dplyr::group_by(dist_nb, age) %&gt;% 
+  mutate(new_name = dist_name[year == 2011]) %&gt;% # recode districts with different names, use 2011 names
+  dplyr::ungroup() %&gt;% 
+  mutate(dist_name = new_name) %&gt;% 
+  select(-new_name) %&gt;% 
+  spread(year, value) 
+
+length(unique(ro2013$dist_nb))
+length(unique(ro2013$dist_name))
+check &lt;- ro2013 %&gt;% 
+  filter(is.na(`2011`) == TRUE |
+           is.na(`2016`) == TRUE) # all good</code></pre>
+</div>
+</div>
+<div id="interpolation-of-values-for-years-in-between-censuses"
+class="section level3">
+<h3>3) Interpolation of Values for Years In-Between Censuses</h3>
+<p>Election years sometimes (often) fall in-between censuses. We will
+interpolate the number of people in each age group to years between
+censuses, so that we have ‘truer’ values for election years. We will do
+this for each of the five datasets we merged in the previous step.</p>
+<p>First, we need to reshape the data from long to wide.</p>
+<pre class="r"><code>ro1987_imputation &lt;- ro1987 %&gt;% gather(year, value, `1991`:`1996`) %&gt;% mutate(year = as.integer(year)) %&gt;% 
+    mutate(ro = &quot;ro1987&quot;)
+
+ro1996_imputation &lt;- ro1996 %&gt;% gather(year, value, `1996`:`2001`) %&gt;% mutate(year = as.integer(year)) %&gt;% 
+    mutate(ro = &quot;ro1996&quot;)
+
+ro2003_imputation &lt;- ro2003 %&gt;% gather(year, value, `2001`:`2006`) %&gt;% mutate(year = as.integer(year)) %&gt;% 
+    mutate(ro = &quot;ro2003&quot;)
+
+ro2003_2_imputation &lt;- ro2003_2 %&gt;% gather(year, value, `2006`:`2011`) %&gt;% mutate(year = as.integer(year)) %&gt;% 
+    mutate(ro = &quot;ro2003_2&quot;)
+
+ro2013_imputation &lt;- ro2013 %&gt;% gather(year, value, `2011`:`2016`) %&gt;% mutate(year = as.integer(year)) %&gt;% 
+    mutate(ro = &quot;ro2013&quot;)
+
+imputation_d &lt;- rbind(ro1987_imputation, ro1996_imputation, ro2003_imputation, ro2003_2_imputation, 
+    ro2013_imputation)  # creating one big dataframe</code></pre>
+<p>Then, we make the value imputation. This is a function I found
+online. It seems to work well, but suggestions as to how to do this
+otherwise would be more than welcome (is there a built-in function or
+package achieving this with fewer lines of code?)</p>
+<pre class="r"><code>expand_data &lt;- function(x) {
+    years &lt;- min(imputation_d$year):max(imputation_d$year)
+    btw_years &lt;- 1
+    grid &lt;- expand.grid(btw_year = btw_years, year = years)
+    x$btw_year &lt;- 1
+    merged &lt;- grid %&gt;% left_join(x, by = c(&quot;year&quot;, &quot;btw_year&quot;))
+    merged$dist_name &lt;- x$dist_name[1]
+    merged$dist_nb &lt;- x$dist_nb[1]
+    merged$age &lt;- x$age[1]
+    merged$ro &lt;- x$ro[1]
+    return(merged)
+}
+
+interpolate_data &lt;- function(data) {
+    xout &lt;- 1:nrow(data)
+    y &lt;- data$value
+    interpolation &lt;- approx(x = xout[!is.na(y)], y = y[!is.na(y)], xout = xout)
+    data$yhat &lt;- interpolation$y
+    return(data)
+}
+
+expand_and_interpolate &lt;- function(x) interpolate_data(expand_data(x))
+
+imputation_data &lt;- imputation_d %&gt;% group_by(dist_name, dist_nb, age, ro) %&gt;% do(expand_and_interpolate(.))
+
+print(as.data.frame(imputation_data))
+
+imputation_data2 &lt;- imputation_data %&gt;% mutate(value = yhat) %&gt;% select(-yhat, -btw_year) %&gt;% 
+    drop_na() %&gt;% ungroup()
+
+table(imputation_data2$ro, imputation_data2$year)
+table(imputation_data2$dist_nb, imputation_data2$ro)
+table(imputation_data2$age, imputation_data2$year)</code></pre>
+<p>What to do with post-2016? We cannot make interpolate values for
+these years because they come after the last census. The next-best
+option would be to use the 2016 values for every year after 2016, but we
+would be loosing some variation in the demography.</p>
+</div>
+<div id="cleaning-up-the-parliament-mp-data" class="section level3">
+<h3>4) Cleaning-Up the Parliament (MP) Data</h3>
+<p>We will match district names from the censuses with district names
+from the parliamentary data (34th to 42nd). The goal is to build a
+dataset of electoral ridings in each election year associated with the
+names of Members of each parliament <em>and</em> the demographic
+distribution of the population in each district.</p>
+<p>I downloaded the parliamentary data from the <a
+href="https://lop.parl.ca/sites/ParlInfo/default/en_CA/People/parliamentarians">Library
+of Parliament website</a>. I could have extracted all Parliaments at
+once, but I preferred doing it one by one to make sure the clean-up
+process ran smoothly. The data is in somewhat of a weird format: each
+parliamentarian is its own observation (rows), with variables (columns)
+for his/her date of birth, type of work (MP or Senator),
+constituency(ies) (with accompanying dates), party affiliation(s), etc.
+What is most interesting to me is the MP’s name and riding.</p>
+<p>I have to divide the constituency column, because it contains all the
+constituencies each MP has ever served in. My goal is to (1) divide this
+column to find all constituencies a given MP has been elected in, then
+(2) delete those that do not correspond to the Parliament I’m looking
+at. For example, for the 35th Parliament, I keep constituencies where
+members served between 25 October 1993 and 27 April 1997 only. The
+process is pretty much the same for each Parliament, so the code is
+commented for the first one only.</p>
+<div id="th-parliament-mps-1988-election-and-by-elections"
+class="section level4">
+<h4>34th Parliament MPs (1988 election and by-elections)</h4>
+<pre class="r"><code>parl34 &lt;-  read.csv(&quot;documentation/data/input/parl_34.csv&quot;, sep = &quot;;&quot;) %&gt;% 
+  mutate(type = Type.of.Parliamentarian, # rename
+         riding = Riding.Senatorial.Division, 
+         name = Name, 
+         birth = Date.of.Birth, 
+         province = Province.Territory, 
+         gender = Gender, 
+         pid = Political.Affiliation,
+         # add commas between each &quot;position (date)&quot; combination to be able to separate them afterwards
+         type = str_replace_all(type, &quot;\\)&quot;, &quot;\\),&quot;), 
+         riding = str_replace_all(riding, &quot;\\)&quot;, &quot;\\),&quot;)) %&gt;% # same thing with ridings
+  distinct(name, birth, gender, type, riding, province, pid) %&gt;% # keep only the variables I need
+  separate_rows(type, sep = &quot;,&quot;, convert = TRUE) %&gt;%  # separate rows based on &quot;position (date)&quot;
+  separate_rows(riding, sep = &quot;,&quot;, convert = TRUE) %&gt;% # again, separate rows based on &quot;riding (date)&quot;
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # trim white spaces
+  # extract dates from &quot;position (date)&quot; and &quot;riding (date)&quot; combinations
+  mutate(type_date = str_extract_all(type, &quot;\\([^()]+\\)&quot;), 
+         type_date = str_extract_all(type_date, &quot;(?&lt;=\\().+?(?=\\))&quot;), 
+         riding_date = str_extract_all(riding, &quot;\\([^()]+\\)&quot;), 
+         riding_date = str_extract_all(riding_date, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;%  
+  unnest(c(type_date, riding_date)) %&gt;% 
+  mutate(dist_name = str_remove_all(riding, &quot;\\(\\)&quot;), # clean-up ridings: remove what&#39;s in parentheses
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;),
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;)) %&gt;%  
+  filter(!str_detect(type, &quot;Senator&quot;), # remove senators
+         type_date != 0 | riding_date != 0, 
+         # remove rows where dates are not identical: this is an important step, because we&#39;ve duplicated 
+         # (our even tripled, quadrupled) the number of observations when separating the position and 
+         # riding rows in the beginning. Now we want to keep only those where the dates match, because 
+         # they&#39;re the &quot;real&quot; information on MPs: what position they were in period X, and in which riding
+         type_date == riding_date) %&gt;% 
+  # divide start and end dates of sittings
+  separate(riding_date, sep = &quot;-&quot;, into = c(&quot;riding_start_date&quot;, &quot;riding_end_date&quot;)) %&gt;% 
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(riding_start_date = ymd(riding_start_date), # transform to date format
+         riding_end_date = ymd(riding_end_date), 
+         riding_end_date = as.character(riding_end_date), 
+         # add end date to those who are still serving
+         riding_end_date = ifelse(is.na(riding_end_date) == TRUE, &quot;2020-04-01&quot;, riding_end_date), 
+         riding_end_date = as.Date(riding_end_date)) %&gt;%
+  # keep only those who stopped serving after the election (Nov 21, 1988) and those who started before the 
+  # end of the 34th parliament (Sept 8, 1993) -- because otherwise there are observations for MPs who 
+  # stayed in the same riding for a longer time than the 34th parliament
+  filter(riding_end_date &gt;= &quot;1988-11-21&quot; &amp; riding_start_date &lt;= &quot;1993-09-08&quot;) %&gt;%  
+  select(-type_date, -province, -riding, -type) %&gt;% # remove unecessary variables
+  mutate(year = 1991) %&gt;% # I call it 1991 because this is the census we are going to merge it with
+  # next lines remove MP who are found twice because their district changed name during the 34th 
+  # parliament (even if there hasn&#39;t been resdistricting)
+  group_by(name) %&gt;% 
+  arrange(desc(riding_start_date), .by_group = TRUE) %&gt;% 
+  slice(1) %&gt;% # I have to say, I love the arrange() and slice() functions
+  ungroup()
+
+length(unique(parl34$name))
+length(unique(parl34$dist_name)) 
+summary(parl34)
+
+# We could not easily clean up the party variable, because we have one observation per MP (so their party 
+# affiliation matches the caucus they were in during the 34th parliament). I haven&#39;t done so but you 
+# could use the code we&#39;ve already used to get rid of what is inside the parentheses.</code></pre>
+</div>
+<div id="th-parliament-mps-1993-election-and-by-elections"
+class="section level4">
+<h4>35th Parliament MPs (1993 election and by-elections)</h4>
+<pre class="r"><code>parl35 &lt;-  read.csv(&quot;documentation/data/input/parl_35.csv&quot;, sep = &quot;;&quot;) %&gt;% 
+  mutate(type = Type.of.Parliamentarian, # rename
+         riding = Riding.Senatorial.Division, 
+         name = Name, 
+         birth = Date.of.Birth, 
+         province = Province.Territory, 
+         gender = Gender, 
+         pid = Political.Affiliation,
+         type = str_replace_all(type, &quot;\\)&quot;, &quot;\\),&quot;), # add commas to be able to separate the rows 
+         riding = str_replace_all(riding, &quot;\\)&quot;, &quot;\\),&quot;)) %&gt;% # again
+  distinct(name, birth, gender, type, riding, province, pid) %&gt;% # remove unecessary variables
+  separate_rows(type, sep = &quot;,&quot;, convert = TRUE) %&gt;%  # separate rows
+  separate_rows(riding, sep = &quot;,&quot;, convert = TRUE) %&gt;% 
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(type_date = str_extract_all(type, &quot;\\([^()]+\\)&quot;), # extract dates from positions
+         type_date = str_extract_all(type_date, &quot;(?&lt;=\\().+?(?=\\))&quot;), 
+         riding_date = str_extract_all(riding, &quot;\\([^()]+\\)&quot;), # extract dates from ridings
+         riding_date = str_extract_all(riding_date, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;%  
+  unnest(c(type_date, riding_date)) %&gt;% 
+  mutate(dist_name = str_remove_all(riding, &quot;\\(\\)&quot;), # clean-up riding names
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;),
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;)) %&gt;%  
+  filter(!str_detect(type, &quot;Senator&quot;), # remove senators
+         type_date != 0 | riding_date != 0, # remove rows where dates are not identical
+         type_date == riding_date) %&gt;% 
+  separate(riding_date, sep = &quot;-&quot;, into = c(&quot;riding_start_date&quot;, &quot;riding_end_date&quot;)) %&gt;% # divide start and end dates
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(riding_start_date = ymd(riding_start_date), # transform  to  date format
+         riding_end_date = ymd(riding_end_date), # again
+         riding_end_date = as.character(riding_end_date), # add end date to those who are still serving
+         riding_end_date = ifelse(is.na(riding_end_date) == TRUE, &quot;2020-04-01&quot;, riding_end_date), 
+         riding_end_date = as.Date(riding_end_date)) %&gt;% 
+  filter(riding_end_date &gt;= &quot;1993-10-25&quot; &amp; riding_start_date &lt;= &quot;1997-04-27&quot;) %&gt;%  # keep only those that end after the election (October 25, 1993) and those that start before the end of the 35th parliament (April 27, 1997)
+  #mutate(pid = str_remove_all(pid, &quot;\\(\\)&quot;), # clean-up party affiliations
+  #       pid = str_remove_all(pid, &quot;\\([^()]+\\)&quot;)) %&gt;% 
+  select(-type_date, -province, -riding, -type) %&gt;% # remove unecessary variables
+  mutate(year = 1993)
+
+length(unique(parl35$name))
+length(unique(parl35$dist_name)) 
+summary(parl35)</code></pre>
+</div>
+<div id="th-parliament-mps-1997-election-and-by-elections"
+class="section level4">
+<h4>36th Parliament MPs (1997 election and by-elections)</h4>
+<pre class="r"><code>parl36 &lt;-  read.csv(&quot;documentation/data/input/parl_36.csv&quot;, sep = &quot;;&quot;) %&gt;% 
+  mutate(type = Type.of.Parliamentarian, # rename
+         riding = Riding.Senatorial.Division, 
+         name = Name, 
+         birth = Date.of.Birth, 
+         province = Province.Territory, 
+         gender = Gender, 
+         pid = Political.Affiliation,
+         type = str_replace_all(type, &quot;\\)&quot;, &quot;\\),&quot;), # add commas to be able to separate the rows 
+         riding = str_replace_all(riding, &quot;\\)&quot;, &quot;\\),&quot;)) %&gt;% # again
+  distinct(name, birth, gender, type, riding, province, pid) %&gt;% # remove unecessary variables
+  separate_rows(type, sep = &quot;,&quot;, convert = TRUE) %&gt;%  # separate rows
+  separate_rows(riding, sep = &quot;,&quot;, convert = TRUE) %&gt;% 
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(type_date = str_extract_all(type, &quot;\\([^()]+\\)&quot;), # extract dates from positions
+         type_date = str_extract_all(type_date, &quot;(?&lt;=\\().+?(?=\\))&quot;), 
+         riding_date = str_extract_all(riding, &quot;\\([^()]+\\)&quot;), # extract dates from ridings
+         riding_date = str_extract_all(riding_date, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;%  
+  unnest(c(type_date, riding_date)) %&gt;% 
+  mutate(dist_name = str_remove_all(riding, &quot;\\(\\)&quot;), # clean-up riding names
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;),
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;)) %&gt;%  
+  filter(!str_detect(type, &quot;Senator&quot;), # remove senators
+         type_date != 0 | riding_date != 0, # remove rows where dates are not identical
+         type_date == riding_date) %&gt;% 
+  separate(riding_date, sep = &quot;-&quot;, into = c(&quot;riding_start_date&quot;, &quot;riding_end_date&quot;)) %&gt;% # divide start and end dates
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(riding_start_date = ymd(riding_start_date), # transform  to  date format
+         riding_end_date = ymd(riding_end_date), # again
+         riding_end_date = as.character(riding_end_date), # add end date to those who are still serving
+         riding_end_date = ifelse(is.na(riding_end_date) == TRUE, &quot;2020-04-01&quot;, riding_end_date), 
+         riding_end_date = as.Date(riding_end_date)) %&gt;% 
+  filter(riding_end_date &gt;= &quot;1997-06-02&quot; &amp; riding_start_date &lt;= &quot;2000-10-22&quot;) %&gt;%  # keep only those that end after the election (June 2, 1997) and those that start before the end of the 35th parliament (October 22, 2000)
+  #mutate(pid = str_remove_all(pid, &quot;\\(\\)&quot;), # clean-up party affiliations
+  #       pid = str_remove_all(pid, &quot;\\([^()]+\\)&quot;)) %&gt;% 
+  select(-type_date, -province, -riding, -type) %&gt;% # remove unecessary variables
+  mutate(year = 1997)
+  
+length(unique(parl36$name))
+summary(parl36)
+length(unique(parl36$dist_name)) # some have the names of the following representation order because MPs stayed a longer time in office. I have to recode them to the 1996 names
+
+parl36 &lt;- parl36 %&gt;% 
+  arrange(riding_start_date) %&gt;% 
+  dplyr::group_by(name, birth) %&gt;% 
+  filter(row_number() == 1)
+
+length(unique(parl36$dist_name))
+length(unique(parl36$name))</code></pre>
+</div>
+<div id="th-parliament-mps-2000-election-and-by-elections"
+class="section level4">
+<h4>37th Parliament MPs (2000 election and by-elections)</h4>
+<pre class="r"><code>parl37 &lt;-  read.csv(&quot;documentation/data/input/parl_37.csv&quot;, sep = &quot;;&quot;) %&gt;% 
+  mutate(type = Type.of.Parliamentarian, # rename
+         riding = Riding.Senatorial.Division, 
+         name = Name, 
+         birth = Date.of.Birth, 
+         province = Province.Territory, 
+         gender = Gender, 
+         pid = Political.Affiliation,
+         type = str_replace_all(type, &quot;\\)&quot;, &quot;\\),&quot;), # add commas to be able to separate the rows 
+         riding = str_replace_all(riding, &quot;\\)&quot;, &quot;\\),&quot;)) %&gt;% # again
+  distinct(name, birth, gender, type, riding, province, pid) %&gt;% # remove unecessary variables
+  separate_rows(type, sep = &quot;,&quot;, convert = TRUE) %&gt;%  # separate rows
+  separate_rows(riding, sep = &quot;,&quot;, convert = TRUE) %&gt;% 
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(type_date = str_extract_all(type, &quot;\\([^()]+\\)&quot;), # extract dates from positions
+         type_date = str_extract_all(type_date, &quot;(?&lt;=\\().+?(?=\\))&quot;), 
+         riding_date = str_extract_all(riding, &quot;\\([^()]+\\)&quot;), # extract dates from ridings
+         riding_date = str_extract_all(riding_date, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;%  
+  unnest(c(type_date, riding_date)) %&gt;% 
+  mutate(dist_name = str_remove_all(riding, &quot;\\(\\)&quot;), # clean-up riding names
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;),
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;)) %&gt;%  
+  filter(!str_detect(type, &quot;Senator&quot;), # remove senators
+         type_date != 0 | riding_date != 0, # remove rows where dates are not identical
+         type_date == riding_date) %&gt;% 
+  separate(riding_date, sep = &quot;-&quot;, into = c(&quot;riding_start_date&quot;, &quot;riding_end_date&quot;)) %&gt;% # divide start and end dates
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(riding_start_date = ymd(riding_start_date), # transform  to  date format
+         riding_end_date = ymd(riding_end_date), # again
+         riding_end_date = as.character(riding_end_date), # add end date to those who are still serving
+         riding_end_date = ifelse(is.na(riding_end_date) == TRUE, &quot;2020-04-01&quot;, riding_end_date), 
+         riding_end_date = as.Date(riding_end_date)) %&gt;% 
+  filter(riding_end_date &gt;= &quot;2000-11-27&quot; &amp; riding_start_date &lt;= &quot;2004-05-23&quot;) %&gt;%  # keep only those that end after the election (November 27, 2000) and those that start before the end of the 35th parliament (May 23, 2004)
+  #mutate(pid = str_remove_all(pid, &quot;\\(\\)&quot;), # clean-up party affiliations
+  #       pid = str_remove_all(pid, &quot;\\([^()]+\\)&quot;)) %&gt;% 
+  select(-type_date, -province, -riding, -type) %&gt;%  # remove unecessary variables
+  mutate(year = 2000)
+
+length(unique(parl37$name))
+summary(parl37)
+length(unique(parl37$dist_name)) </code></pre>
+</div>
+<div id="th-parliament-mps-2004-election-and-by-elections"
+class="section level4">
+<h4>38th Parliament MPs (2004 election and by-elections)</h4>
+<pre class="r"><code>parl38 &lt;-  read.csv(&quot;documentation/data/input/parl_38.csv&quot;, sep = &quot;;&quot;) %&gt;% 
+  mutate(type = Type.of.Parliamentarian, # rename
+         riding = Riding.Senatorial.Division, 
+         name = Name, 
+         birth = Date.of.Birth, 
+         province = Province.Territory, 
+         gender = Gender, 
+         pid = Political.Affiliation,
+         type = str_replace_all(type, &quot;\\)&quot;, &quot;\\),&quot;), # add commas to be able to separate the rows 
+         riding = str_replace_all(riding, &quot;\\)&quot;, &quot;\\),&quot;)) %&gt;% # again
+  distinct(name, birth, gender, type, riding, province, pid) %&gt;% # remove unecessary variables
+  separate_rows(type, sep = &quot;,&quot;, convert = TRUE) %&gt;%  # separate rows
+  separate_rows(riding, sep = &quot;,&quot;, convert = TRUE) %&gt;% 
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(type_date = str_extract_all(type, &quot;\\([^()]+\\)&quot;), # extract dates from positions
+         type_date = str_extract_all(type_date, &quot;(?&lt;=\\().+?(?=\\))&quot;), 
+         riding_date = str_extract_all(riding, &quot;\\([^()]+\\)&quot;), # extract dates from ridings
+         riding_date = str_extract_all(riding_date, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;%  
+  unnest(c(type_date, riding_date)) %&gt;% 
+  mutate(dist_name = str_remove_all(riding, &quot;\\(\\)&quot;), # clean-up riding names
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;),
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;)) %&gt;%  
+  filter(!str_detect(type, &quot;Senator&quot;), # remove senators
+         type_date != 0 | riding_date != 0, # remove rows where dates are not identical
+         type_date == riding_date) %&gt;% 
+  separate(riding_date, sep = &quot;-&quot;, into = c(&quot;riding_start_date&quot;, &quot;riding_end_date&quot;)) %&gt;% # divide start and end dates
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(riding_start_date = ymd(riding_start_date), # transform  to  date format
+         riding_end_date = ymd(riding_end_date), # again
+         riding_end_date = as.character(riding_end_date), # add end date to those who are still serving
+         riding_end_date = ifelse(is.na(riding_end_date) == TRUE, &quot;2020-04-01&quot;, riding_end_date), 
+         riding_end_date = as.Date(riding_end_date)) %&gt;% 
+  filter(riding_end_date &gt;= &quot;2004-06-28&quot; &amp; riding_start_date &lt;= &quot;2005-11-29&quot;) %&gt;%  # keep only those that end after the election (June 28, 2004) and those that start before the end of the 35th parliament (November 29, 2005)
+  #mutate(pid = str_remove_all(pid, &quot;\\(\\)&quot;), # clean-up party affiliations
+  #       pid = str_remove_all(pid, &quot;\\([^()]+\\)&quot;)) %&gt;% 
+  select(-type_date, -province, -riding, -type) %&gt;% # remove unecessary variables
+  mutate(year = 2004)
+  
+length(unique(parl38$name))
+summary(parl38)
+length(unique(parl38$dist_name)) # some have the names of the following representation order because MPs stayed a longer time in office. I have to recode them to the 2003 names
+
+parl38 &lt;- parl38 %&gt;% 
+  arrange(riding_start_date) %&gt;% 
+  dplyr::group_by(name, birth) %&gt;% 
+  filter(row_number() == 1)
+
+length(unique(parl38$dist_name))
+length(unique(parl38$name))</code></pre>
+</div>
+<div id="th-parliament-mps-2006-election-and-by-elections"
+class="section level4">
+<h4>39th Parliament MPs (2006 election and by-elections)</h4>
+<pre class="r"><code>parl39 &lt;-  read.csv(&quot;documentation/data/input/parl_39.csv&quot;, sep = &quot;;&quot;) %&gt;% 
+  mutate(type = Type.of.Parliamentarian, # rename
+         riding = Riding.Senatorial.Division, 
+         name = Name, 
+         birth = Date.of.Birth, 
+         province = Province.Territory, 
+         gender = Gender, 
+         pid = Political.Affiliation,
+         type = str_replace_all(type, &quot;\\)&quot;, &quot;\\),&quot;), # add commas to be able to separate the rows 
+         riding = str_replace_all(riding, &quot;\\)&quot;, &quot;\\),&quot;)) %&gt;% # again
+  distinct(name, birth, gender, type, riding, province, pid) %&gt;% # remove unecessary variables
+  separate_rows(type, sep = &quot;,&quot;, convert = TRUE) %&gt;%  # separate rows
+  separate_rows(riding, sep = &quot;,&quot;, convert = TRUE) %&gt;% 
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(type_date = str_extract_all(type, &quot;\\([^()]+\\)&quot;), # extract dates from positions
+         type_date = str_extract_all(type_date, &quot;(?&lt;=\\().+?(?=\\))&quot;), 
+         riding_date = str_extract_all(riding, &quot;\\([^()]+\\)&quot;), # extract dates from ridings
+         riding_date = str_extract_all(riding_date, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;%  
+  unnest(c(type_date, riding_date)) %&gt;% 
+  mutate(dist_name = str_remove_all(riding, &quot;\\(\\)&quot;), # clean-up riding names
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;),
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;)) %&gt;%  
+  filter(!str_detect(type, &quot;Senator&quot;), # remove senators
+         type_date != 0 | riding_date != 0, # remove rows where dates are not identical
+         type_date == riding_date) %&gt;% 
+  separate(riding_date, sep = &quot;-&quot;, into = c(&quot;riding_start_date&quot;, &quot;riding_end_date&quot;)) %&gt;% # divide start and end dates
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(riding_start_date = ymd(riding_start_date), # transform  to  date format
+         riding_end_date = ymd(riding_end_date), # again
+         riding_end_date = as.character(riding_end_date), # add end date to those who are still serving
+         riding_end_date = ifelse(is.na(riding_end_date) == TRUE, &quot;2020-04-01&quot;, riding_end_date), 
+         riding_end_date = as.Date(riding_end_date)) %&gt;% 
+  filter(riding_end_date &gt;= &quot;2006-01-23&quot; &amp; riding_start_date &lt;= &quot;2008-09-07&quot;) %&gt;%  # keep only those that end after the election (January 23, 2006) and those that start before the end of the 35th parliament (September 7, 2008)
+  #mutate(pid = str_remove_all(pid, &quot;\\(\\)&quot;), # clean-up party affiliations
+  #       pid = str_remove_all(pid, &quot;\\([^()]+\\)&quot;)) %&gt;% 
+  select(-type_date, -province, -riding, -type) %&gt;% # remove unecessary variables
+  mutate(year = 2006)
+  
+length(unique(parl39$name))
+summary(parl39)
+length(unique(parl39$dist_name))</code></pre>
+</div>
+<div id="th-parliament-mps-2008-election-and-by-elections"
+class="section level4">
+<h4>40th Parliament MPs (2008 election and by-elections)</h4>
+<pre class="r"><code>parl40 &lt;-  read.csv(&quot;documentation/data/input/parl_40.csv&quot;, sep = &quot;;&quot;) %&gt;% 
+  mutate(type = Type.of.Parliamentarian, # rename
+         riding = Riding.Senatorial.Division, 
+         name = Name, 
+         birth = Date.of.Birth, 
+         province = Province.Territory, 
+         gender = Gender, 
+         pid = Political.Affiliation,
+         type = str_replace_all(type, &quot;\\)&quot;, &quot;\\),&quot;), # add commas to be able to separate the rows 
+         riding = str_replace_all(riding, &quot;\\)&quot;, &quot;\\),&quot;)) %&gt;% # again
+  distinct(name, birth, gender, type, riding, province, pid) %&gt;% # remove unecessary variables
+  separate_rows(type, sep = &quot;,&quot;, convert = TRUE) %&gt;%  # separate rows
+  separate_rows(riding, sep = &quot;,&quot;, convert = TRUE) %&gt;% 
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(type_date = str_extract_all(type, &quot;\\([^()]+\\)&quot;), # extract dates from positions
+         type_date = str_extract_all(type_date, &quot;(?&lt;=\\().+?(?=\\))&quot;), 
+         riding_date = str_extract_all(riding, &quot;\\([^()]+\\)&quot;), # extract dates from ridings
+         riding_date = str_extract_all(riding_date, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;%  
+  unnest(c(type_date, riding_date)) %&gt;% 
+  mutate(dist_name = str_remove_all(riding, &quot;\\(\\)&quot;), # clean-up riding names
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;),
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;)) %&gt;%  
+  filter(!str_detect(type, &quot;Senator&quot;), # remove senators
+         type_date != 0 | riding_date != 0, # remove rows where dates are not identical
+         type_date == riding_date) %&gt;% 
+  separate(riding_date, sep = &quot;-&quot;, into = c(&quot;riding_start_date&quot;, &quot;riding_end_date&quot;)) %&gt;% # divide start and end dates
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(riding_start_date = ymd(riding_start_date), # transform  to  date format
+         riding_end_date = ymd(riding_end_date), # again
+         riding_end_date = as.character(riding_end_date), # add end date to those who are still serving
+         riding_end_date = ifelse(is.na(riding_end_date) == TRUE, &quot;2020-04-01&quot;, riding_end_date), 
+         riding_end_date = as.Date(riding_end_date)) %&gt;% 
+  filter(riding_end_date &gt;= &quot;2008-11-14&quot; &amp; riding_start_date &lt;= &quot;2011-03-26&quot;) %&gt;%  # keep only those that end after the election (October 14, 2008) and those that start before the end of the 35th parliament (March 26, 2011)
+  #mutate(pid = str_remove_all(pid, &quot;\\(\\)&quot;), # clean-up party affiliations
+  #       pid = str_remove_all(pid, &quot;\\([^()]+\\)&quot;)) %&gt;% 
+  select(-type_date, -province, -riding, -type) %&gt;% # remove unecessary variables
+  mutate(year = 2008)
+  
+length(unique(parl40$name))
+summary(parl40)
+length(unique(parl40$dist_name))</code></pre>
+</div>
+<div id="st-parliament-mps-2011-election-and-by-elections"
+class="section level4">
+<h4>41st Parliament MPs (2011 election and by-elections)</h4>
+<pre class="r"><code>parl41 &lt;-  read.csv(&quot;documentation/data/input/parl_41.csv&quot;, sep = &quot;;&quot;) %&gt;% 
+  mutate(type = Type.of.Parliamentarian, # rename
+         riding = Riding.Senatorial.Division, 
+         name = Name, 
+         birth = Date.of.Birth, 
+         province = Province.Territory, 
+         gender = Gender, 
+         pid = Political.Affiliation,
+         type = str_replace_all(type, &quot;\\)&quot;, &quot;\\),&quot;), # add commas to be able to separate the rows 
+         riding = str_replace_all(riding, &quot;\\)&quot;, &quot;\\),&quot;)) %&gt;% # again
+  distinct(name, birth, gender, type, riding, province, pid) %&gt;% # remove unecessary variables
+  separate_rows(type, sep = &quot;,&quot;, convert = TRUE) %&gt;%  # separate rows
+  separate_rows(riding, sep = &quot;,&quot;, convert = TRUE) %&gt;% 
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(type_date = str_extract_all(type, &quot;\\([^()]+\\)&quot;), # extract dates from positions
+         type_date = str_extract_all(type_date, &quot;(?&lt;=\\().+?(?=\\))&quot;), 
+         riding_date = str_extract_all(riding, &quot;\\([^()]+\\)&quot;), # extract dates from ridings
+         riding_date = str_extract_all(riding_date, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;%  
+  unnest(c(type_date, riding_date)) %&gt;% 
+  mutate(dist_name = str_remove_all(riding, &quot;\\(\\)&quot;), # clean-up riding names
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;),
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;)) %&gt;%  
+  filter(!str_detect(type, &quot;Senator&quot;), # remove senators
+         type_date != 0 | riding_date != 0, # remove rows where dates are not identical
+         type_date == riding_date) %&gt;% 
+  separate(riding_date, sep = &quot;-&quot;, into = c(&quot;riding_start_date&quot;, &quot;riding_end_date&quot;)) %&gt;% # divide start and end dates
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(riding_start_date = ymd(riding_start_date), # transform  to  date format
+         riding_end_date = ymd(riding_end_date), # again
+         riding_end_date = as.character(riding_end_date), # add end date to those who are still serving
+         riding_end_date = ifelse(is.na(riding_end_date) == TRUE, &quot;2020-04-01&quot;, riding_end_date), 
+         riding_end_date = as.Date(riding_end_date)) %&gt;% 
+  filter(riding_end_date &gt;= &quot;2011-05-02&quot; &amp; riding_start_date &lt;= &quot;2015-08-15&quot;) %&gt;%  # keep only those that end after the election (May 2, 2011) and those that start before the end of the 35th parliament (August 2, 2015)
+  #mutate(pid = str_remove_all(pid, &quot;\\(\\)&quot;), # clean-up party affiliations
+  #       pid = str_remove_all(pid, &quot;\\([^()]+\\)&quot;)) %&gt;% 
+  select(-type_date, -province, -riding, -type) %&gt;%  # remove unecessary variables
+  mutate(year = 2011)
+  
+length(unique(parl41$name))
+summary(parl41)
+length(unique(parl41$dist_name))</code></pre>
+</div>
+<div id="nd-parliament-mps-2015-election-and-by-elections"
+class="section level4">
+<h4>42nd Parliament MPs (2015 election and by-elections)</h4>
+<pre class="r"><code>parl42 &lt;-  read.csv(&quot;documentation/data/input/parl_42.csv&quot;, sep = &quot;;&quot;) %&gt;% 
+  mutate(type = Type.of.Parliamentarian, # rename
+         riding = Riding.Senatorial.Division, 
+         name = Name, 
+         birth = Date.of.Birth, 
+         province = Province.Territory, 
+         gender = Gender, 
+         pid = Political.Affiliation,
+         type = str_replace_all(type, &quot;\\)&quot;, &quot;\\),&quot;), # add commas to be able to separate the rows 
+         riding = str_replace_all(riding, &quot;\\)&quot;, &quot;\\),&quot;)) %&gt;% # again
+  distinct(name, birth, gender, type, riding, province, pid) %&gt;% # remove unecessary variables
+  separate_rows(type, sep = &quot;,&quot;, convert = TRUE) %&gt;%  # separate rows
+  separate_rows(riding, sep = &quot;,&quot;, convert = TRUE) %&gt;% 
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(type_date = str_extract_all(type, &quot;\\([^()]+\\)&quot;), # extract dates from positions
+         type_date = str_extract_all(type_date, &quot;(?&lt;=\\().+?(?=\\))&quot;), 
+         riding_date = str_extract_all(riding, &quot;\\([^()]+\\)&quot;), # extract dates from ridings
+         riding_date = str_extract_all(riding_date, &quot;(?&lt;=\\().+?(?=\\))&quot;)) %&gt;%  
+  unnest(c(type_date, riding_date)) %&gt;% 
+  mutate(dist_name = str_remove_all(riding, &quot;\\(\\)&quot;), # clean-up riding names
+         dist_name = str_remove_all(dist_name, &quot;\\([^()]+\\)&quot;),
+         dist_name = str_replace_all(dist_name, &quot;--&quot;, &quot;-&quot;)) %&gt;%  
+  filter(!str_detect(type, &quot;Senator&quot;), # remove senators
+         type_date != 0 | riding_date != 0, # remove rows where dates are not identical
+         type_date == riding_date) %&gt;% 
+  separate(riding_date, sep = &quot;-&quot;, into = c(&quot;riding_start_date&quot;, &quot;riding_end_date&quot;)) %&gt;% # divide start and end dates
+  mutate_all(~ str_trim(., side = &quot;both&quot;)) %&gt;% # clean-up
+  mutate(riding_start_date = ymd(riding_start_date), # transform  to  date format
+         riding_end_date = ymd(riding_end_date), # again
+         riding_end_date = as.character(riding_end_date), # add end date to those who are still serving
+         riding_end_date = ifelse(is.na(riding_end_date) == TRUE, &quot;2020-04-01&quot;, riding_end_date), 
+         riding_end_date = as.Date(riding_end_date)) %&gt;% 
+  filter(riding_end_date &gt;= &quot;2015-10-19&quot; &amp; riding_start_date &lt;= &quot;2019-09-11&quot;) %&gt;%  # keep only those that end after the election (October 19, 2015) and those that start before the end of the 35th parliament (September 11, 2019)
+  #mutate(pid = str_remove_all(pid, &quot;\\(\\)&quot;), # clean-up party affiliations
+  #       pid = str_remove_all(pid, &quot;\\([^()]+\\)&quot;)) %&gt;% 
+  select(-type_date, -province, -riding, -type) %&gt;% # remove unecessary variables
+  mutate(year = 2015)
+  
+length(unique(parl42$name))
+summary(parl42)
+length(unique(parl42$dist_name))</code></pre>
+</div>
+</div>
+<div id="merging-the-census-data-with-the-parliament-data"
+class="section level3">
+<h3>5) Merging the Census Data with the Parliament Data</h3>
+<p>We now have:</p>
+<ul>
+<li>in one dataframe: the population’s age composition in each district
+between 1991 and 2016 (Census data), and</li>
+<li>information on MPs in 9 dataframes, one of each Parliament since the
+34th (parliamentary data).</li>
+</ul>
+<p>We will merge everything together by <em>year</em> and <em>district
+name</em>. Hopefully, the district names in the two sources will match
+(they won’t, but it’s not too bad, don’t worry). First, let’s keep only
+the census data we need, i.e. election years. I know some MPs were
+elected in-between elections (by-elections), but to make things simpler
+we will match them with the population data of the previous general
+election (i.e. the start date of the parliament they are serving
+in).</p>
+<pre class="r"><code>census_for_district &lt;- imputation_data2 %&gt;% 
+  filter(year == 1991 | year == 1993 | year == 1997 | year == 2000 | year == 2004 |
+           year == 2006 | year == 2008 | year == 2011 | year == 2015) %&gt;% # keeping election years
+  # keeping election years for the appropriate representation orders
+  filter(year ==  1991 &amp; ro == &quot;ro1987&quot; | 
+         year ==  1993 &amp; ro == &quot;ro1987&quot; |
+         year ==  1997 &amp; ro == &quot;ro1996&quot; |
+         year ==  2000 &amp; ro == &quot;ro1996&quot; |
+         year ==  2004 &amp; ro == &quot;ro2003&quot; |
+         year ==  2006 &amp; ro == &quot;ro2003_2&quot; |
+         year ==  2008 &amp; ro == &quot;ro2003_2&quot; |
+         year ==  2011 &amp; ro == &quot;ro2003_2&quot; |
+         year ==  2015 &amp; ro == &quot;ro2013&quot;) %&gt;% 
+  select(year, dist_name, dist_nb, age, value) %&gt;% 
+  spread(age, value) %&gt;% # from long to wide
+   # removing french names that are sometimes added, as such: dist_name_end/dist_name_fr
+  separate(dist_name, sep = &quot;\\/&quot;, into = c(&quot;dist_name&quot;, &quot;dist_name_fr&quot;)) %&gt;%
+  select(-dist_name_fr) %&gt;% 
+  mutate(dist_name = str_replace_all(dist_name, &quot;  &quot;, &quot; &quot;), # removing extra space in-between words
+         # making names as similar as possible to candidates data
+         dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;)) 
+
+# We will be merging each parliament dataframe individually to keep track of potential mistakes
+# I mentioned earlier that choosing the 1996 district names upon merging censuses could create 
+# problems later on.Turns out the 2000 census data is not so easily merged with the parliament 
+# data because the district names are not all the same. I have to manually recode the names 
+# of many districts in 2000. After trying to merge once, I found other spelling discrepancies. 
+# This is why I am re-spelling some districts here. This is a very manual task but I could 
+# not find an alternative. So far things have run relatively smoothly, so I am not too 
+# frustrated by this task.
+election88 &lt;- census_for_district %&gt;% 
+  filter(year == 1991) %&gt;% 
+  mutate(dist_name = recode(dist_name, &quot;Laval-Est&quot; = &quot;Laval-East&quot;),
+         # these are basically lost in translation
+         dist_name = recode(dist_name, &quot;Laval-Ouest&quot; = &quot;Laval-West&quot;),
+         dist_name = recode(dist_name, &quot;Mont-Royal&quot; = &quot;Mount-Royal&quot;), 
+         dist_name = recode(dist_name, &quot;Capilano-Howe-Sound&quot; = &quot;Capilano&quot;)) 
+
+election93 &lt;- census_for_district %&gt;% 
+  filter(year == 1993) %&gt;% 
+  mutate(dist_name = recode(dist_name, &quot;Laval-Est&quot; = &quot;Laval-East&quot;),
+         dist_name = recode(dist_name, &quot;Laval-Ouest&quot; = &quot;Laval-West&quot;),
+         dist_name = recode(dist_name, &quot;Mont-Royal&quot; = &quot;Mount-Royal&quot;)) 
+
+election97 &lt;- census_for_district %&gt;% 
+  filter(year == 1997) %&gt;% 
+  mutate(dist_name = recode(dist_name, &quot;Laval-Est&quot; = &quot;Laval-East&quot;),
+         dist_name = recode(dist_name, &quot;Laval-Ouest&quot; = &quot;Laval-West&quot;),
+         dist_name = recode(dist_name, &quot;Mont-Royal&quot; = &quot;Mount-Royal&quot;),
+         dist_name = recode(dist_name, &quot;Québec-Est&quot; = &quot;Québec-East&quot;),
+         dist_name = recode(dist_name, &quot;BramptonWest-Mississauga&quot; = &quot;Brampton-West-Mississauga&quot;))
+
+election00 &lt;- census_for_district %&gt;% 
+  filter(year == 2000) %&gt;% 
+  mutate(dist_name = recode(dist_name, &quot;Carleton-Gloucester&quot; = &quot;Ottawa-Orléans&quot;),
+         dist_name = recode(dist_name, &quot;Verchères&quot; = &quot;Verchères-Les-Patriotes&quot;),                            
+         dist_name = recode(dist_name, &quot;Rosemont&quot; = &quot;Rosemont-Petite-Patrie&quot;),                            
+         dist_name = recode(dist_name, &quot;Moncton&quot; = &quot;Moncton-Riverview-Dieppe&quot;),                          
+         dist_name = recode(dist_name, &quot;Wentworth-Burlington&quot; = &quot;Ancaster-Dundas-Flamborough-Aldershot&quot;),           
+         dist_name = recode(dist_name, &quot;Thunder-Bay-Nipigon&quot; = &quot;Thunder-Bay-Superior-North&quot;),                       
+         dist_name = recode(dist_name, &quot;Bras-d&#39;Or&quot; = &quot;Bras-d&#39;Or-Cape-Breton&quot;),                            
+         dist_name = recode(dist_name, &quot;Lotbinière&quot; = &quot;Lotbinière-L&#39;Érable&quot;),                               
+         dist_name = recode(dist_name, &quot;Lévis&quot; = &quot;Lévis-et-Chutes-de-la-Chaudière&quot;),   
+         dist_name = recode(dist_name, &quot;Verdun-Saint-Henri&quot; = &quot;Verdun-Saint-Henri-Saint-Paul-Pointe-Saint-Charles&quot;), 
+         dist_name = recode(dist_name, &quot;Lac-Saint-Jean&quot; = &quot;Lac-Saint-Jean-Saguenay&quot;),                            
+         dist_name = recode(dist_name, &quot;Edmonton-East&quot; = &quot;Edmonton-Centre-East&quot;),                              
+         dist_name = recode(dist_name, &quot;West-Kootenay-Okanagan&quot; = &quot;Kootenay-Boundary-Okanagan&quot;),                        
+         dist_name = recode(dist_name, &quot;Beauport-Montmorency-Orléans&quot; = &quot;Beauport-Montmorency-Côte-de-Beaupré-Île-d&#39;Orléans&quot;), 
+         dist_name = recode(dist_name, &quot;Charleswood-Assiniboine&quot; = &quot;Charleswood-St.-James-Assiniboia&quot;),                  
+         dist_name = recode(dist_name, &quot;Chicoutimi&quot; = &quot;Chicoutimi-Le-Fjord&quot;),                               
+         dist_name = recode(dist_name, &quot;Kamloops&quot; = &quot;Thompson-and-Highland-Valleys&quot;),                      
+         dist_name = recode(dist_name, &quot;Bruce-Grey&quot; = &quot;Bruce-Grey-Owen-Sound&quot;),                             
+         dist_name = recode(dist_name, &quot;Stormont-Dundas&quot; = &quot;Stormont-Dundas-Charlottenburgh&quot;),                    
+         dist_name = recode(dist_name, &quot;Argenteuil-Papineau&quot; = &quot;Argenteuil-Papineau-Mirabel&quot;),                      
+         dist_name = recode(dist_name, &quot;Bramalea-Gore-Malton&quot; = &quot;Bramalea-Gore-Malton-Springdale&quot;),                    
+         dist_name = recode(dist_name, &quot;Charlesbourg&quot; = &quot;Charlesbourg-Jacques-Cartier&quot;),                       
+         dist_name = recode(dist_name, &quot;Broadview-Greenwood&quot; = &quot;Toronto-Danforth&quot;),                                  
+         dist_name = recode(dist_name, &quot;Port-Moody-Coquitlam&quot; = &quot;Port-Moody-Coquitlam-Port-Coquitlam&quot;),               
+         dist_name = recode(dist_name, &quot;Qu&#39;Appelle&quot; = &quot;Regina-Qu&#39;Appelle&quot;),                                  
+         dist_name = recode(dist_name, &quot;Victoria-Haliburton&quot; = &quot;Haliburton-Victoria-Brock&quot;),                         
+         dist_name = recode(dist_name, &quot;Saint-Eustache-Sainte-Thérèse&quot; = &quot;Rivière-des-Mille-Îles&quot;),                            
+         dist_name = recode(dist_name, &quot;Kent-Essex&quot; = &quot;Chatham-Kent-Essex&quot;),                                
+         dist_name = recode(dist_name, &quot;Richelieu&quot; = &quot;Bas-Richelieu-Nicolet-Bécancour&quot;),                  
+         dist_name = recode(dist_name, &quot;Abitibi&quot; = &quot;Abitibi-Baie-James-Nunavik&quot;),                        
+         dist_name = recode(dist_name, &quot;Sackville-Eastern-Shore&quot; = &quot;Sackville-Musquodoboit-Valley-Eastern-Shore&quot;),       
+         dist_name = recode(dist_name, &quot;Charlotte&quot; = &quot;New-Brunswick-Southwest&quot;),                           
+         dist_name = recode(dist_name, &quot;Rimouski-Mitis&quot; = &quot;Rimouski-Neigette-et-La-Mitis&quot;),                     
+         dist_name = recode(dist_name, &quot;Wanuskewin&quot; = &quot;Saskatoon-Wanuskewin&quot;),
+         dist_name = recode(dist_name, &quot;Laval-Est&quot; = &quot;Laval-East&quot;),
+         dist_name = recode(dist_name, &quot;Laval-Ouest&quot; = &quot;Laval-West&quot;),
+         dist_name = recode(dist_name, &quot;Mont-Royal&quot; = &quot;Mount-Royal&quot;),
+         dist_name = recode(dist_name, &quot;Québec-Est&quot; = &quot;Québec-East&quot;),
+         dist_name = recode(dist_name, &quot;BramptonWest-Mississauga&quot; = &quot;Brampton-West-Mississauga&quot;))
+
+election04 &lt;- census_for_district %&gt;% 
+  filter(year == 2004) %&gt;% 
+  mutate(dist_name = recode(dist_name, &quot;Laurier&quot; = &quot;Laurier-Sainte-Marie&quot;))
+
+election06 &lt;- census_for_district %&gt;% 
+  filter(year == 2006) %&gt;% 
+  mutate(dist_name = recode(dist_name, &quot;Mont-Royal&quot; = &quot;Mount-Royal&quot;),
+         dist_name = recode(dist_name, &quot;Montmagny-L&#39;Islet-Kamouraska-Rivière-du-Loup&quot; = &quot;Montmagny-L’Islet-Kamouraska-Rivière-du-Loup&quot;))
+
+election08 &lt;- census_for_district %&gt;% 
+  filter(year == 2008) %&gt;% 
+  mutate(dist_name = recode(dist_name, &quot;Mont-Royal&quot; = &quot;Mount-Royal&quot;),
+         dist_name = recode(dist_name, &quot;Montmagny-L&#39;Islet-Kamouraska-Rivière-du-Loup&quot; = &quot;Montmagny-L’Islet-Kamouraska-Rivière-du-Loup&quot;))
+
+election11 &lt;- census_for_district %&gt;% 
+  filter(year == 2011) %&gt;% 
+  mutate(dist_name = recode(dist_name, &quot;Mont-Royal&quot; = &quot;Mount-Royal&quot;),
+         dist_name = recode(dist_name, &quot;Montmagny-L&#39;Islet-Kamouraska-Rivière-du-Loup&quot; = &quot;Montmagny-L’Islet-Kamouraska-Rivière-du-Loup&quot;))
+
+election15 &lt;- census_for_district %&gt;% 
+  filter(year == 2015) %&gt;% 
+  mutate(dist_name = recode(dist_name, &quot;Beauport-Côte-de-Beaupré-Île-d&#39;Orléans-Charlevoix&quot; = &quot;Beauport-Côte-de-Beaupré-Île-D’Orléans-Charlevoix&quot;),
+         dist_name = recode(dist_name, &quot;Montmagny-L&#39;Islet-Kamouraska-Rivière-du-Loup&quot; = &quot;Montmagny-L’Islet-Kamouraska-Rivière-du-Loup&quot;))
+
+# making district names as similar as possible to districts in the census data
+# I added dashes everywhere, because sometimes there were dashes, sometimes not.
+parl34 &lt;- parl34 %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;))
+parl35 &lt;- parl35 %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;))
+parl36 &lt;- parl36 %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;))
+parl37 &lt;- parl37 %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;))
+parl38 &lt;- parl38 %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;))
+parl39 &lt;- parl39 %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;))
+parl40 &lt;- parl40 %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;))
+parl41 &lt;- parl41 %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;))
+parl42 &lt;- parl42 %&gt;% mutate(dist_name = str_replace_all(dist_name, &quot; &quot;, &quot;-&quot;))</code></pre>
+<p>FINAL step: Merging it all together! I tried using
+<code>stringdist_left_join()</code> to make things quicker and match
+districts that had similar but no identical spelling, but I noticed it
+introduced some mistakes. For example, districts that included ‘East’,
+‘West’, ‘Southeast’, ‘Southwest’ would be present more than once after
+merging. I want a dataset that’s as clean as possible so I prefer doing
+it manually.</p>
+<pre class="r"><code># I also really love the join() functions (full_join, left_join, etc.). I had
+# never used it that much before starting this project
+join34 &lt;- left_join(parl34, election88)
+length(unique(join34$dist_name))
+check &lt;- join34 %&gt;% filter(is.na(dist_nb) == TRUE)  # it worked 
+
+join35 &lt;- left_join(parl35, election93)
+length(unique(join35$dist_name))
+check &lt;- join35 %&gt;% filter(is.na(dist_nb) == TRUE)  # it worked 
+
+join36 &lt;- left_join(parl36, election97)
+length(unique(join36$dist_name))
+check &lt;- join36 %&gt;% filter(is.na(dist_nb) == TRUE)  # it worked 
+
+join37 &lt;- left_join(parl37, election00)
+length(unique(join37$dist_name))
+check &lt;- join37 %&gt;% filter(is.na(dist_nb) == TRUE)  # all good
+
+join38 &lt;- left_join(parl38, election04)
+length(unique(join38$dist_name))
+check &lt;- join38 %&gt;% filter(is.na(dist_nb) == TRUE)  ## all good
+
+join39 &lt;- left_join(parl39, election06)
+length(unique(join39$dist_name))
+check &lt;- join39 %&gt;% filter(is.na(dist_nb) == TRUE)  # perfect
+
+join40 &lt;- left_join(parl40, election08)
+length(unique(join40$dist_name))
+check &lt;- join40 %&gt;% filter(is.na(dist_nb) == TRUE)  # yes!
+
+join41 &lt;- left_join(parl41, election11)
+length(unique(join41$dist_name))
+check &lt;- join41 %&gt;% filter(is.na(dist_nb) == TRUE)  # nearly there, one left
+
+join42 &lt;- left_join(parl42, election15)
+length(unique(join42$dist_name))
+check &lt;- join42 %&gt;% filter(is.na(dist_nb) == TRUE)  # yes yes yes
+
+d &lt;- full_join(join34, join35) %&gt;% full_join(join36) %&gt;% full_join(join37) %&gt;% full_join(join38) %&gt;% 
+    full_join(join39) %&gt;% full_join(join40) %&gt;% full_join(join41) %&gt;% full_join(join42)
+
+# write.csv(d, file = &#39;documentation/data/output/census_parliament.csv&#39;) # You
+# can find the final product in the following path in the Github repo for this
+# website.</code></pre>
+<p>And, that’s a wrap! There is an observation for every MP elected in
+the House between 1988 and 2015. The year variable ranges from 1991 to
+2015 because the 1991 census information is used for the 34th parliament
+(1988-1993), as we did not have census data prior to 1991. Other years
+correspond to the starting years of each Parliament (1993, 1997, 2000,
+2004, 2006, 2008, 2015). Every age group is its own variable (columns),
+from 0 to 100. Note that the 1991 and 1996 censuses capped the age
+variable at 90 years old. People older than 90 were categorized as 90
+year olds. This is why there are no values in the 91-100 variables for
+the years 1991 to 2000, which were filled in using the 1991 or 1996
+censuses. Stay tuned for more updates on this dataset (more demographic
+variables)!</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+---
+title: ""
+---
+
+<br>
+<br>
+
+## Florence Vallée-Dubois {.tabset}
+
+### Français
+
+J'ai complété mon doctorat en science politique à l'Université de Montréal en 2021. Mes intérêts de recherche portent sur la politique québécoise et canadienne, le comportement politique et les méthodes quantitatives. Ma thèse portait sur le comportement politique et la représentation démocratique des personnes âgées. 
+
+Durant mon doctorat, j'étais également membre du [Centre pour l'étude de la citoyenneté démocratique](http://csdc-cecd.ca/fr/) (CÉCD) et de la [Chaire de recherche du Canada en démocratie électorale](https://www.chairedemocratie.com/fr). 
+
+Consultez mon C.V. [ici](documentation/cv-fvd-fr.pdf).
+
+### English
+
+I completed my Ph.D. in political science at the University of Montreal in 2021.  My research interests focus on Quebec and Canadian politics, political behaviour and quantitative methods. My doctoral project focuses on the political behaviour and democratic representation of seniors in Canada.
+
+During my studies, I was a member of the [Centre for the Study of Democratic Citizenship](http://csdc-cecd.ca/) and [Canada Research Chair in Electoral Democracy](https://www.chairedemocratie.com/).
+
+You can find my CV [here](documentation/cv-fvd-eng.pdf). 

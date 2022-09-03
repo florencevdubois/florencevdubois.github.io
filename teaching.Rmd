@@ -1,0 +1,64 @@
+---
+title: ''
+---
+
+<br>
+<br>
+
+## Enseignement {.tabset}
+
+### Cours: Visualisation des données
+
+À l'automne 2021, j'ai enseigné le cours Visualisation des données (FAS 1003), un cours offert aux étudiant.e.s du microprogramme en analyse des mégadonnées à l'Université de Montréal. Enseigner est pour moi un véritable plaisir, et j'espère pouvoir être utile en rendant disponible publiquement mon [plan de cours](documentation/fas1003/syllabus.pdf) et les présentations visuelles que j'ai utilisées en classe. N'hésitez pas à me contacter pour toute question!
+
+Organisation des séances: 
+
+- [Cours 1: Plan de cours et introduction à R](documentation/fas1003/cours_1.html)
+- [Cours 2: Introduction à R et à la visualisation (suite) et outils de travail](documentation/fas1003/cours_2.html)
+- [Cours 3: Graphisme](documentation/fas1003/cours_3.html)
+- [Cours 4: Les rudiments de la visualisation des données dans `R`](documentation/fas1003/cours_4.html)
+- [Cours 5: Les rudiments (suite) et les graphiques univariés](documentation/fas1003/cours_5.html)
+- [Cours 6: Aspects visuels](documentation/fas1003/cours_6.html)
+- [Cours 7: Manipulation des données et nouveaux graphiques](documentation/fas1003/cours_7.html)
+- [Cours 8: Modèles statistiques](documentation/fas1003/cours_8.html)
+- [Cours 9: Cartes](documentation/fas1003/cours_9.html)
+- [Cours 10: Méli-mélo](documentation/fas1003/cours_10.html)
+
+I taught a Data Visualization class at the University of Montreal in the Fall of 2021. Teaching is one of the rewarding things I do for a living, and I hope to be useful by making publicly available my syllabus, the slides I used in class, and a few ideas for in-class activities. Contact me if you have any questions!
+
+### Cours: Méthodes quantitatives  
+
+À l'automne 2019, j'ai enseigné les Méthodes quantitatives d'analyse (POL 2809), un cours offert aux étudiant.e.s des départements de science politique et d'économie à l'Université de Montréal. Vous trouvere ici le [plan de cours](documentation/pol2809/syllabus.pdf) et les présentations visuelles plus bas.
+
+Organisation des séances: 
+
+- [Statistiques descriptives](documentation/pol2809/1descriptive.pdf)
+- [Introduction à la régression linéaire](documentation/pol2809/2ols.pdf)
+- [Régression: la signification statistique](documentation/pol2809/3ols-signif.pdf)
+- [Régression multiple](documentation/pol2809/4ols-multiple.pdf)
+- [Régression: suite et fin](documentation/pol2809/5ols-end.pdf)
+- [Introduction à R sur R Studio Cloud](documentation/pol2809/notes-R.pdf)
+- [Problème fondamental de l'inférence causale](documentation/pol2809/6causalinf.pdf)
+- [Graphiques orientés acycliques](documentation/pol2809/7goa.pdf)
+- [Biais](documentation/pol2809/8biais.pdf)
+- [Méthodes expérimentales](documentation/pol2809/9exp.pdf)
+- [Méthodes quasi-expérimentales](documentation/pol2809/10quasi-exp.pdf)
+- [Visualisation de données](documentation/pol2809/11viz.pdf) et [Application sur R](documentation/pol2809/notes-viz.pdf)
+
+### Ateliers
+
+#### R
+
+Je suis disponible pour enseigner des ateliers d'introduction au langage R. Si vous voulez apprendre vous-même, je rends aussi accessibles mes notes de cours: [PDF](documentation/ateliers-r.pdf); [HTML](documentation/ateliers-r.html).
+
+I am available to teach Intro to R workshops. If you would rather learn by yourself, my workshop notes are available here (in French only): [PDF](documentation/ateliers-r.pdf); [HTML](documentation/ateliers-r.html).
+
+#### Viualisation des données avec R 
+
+Vous trouverez [ici](documentation/atelier-dataviz.html) mes notes de cours pour l'Introduction à la visualisation des données avec R. Le cours introduit les rudiments de ggplot et comprend une partie sur la visualisation des résultats de régression.
+
+I am available to teach Data visualization workshops. If you would rather learn by yourself, my workshop notes are available [here](documentation/atelier-dataviz.html) (in French only).
+
+
+
+      

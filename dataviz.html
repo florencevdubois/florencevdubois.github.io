@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data visualization / Visualisation de données</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="site_libs/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-5.1.3/bootstrap.bundle.min.js"></script>
+<script src="site_libs/bs3compat-0.4.0/transition.js"></script>
+<script src="site_libs/bs3compat-0.4.0/tabs.js"></script>
+<script src="site_libs/bs3compat-0.4.0/bs3compat.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-dark  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="publications.html">Recherche - Research</a>
+</li>
+<li>
+  <a href="teaching.html">Enseignement - Teaching</a>
+</li>
+<li>
+  <a href="datasets.html">Données - Data</a>
+</li>
+<li>
+  <a href="dataviz.html">Dataviz</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="mailto:florence.vallee-dubois@umontreal.ca">
+    <span class="fa fa-envelope-o"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="https://github.com/florencevdubois">
+    <span class="fa fa-github"></span>
+     
+    
+  </a>
+</li>
+<li>
+  <a href="https://twitter.com/florencevdubois">
+    <span class="fa fa-twitter"></span>
+     
+    
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Data visualization / Visualisation de
+données</h1>
+
+</div>
+
+
+<p><br> <br></p>
+<div id="tidy-tuesdays" class="section level2 tabset">
+<h2 class="tabset">Tidy Tuesdays</h2>
+<p>Below, you will find some of the graphs (and accompanying code) I
+made as part of the <a href="https://twitter.com/R4DScommunity">R4DS</a>
+weekly visualization challenges. All of the entries I made for
+#TidyTuesday can be found on my <a
+href="https://github.com/florencevdubois/MyTidyTuesdays">Github</a>
+page.</p>
+<div id="february-2020" class="section level3">
+<h3>25 February 2020</h3>
+<p>On this week’s TidyTuesday challenge, we worked with data on
+vaccination rates across the USA. I decided to make a graph of
+vaccination rates by county. See below for the final product. Start by
+loading the necessary packages and the measles data.</p>
+<pre class="r"><code># packages
+library(tidyverse)
+library(pacman)
+library(tidyverse)
+
+# data
+measles &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-25/measles.csv&#39;)</code></pre>
+<p>Let’s explore the data.</p>
+<pre class="r"><code>summary(measles$mmr) # distribution of vaccination rates
+summary(measles$overall) # distribution of vaccination rates
+
+weird &lt;- measles %&gt;% 
+  filter(overall == -1 | mmr == -1)# who are the &quot;-1&quot; ? Apparently they&#39;re missing data.
+table(weird$state) # some have missing data for &quot;mmr&quot;, some have missing data for &quot;overall&quot; -- we will use this later
+
+length(unique(measles$county)) # how many unique counties?
+table(measles$year, useNA = &quot;always&quot;) # which years?</code></pre>
+<p>Then, we need to do some data clean-up.</p>
+<pre class="r"><code>measles_plot_viz &lt;- measles %&gt;% 
+  distinct(state, name, county, overall, mmr, lat, lng, enroll) %&gt;% # remove duplicates
+  mutate(drop = ifelse(mmr &gt;= 0 &amp; overall &gt;= 0, &quot;drop&quot;, &quot;keep&quot;)) %&gt;% 
+  filter(lng &lt; 0) %&gt;% # remove schools outside of the continent
+  gather(type, value, overall:mmr) %&gt;% 
+  filter(value &gt;= 0) %&gt;% 
+  filter(!(drop == &quot;drop&quot; &amp; type == &quot;overall&quot;))</code></pre>
+<p>Finally, let’s draw the map! I will be using the <code>maps</code>
+package to do so. I had help from Kieran Healy’s <a
+href="https://socviz.co/maps.html#maps">book</a> during this step, as
+well as Timo Grossenbacher’s <a
+href="https://timogrossenbacher.ch/2016/12/beautiful-thematic-maps-with-ggplot2-only/">blog</a>.</p>
+<pre class="r"><code># load packages
+library(maps)
+library(mapproj)
+
+# 1. load the county data
+us_counties &lt;- map_data(&quot;county&quot;) %&gt;% 
+  mutate(state_county = str_c(region, subregion, sep = &quot;_&quot;)) 
+head(us_counties)
+
+# 2. check the distribution of vacc. rate
+summary(measles_plot_viz$value)
+
+# 3. draw a plain county map to see if it&#39;s working
+p &lt;- ggplot(mapping = aes(x = long, y = lat, group = group), data = us_counties)
+p1 &lt;- p + geom_polygon(color = &quot;white&quot;, size = 0.1) +
+  coord_map(projection = &quot;albers&quot;, lat0 = 39, lat1 = 45) +
+  guides(fill = FALSE) +
+  theme_minimal()</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
+<pre class="r"><code>p1</code></pre>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Now that we know the map is working at the vaccination data makes
+sense, we can plot vaccination rates across the U.S. But first, for the
+map’s caption, we need to check which type of vaccination rate is
+plotted in which state:</p>
+<pre class="r"><code>table(measles_plot_viz$type, measles_plot_viz$state) </code></pre>
+<pre><code>##          
+##           Arizona Arkansas California Colorado Connecticut Florida Idaho
+##   mmr        1171      567      14068     1501         586       0     0
+##   overall       0        0          0        0           0    2667   467
+##          
+##           Illinois  Iowa Maine Massachusetts Michigan Minnesota Missouri
+##   mmr         7115     0   357           946        0      1570      645
+##   overall        0  1163     0             0     2351         0        0
+##          
+##           Montana New Jersey New York North Carolina North Dakota  Ohio
+##   mmr         520          0     4137              0          360  2919
+##   overall       0       1993        0           2083            0     0
+##          
+##           Oklahoma Oregon Pennsylvania Rhode Island South Dakota Tennessee
+##   mmr            0    806         1930            0          373         0
+##   overall     1052      0            0          215            0      1152
+##          
+##           Texas  Utah Vermont Washington Wisconsin
+##   mmr       810   603     255       1977         0
+##   overall     0     0       0          0      2497</code></pre>
+<p>Now we can plot:</p>
+<pre class="r"><code># 4. draw map with vacc. data
+p &lt;- ggplot()
+p1 &lt;- p + 
+  geom_polygon(mapping = aes(x = long, y = lat, group = group), 
+               data = us_counties, 
+               fill = &quot;#f5f5f2&quot;, 
+               color = &quot;black&quot;, 
+               size = 0.1) + # add county lines
+  geom_point(mapping = aes(x = lng, y = lat, color = value), 
+             data = subset(measles_plot_viz, value &gt; 50), 
+             size = 0.6) + # add school dots
+  coord_map(projection = &quot;albers&quot;, lat0 = 39, lat1 = 45) + # make the map more &quot;curvy&quot;
+  theme_void() + # remove grid and axes
+  theme(legend.position = &quot;bottom&quot;,
+        plot.title = element_text(hjust = 0.5, 
+                                  vjust = 0.5, 
+                                  size = 15),
+        plot.background = element_rect(fill = &quot;#f5f5f2&quot;, 
+                                       color = NA),
+        plot.caption = element_text(hjust = 0.5, 
+                                    size = 10),
+        plot.margin = margin(t = 1, r = 1, b = 1, l = 1, 
+                             unit = &quot;cm&quot;),
+        legend.margin = margin(t = 2, r = 2, b = 5, l = 2, 
+                               unit = &quot;mm&quot;)) + # modify plot title/caption/background/legend
+  scale_color_viridis_c(option = &quot;plasma&quot;, 
+                        direction = -1, 
+                        name = &quot;Vaccination rate&quot;,
+                        guide = guide_legend(direction = &quot;horizontal&quot;,
+                                             title.position = &quot;top&quot;,
+                                             title.hjust = 0.5)) + # change legend title
+  labs(title = &quot;Schools&#39; Vaccination Rate in 31 U.S. States&quot;,
+       caption = &quot;Measles, Mumps, and Rubella (MMR) vaccination\nrate shown in FL, ID, IA, MI, NJ, NC, OK, RI, TN, WI.\nElsewhere, the overall vaccination rate is shown.&quot;) # deifne title and subtitle
+p1</code></pre>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-6-1.png" width="1440" /></p>
+<pre class="r"><code># save plot using ggsave(filename = &quot;name.png&quot;, plot = last_plot(), width = 15, height = 15)</code></pre>
+</div>
+<div id="june-2020" class="section level3">
+<h3>9 June 2020</h3>
+<p>For this week,s TidyTuesday, I create a graph that reports the names
+and achievements of African-Americans in the Arts and Entertainment. I
+chose a bar chart, where each bar corresponds to a decade of
+African-American accomplishments. Start by loading the necessary
+packages and the data on African-American firsts.</p>
+<pre class="r"><code>library(tidyverse)
+library(extrafont)
+
+firsts &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-06-09/firsts.csv&#39;)
+
+# Let&#39;s explore some variables 
+table(firsts$category)</code></pre>
+<p>Now, we will recode the data. We will focus on the
+<code>person</code> variable, which contains the information on who the
+achiever is, and what they’ve accomplished. Once we’ve cleaned up the
+<code>person</code> variable, we will create a categorical variable for
+the decade of achievement, and collapse everyone (and their
+accomplishment) from the same decade together into one observation. The
+last thing we will do is insert a new line every 20 characters. If we do
+not insert the new line, the text will run too wide in the graph.</p>
+<pre class="r"><code>dat &lt;- firsts %&gt;% 
+  mutate(person_sh = str_remove_all(person, &quot;\\(.*\\)&quot;), # remove everything in parenthesis
+         person_sh = str_remove_all(person, &quot;\\(.*&quot;), # remove everything in parenthesis
+         person_sh = str_remove_all(person_sh, &quot;\\[.*\\]&quot;), # remove brackets and their content
+         person_sh = str_trim(person_sh, &quot;right&quot;), # remove white space at the end of names
+         person_complete = str_c(person_sh, &quot;, &quot;, accomplishment), # create complete name + accomplishment title
+         word_count = str_count(person_complete), # count number of words in complete names
+         count = 1,
+         person_complete = str_replace_all(person_complete, &quot;African-American&quot;, &quot;Af-Am&quot;), # shorten for visualization purposes
+         twenty_yr = ifelse(year &lt;= 1780, &#39;1760s-70s&#39;, 
+                            ifelse(year &gt;= 1781 &amp; year &lt;= 1800, &quot;1780s-90s&quot;,
+                                          ifelse(year &gt;= 1801 &amp; year &lt;= 1820, &quot;1800s-10s&quot;,
+                                                 ifelse(year &gt;= 1821 &amp; year &lt;= 1840, &quot;1820s-30s&quot;,
+                                                        ifelse(year &gt;= 1841 &amp; year &lt;= 1860, &quot;1840s-50s&quot;,
+                                                               ifelse(year &gt;= 1861 &amp; year &lt;= 1880, &quot;1860s-70s&quot;,
+                                                                      ifelse(year &gt;= 1881 &amp; year &lt;= 1900, &quot;1880s-90s&quot;,
+                                                                             ifelse(year &gt;= 1901 &amp; year &lt;= 1920, &quot;1900s-10s&quot;,
+                                                                                    ifelse(year &gt;= 1921 &amp; year &lt;= 1940, &quot;1920s-30s&quot;,
+                                                                                           ifelse(year &gt;= 1941 &amp; year &lt;= 1960, &quot;1940s-50s&quot;,
+                                                                                                  ifelse(year &gt;= 1961 &amp; year &lt;= 1980, &quot;1960s-70s&quot;,
+                                                                                                         ifelse(year &gt;= 1981 &amp; year &lt;= 2000, &quot;1980s-90s&quot;, &quot;2000s-10s&quot;))))))))))))) %&gt;% # create categorical variable for twenty years 
+  group_by(twenty_yr, category) %&gt;% 
+  mutate(persons_20 = paste0(person_complete, collapse = &quot;; &quot;)) %&gt;% # collapse strings for each twenty years and category
+  ungroup() %&gt;% 
+  group_by(category) %&gt;%
+  mutate(count_cat = cumsum(count)) %&gt;%
+  ungroup() %&gt;% 
+  distinct(twenty_yr, count_cat, category, persons_20) %&gt;% 
+  group_by(twenty_yr, category) %&gt;% 
+  arrange(count_cat) %&gt;% 
+  filter(row_number() == n()) 
+
+dat$persons_20 &lt;- gsub(&quot;(.{15,}?)\\s&quot;, &quot;\\1\n&quot;, dat$persons_20) # insert new line every 15 characters</code></pre>
+<p>Let’s make the graph! I was inspired by G. Karamanis’s work to do
+this graph. You can check out his work <a
+href="https://github.com/gkaramanis/tidytuesday/blob/master/2020-week23/marbles-race.R">here</a>.
+I decided to plot accomplishments in the Arts and Entertainment only,
+but you could do the same with science, education, sports, etc.</p>
+<pre class="r"><code># plot, Arts only
+viz &lt;- dat %&gt;% filter(category == &quot;Arts &amp; Entertainment&quot;)
+
+p &lt;- ggplot(viz, aes(x = twenty_yr, y = count_cat))
+p1 &lt;- p + 
+  scale_y_continuous(name = &quot;&quot;, 
+                     limits = c(-700,700)) +
+  scale_x_discrete(name = &quot;&quot;,
+                   expand = c(0.2, 0)) +
+  annotate(&quot;text&quot;, x = viz$twenty_yr, # add names 
+           y = viz$count_cat, 
+           label = viz$persons_20, 
+           size = 2.5, 
+           color = &quot;white&quot;,
+           family = &quot;Arial Narrow&quot;) +
+  annotate(&quot;text&quot;, x = &quot;1760s-70s&quot;, # add title 
+           y = 400, 
+           label = &quot;First\nAfrican Americans\nin Arts &amp; Entertainment&quot;, 
+           size = 15, 
+           hjust = 0,
+           color = &quot;white&quot;,
+           family = &quot;Andale Mono&quot;) +
+  theme_void() +
+  coord_cartesian(clip = &quot;off&quot;) +
+  theme(plot.background = element_rect(fill = &#39;grey11&#39;, colour = &#39;grey11&#39;),
+        plot.margin = margin(200, 40, 100, 30), # play with margins
+        axis.text.x = element_text(colour = &quot;gray69&quot;, # modify x axis 
+                                   size = 15,
+                                   family = &quot;Andale Mono&quot;))
+p1</code></pre>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-9-1.png" width="1920" /></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
